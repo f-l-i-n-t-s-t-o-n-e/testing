@@ -660,6 +660,7 @@ if (tempvar2 != "[[-6]]"){
         var type1 = m[4];
         var type2 = m[6];
     //    console.log()
+        console.log("mdisplayoffers3 is type 1: " + type1 +" type2: " + type2);
 
 
         var order = orders[0];
@@ -726,7 +727,7 @@ if (tempvar2 != "[[-6]]"){
 
 
 
-          if (amountSwapped !=true){
+          if (amountSwapped2 !=true){
             //if sports match is confirmed
             if (t2_.search("competition") != "-1") {
                 if((s2c(amountGain) - s2c(amountLose)) > s2c(amountLose)){
@@ -736,7 +737,7 @@ if (tempvar2 != "[[-6]]"){
                  var x = Number(-100) + Number(10000)/(Number(100)*(Number(1)-percentage));
                  console.log("ZZZZ: " + "-"+x.toPrecision(3)); 
                  var probLanguage = " | Betting odds: ";
-                implProb = "-"+x.toPrecision(3);
+                implProb = "-"+x.toPrecision(4);
 
 
                 }
@@ -747,7 +748,7 @@ if (tempvar2 != "[[-6]]"){
                  var x = (Number(100)*(Number(1)/percentage)) - Number(100);
                  console.log("GGGG" + "+"+x.toPrecision(3));
                  var probLanguage = " | Betting odds: ";
-                 implProb = "+"+x.toPrecision(3);
+                 implProb = "+"+x.toPrecision(4);
 
             }
             
@@ -756,6 +757,40 @@ if (tempvar2 != "[[-6]]"){
             }
 
           }
+
+
+            if (amountSwapped2 ==true){
+            //if sports match is confirmed
+            if (t2_.search("competition") != "-1") {
+                
+                if( (s2c(amountLose) > (s2c(amountGain) - s2c(amountLose)) ) ){
+                 
+                 console.log("ZZZZ")   
+                 var percentage = (s2c(amountLose) / (s2c(amountGain)));
+                 var x = Number(-100) + Number(10000)/(Number(100)*(Number(1)-percentage));
+                 console.log("ZZZZ: " + "-"+x.toPrecision(3)); 
+                 var probLanguage = " | Betting odds: ";
+                implProb = "-"+x.toPrecision(4);
+
+
+                }
+            
+            if ( (s2c(amountLose) <= (s2c(amountGain) - s2c(amountLose)) ) ){
+
+                 var percentage = (s2c(amountLose) / (s2c(amountGain)));
+                 var x = (Number(100)*(Number(1)/percentage)) - Number(100);
+                 console.log("GGGG" + "+"+x.toPrecision(3));
+                 var probLanguage = " | Betting odds: ";
+                 implProb = "+"+x.toPrecision(4);
+
+            }
+            
+
+
+            }
+
+          }
+
 
 //           amountGain = swapOffer[1][9];
 //           amountLose = swapOffer[1][6]; 
@@ -781,7 +816,10 @@ if (tempvar2 != "[[-6]]"){
 
 
         offers.appendChild(t);
-        var button = button_maker2("Accept trade", function() { display_contract(h, type) });
+        console.log("PPPP button h: " + swapOffer);
+        console.log("PPPP button type: " + type);
+
+        var button = button_maker2("Accept trade", function() { viewTrading(swapOffer) });
         button.style.display = "inline";
 
 
@@ -981,9 +1019,25 @@ resetFilter();
 
 var tempvar2;
 
-function showPositions(){
+async function showPositions(){
         abcd.positionDiv.innerHTML = "";
         internalNonce = 0;
+
+
+            const response = await rpc.apost(["account", keys.pub()], get_ip(), 8091);
+            if(response == "error") {
+                //display.innerHTML = "<h3>load a key with funds.</h3>";
+            } else {
+             var sub_accs = response[1][3].slice(1);
+             var liquidity_shares = response[1][4].slice(1);
+            //    display.innerHTML = "";
+            }
+                    //TODO figure out which subcurrencies we own in each contract. each subcurrency goes into the selector seperately.
+
+            console.log(JSON.stringify(response));
+            console.log(response[1][3].slice(1));
+
+ /* 
 
 
                             //var p2p_url = url(8090, "159.89.87.58");
@@ -1009,11 +1063,205 @@ function showPositions(){
         //create ctc object first
       //  abcd.storeCTC local.
 }
-        abcd.display_positions(window.localStorage.getItem("positionData"+keys.pub()),Number(0));
+
+
+
+//        abcd.display_positions(window.localStorage.getItem("positionData"+keys.pub()),Number(0));
 
 });
-
+*/
 }
+
+
+    async function viewTrading(offer){
+        console.log("IIII offer is: "+ offer);
+        var X = offer;
+        var Y = swaps.unpack(X);
+        var now = headers_object.top()[1];
+        
+        var contract1, contract2;
+        console.log(offer);
+        console.log(JSON.stringify(Y));
+        var original_limit_order_size = Y.parts;
+        var available_to_match;
+
+
+
+
+
+        //var TID = hash.doit(65 bytes of pubkey, then 32 bytes of salt)
+//        var TID = btoa(array_to_string(hash(
+//            string_to_array(
+//                atob(Y.acc1))
+//                .concat(string_to_array(
+//                    atob(Y.salt))))));
+        var TID = swaps.id_maker(Y.acc1, Y.salt);
+        console.log(TID);
+        var trade = await rpc.apost(["trades", TID])
+        console.log(trade);
+        if(trade === 0){
+            available_to_match = original_limit_order_size;
+        } else {
+            available_to_match = original_limit_order_size - trade[2];
+        };
+        
+       var A1 = Math.round(Y.amount1 * available_to_match / original_limit_order_size) / token_units();
+//        var A2 = Math.round(Y.amount2 * available_to_match / original_limit_order_size) / token_units();
+        var q = A1.toString();
+        
+        if(Y.cid1 == btoa(array_to_string(integer_to_array(0, 32)))){
+            contract1 = "veo";
+        }else{
+                //contract1 = Y.cid1
+                //    .concat(" type ")
+                //    .concat(Y.type1);
+            contract1 = await contract_text2(
+                Y.cid1, Y.type1);
+        }
+        
+        if(Y.cid2 == btoa(array_to_string(integer_to_array(0, 32)))){
+            //currency 2 is the kind that you need to send. So this is the only type you could ever need to make the contract for.
+            contract2 = "veo";
+        //    update_display(Y, now, contract1, contract2, available_to_match, original_limit_order_size);
+            return(view2Trading([], X, Y, original_limit_order_size, available_to_match, q));
+        }else{
+            contract2 = await contract_text2(
+                Y.cid2, Y.type2);
+        }
+//        update_display(Y, now, contract1, contract2, available_to_match, original_limit_order_size);
+        console.log("amount to make contracts");
+            maybe_make_contracts2(Y.cid2, [], function(txs){
+            console.log("made contracts");
+            
+            view2Trading(txs, X, Y, original_limit_order_size, available_to_match, q);
+        });
+        //});
+    };
+
+
+
+    function view2Trading(txs, X, Y, original_limit_order_size, available_to_match, q_) {
+        //txs is the new_contracts parts.
+        //swap_txs is the contract_use_txs
+            var amount_to_match = Math.round(parseFloat(q_, 10) * token_units());
+            if(!amount_to_match){
+                display.innerHTML =
+                    "<p>You need to choose how much you want to buy</p>";
+                return(0);
+            }
+            var A1 = Math.round(Y.amount1 * available_to_match / original_limit_order_size);
+            if (amount_to_match > A1){
+                display.innerHTML =
+                    "<p> that is more than everything that is available to buy. There is only "
+                    .concat(A1.toString())
+                    .concat(" available, so you cannot buy ")
+                    .concat(amount_to_match.toString())
+                    .concat("</p>")
+                    .concat("");
+                return(0);
+            };
+            
+
+            var matched_parts = Math.round(available_to_match * amount_to_match / A1);
+            var signed_offer = X;
+            
+
+            swaps.make_tx(signed_offer, matched_parts, async function(swap_txs){
+               
+                txs = txs.concat(swap_txs);
+
+                var tx = await multi_tx.amake(txs);
+                console.log(JSON.stringify(tx));
+                var stx = keys.sign(tx);
+                var response = await apost_txs([stx]);
+           //     display.innerHTML = response;
+
+                if(!(response === "server rejected the tx")){
+                    if(Y.type1 === 0){//only if you are paying veo for a subcurrency that is priced in veo.
+                        var offer99 = swaps.accept_99(Y);
+                        var signed_offer = swaps.pack(offer99);
+                        var response = await rpc.apost(
+                            ["add", signed_offer, 0],
+                            IP, 8090);
+                        console.log(JSON.stringify(offer99));
+                        console.log(response);
+                    };
+                };
+            
+
+
+            });
+     
+
+    
+
+    };
+
+
+
+    async function contract_text2(cid, type) {
+        var contract = await rpc.apost(
+            ["read", 3, cid], default_ip(), 8090);
+        console.log(JSON.stringify(contract));
+        if((contract[0] === "scalar") &&
+           (contract[6] === 0) &&//priced in veo
+           (contract[3] === 1)//binary contract
+          ){
+            var win_string;
+            if(type === 1){
+                win_string = "veo if this is true: "
+            } else {
+                win_string = "veo if this is false: "
+            }
+            return(win_string
+                   .concat(atob(contract[1])));
+        } else {
+            var s = "contract: "
+                .concat(cid)
+                .concat(" type: ")
+                .concat(type);
+            return(s);
+        };
+
+    };
+
+
+    async function maybe_make_contracts2(cid, Txs, callback) {
+        if(cid == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
+            return(callback(Txs));
+        };
+        var Contract = await merkle.arequest_proof("contracts", cid);
+        if(!(Contract === "empty")){
+            return(callback(Txs));
+        }
+        var z = await rpc.apost(["read", 3, cid], explore_swap_offer.ip_get, 8090);
+        if(z[0] == "scalar"){
+            console.log("is scalar ");
+            //{Text, Height, MaxPrice, Now}
+            var tx = new_scalar_contract.make_tx(atob(z[1]), parseInt(z[3]), z[5], parseInt(z[6]));
+            return(maybe_make_contracts2(tx[5], [tx].concat(Txs), callback));
+            
+        } else if (z[0] === "contract"){
+            //contract hash is not in the buy_veo_contract.
+            var oracle_start_height = z[5];
+            var blockchain = z[6];
+            var amount = z[7];
+            var ticker = z[8];
+            var date = z[9];
+            var TID = z[10];
+            var address_timeout = z[4];
+            var reusable_settings = buy_veo_contract.reusable_settings(oracle_start_height, blockchain, amount, ticker, date);
+            var settings = buy_veo_contract.settings(reusable_settings, address_timeout, 1, TID);
+            var contract1bytes = buy_veo_contract.contract1bytes(settings);
+            var contract_hash = btoa(array_to_string(hash(contract1bytes)));
+            var tx = buy_veo_contract.new_contract_tx(contract_hash);
+            return(maybe_make_contracts2(tx[5], [tx].concat(Txs), callback));
+        } else {
+            display.innerHTML =
+                "<p>You need to teach the server about this contract before you can bet on it. Use the teach scalar contract tool. </p>";
+            return(0);
+        };
+    };
 
 
 function hidePositions(){
