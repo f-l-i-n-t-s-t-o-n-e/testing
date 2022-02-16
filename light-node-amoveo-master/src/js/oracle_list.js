@@ -452,6 +452,112 @@ var placeholder;
 
 //var globalPositionData;
 
+    function display_positions2(balances_db2_){
+         //   var l = window.localStorage.getItem("positionData"+keys.pub());
+        if (JSON.stringify(balances_db2_) == "[]") {
+            return 0;
+        }else{
+
+
+
+         console.log("RRRR display_positions2: " + Object.keys(balances_db2_)    );   
+
+
+
+
+         var key1 = Object.keys(balances_db2_);
+         var x = 0
+        do {
+        var key = key1[x];
+
+         console.log("RRRR display_positions21: " + JSON.stringify(balances_db2));
+
+         console.log("RRRR display_positions22: " + JSON.stringify(balances_db2_[key]));   
+         var bal_ = balances_db2_[key].bal;
+         var type_ = balances_db2_[key].type;
+         var cid_ = balances_db2_[key].cid;
+         var oracle_ = balances_db2_[key].string;
+    
+         console.log("inside display_positions" + (type_ == 2));
+
+         //basically if ur the first one to do it, dont do it
+                if (type_ == Number(1)){
+                    type_ = "True";
+                }
+                if (type_ == 2){
+                    type_ = "False";
+                }
+
+        console.log("inside display_positions2: " + type_);
+
+        //        positionDiv.appendChild(br());
+
+
+    //            positionDiv.appendChild(text("Settlement:"));
+    //            positionDiv.appendChild(text(" "));
+
+//now we loop through the tempvar2 object
+              //  for (let j = 0,  j < tempvar2.length, j++) {
+
+
+//next find where the CID is stored 
+        if (cid_ == undefined){
+            x = x + 1;
+            internalNonce = internalNonce + 1;
+        }else{
+
+                if (internalNonce != 0){
+    //            positionDiv.appendChild(br());
+                positionDiv.appendChild(br());
+                }
+
+
+            var a = document.createElement("a");
+            var cidTruncate = cid_.slice(0,5)+ "..." + cid_.slice(cid_.length - Number (4), cid_.length);
+            a.innerHTML = cidTruncate;
+            a.target = "_blank";
+            a.href = "http://159.89.87.58:8080/explorers/contract_explorer.html?cid=".concat(cid_);
+
+
+         //       positionDiv.appendChild(ctcButton);
+        //        positionDiv.appendChild(br());
+
+
+                positionDiv.appendChild(text("Contract: "));
+                positionDiv.appendChild(a);
+                positionDiv.appendChild(text(" | "));                
+
+                positionDiv.appendChild(text("Balance: "));
+                positionDiv.appendChild(text(Number(bal_ / 100000000).toPrecision(3)));
+
+                positionDiv.appendChild(text(" | "));                
+                positionDiv.appendChild(text("Type: "));
+
+
+                positionDiv.appendChild(text(type_));
+                
+
+ 
+                positionDiv.appendChild(br());
+
+//                positionDiv.appendChild(text("Reward: "));
+//                positionDiv.appendChild(text(Number(((Number(theirStake))/100000000).toPrecision(3))));
+                
+                internalNonce = internalNonce + 1;
+                x = x + 1;
+            }
+
+
+}
+  while(x < key1.length);
+                //            display_positions2(balances_db2_.slice(1));
+  
+
+                      
+    }
+
+}
+
 
     function display_positions(l,n){
          //   var l = window.localStorage.getItem("positionData"+keys.pub());
@@ -956,7 +1062,7 @@ if (tempvar2 != "[[-6]]"){
         });
     };
 
-    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers};
+    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2};
 
 })();
 console.log("trying to display positions");
@@ -1037,6 +1143,18 @@ async function showPositions(){
             console.log(JSON.stringify(response));
             console.log(response[1][3].slice(1));
 
+        //    console.log("RRRR sub accs is:" + sub_accs);
+
+            contracts_to_subs_(sub_accs, [], function(sub_accs2){
+                load_balances_(
+                    sub_accs2, liquidity_shares, "<h4>your balances in each subcurrency</h4>",
+                    function(){
+                        show_balances_();
+                    });
+            });
+
+
+
  /* 
 
 
@@ -1071,6 +1189,231 @@ async function showPositions(){
 });
 */
 }
+
+    var tab_builder2 = [];
+    var balances_db2 = {};
+    var update_frequency2 = 0;//1000 * 60 * 10;//by default don't re-check the same balance if it has been less than 10 minutes.
+    var loaded_into_selector2 = {};
+
+    function show_balances_() {
+        var sub_keys = Object.keys(balances_db2);
+        var s = "";
+//        balances.innerHTML = "";
+        for(var i = 0; i<sub_keys.length; i++){
+            var sa = balances_db2[sub_keys[i]];
+            if(sa && sa.string){
+                var s = sa.string;
+                //console.log(s);
+                if(!(loaded_into_selector2[sub_keys[i]])){
+                    loaded_into_selector2[sub_keys[i]] = true;
+        //            console.log("RRRR sa is: " + JSON.stringify(balances_db2));
+                    var option = document.createElement("option");
+                    option.innerHTML = s;
+                    option.value = JSON.stringify([sa.cid, sa.type]);
+                    for (var j = 0; j<tab_builder2.length; j++){
+                        if((!("swap" === tab_builder2[j][0])) ||
+                           (! (0 === sa.type))){
+                        tabs[tab_builder2[j][0]].
+                            selector.appendChild(
+                                option.cloneNode(
+                                    true));
+                        };
+                    };
+                };
+            };
+        };
+    };
+
+
+    function load_balances_(accs, ls, s, callback) {
+        console.log("RRRR load balances is: " + accs);
+        var sub1 = accs.map(function(acc){
+            //console.log(JSON.stringify(acc));
+            var sk = sub_accounts.key(keys.pub(), acc[0], acc[1]);
+            var sk2 = btoa(array_to_string(sk));
+            return({sub_key:sk2,
+                    cid: acc[0],
+                    type: acc[1]
+                   });
+        });
+        var sub2 = ls.map(function(mid){
+            var sk = sub_accounts.key(keys.pub(), mid, 0);
+            var sk2 = btoa(array_to_string(sk));
+            return({sub_key:sk2,
+                    cid: mid,
+                    type: 0});
+        });
+        var subs = sub1.concat(sub2);
+//        console.log("RRRR lb2 subs is: " + JSON.stringify(subs));
+        return(lb2_(subs, callback));
+    }
+
+    function contracts_to_subs_(contracts, R, callback) {
+        if(contracts.length < 1){
+            return(callback(R));
+        };
+        var many_types = 2;
+        contracts_to_subs2_(contracts[0], 1, many_types, [], function(subs){
+            return(contracts_to_subs_(
+                contracts.slice(1),
+                R.concat(subs),
+                callback));
+        });
+        console.log("RRRR contracts_to_subs is: " + contracts); 
+    };
+
+    function contracts_to_subs2_(CID, N, L, R, callback) {
+        if(N>L){
+            return(callback(R));
+        };
+                return(contracts_to_subs2_(CID, N+1, L, R.concat([[CID, N]]), callback));
+    };
+
+    async function lb2_(subs, callback){
+        if(subs.length == 0){
+            console.log("RRRR callback lb2 is: " + JSON.stringify(balances_db2));
+            abcd.display_positions2(balances_db2);
+            return(callback());
+        };
+        async function callback2(){
+            setTimeout(function(){
+                return(lb2_(subs.slice(1), callback));
+            }, 200);
+        };
+        var sub = subs[0];
+        var sk = sub.sub_key;
+        if(balances_db2[sk] &&
+           balances_db2[sk].time &&
+           ((Date.now() - balances_db2[sk].time) <
+            update_frequency2)){
+            return(callback2());
+            //return(lb2(subs.slice(1), callback));
+            //don't update.
+        };
+        if(!balances_db2[sk]){
+            balances_db2[sk] = {};
+        };
+        balances_db2[sk].time = Date.now();
+        let sa = await sub_accounts.arpc(sk);
+        var balance = 0;
+        if(sa && (sa[0] === "sub_acc")){
+            balance = sa[1];
+        };
+        if(balance < 10001){
+            //do we need to erase it, if it exists?
+            balances_db2[sk].time = Date.now()*2;
+            //return(lb2(subs.slice(1), callback));
+            return(callback2());
+        };
+        balances_db2[sk].bal = balance;
+        balances_db2[sk].type = sub.type;
+        balances_db2[sk].cid = sub.cid;
+        if(sub.type == 0) {//its a market
+            //build the string. load it in balances_db.
+            var mid = sub.cid;
+            var s = "market: "
+                .concat(mid)
+                .concat(" balance : ")
+                .concat((balance / token_units()).toString());
+            balances_db2[sk].string = s;
+            show_balances_();
+            return(callback2());
+            //return(lb2(subs.slice(1), callback));
+        };
+        //a subcurrency then
+        let oracle_text = await rpc.apost(["read", 3, sub.cid], get_ip(), 8090);
+
+        var s = "";
+        if(sub.type == 2){
+            s = s.concat("inverse ");
+        };
+        if(oracle_text &&(!(oracle_text == 0))){
+            var ot1 = atob(oracle_text[1]);
+            if(is_ticker_format_(ot1)){
+                var ticker = decode_ticker(ot1);
+                var limit = coll_limit(ot1);
+                balances_db2[sk].limit = limit;
+                var ticker_symbol = symbol(ot1);
+                balances_db2[sk].ticker_symbol = "v".concat(ticker_symbol);
+                s = s.concat("ticker: v")
+                    .concat(ticker);
+                if(sub.type === 1){
+                    s = s
+                        .concat(" balance: ")
+                        .concat((balance * limit / token_units()).toString())
+                        .concat(" v")
+                        .concat(ticker_symbol);
+                } else {
+                    s = s
+                        .concat(" balance: ")
+                        .concat((balance/token_units()).toString());
+                };
+            } else if (oracle_text[0] === "contract"){
+       /*-record(contract, 
+        {cid, source = <<0:256>>, 
+         source_type = 0, choose_address_timeout,
+         oracle_start_height, blockchain,
+         amount, ticker, date, trade_id, now
+         }).*/
+                var trade_direction;
+                if(sub.type === 2){
+                    trade_direction = "buying VEO. Spending ";
+                } else {
+                    trade_direction = "selling VEO. Buying ";
+                };
+                console.log(balance);
+                console.log(sa);
+                s = ""
+                    .concat(trade_direction)
+                    .concat(atob(oracle_text[7]))
+                    .concat(" of ")
+                    .concat(atob(oracle_text[8]))
+                    .concat(" on blockchain ")
+                    .concat(atob(oracle_text[6]))
+                    .concat(" by date ")
+                    .concat(atob(oracle_text[9]))
+                    .concat(". balance: ")
+                    .concat((balance/token_units()).toString());
+            } else {
+                if(ot1.length > 64){
+                    ot1 = ot1.slice(0, 64)
+                        .concat("...");
+                };
+                s = s.concat("oracle text: ")
+                    .concat(ot1)
+                    .concat("contract: ")
+                    .concat(sub.cid)
+                    .concat(" balance: ")
+                    .concat((balance/token_units()).toString());
+            };
+        } else {
+            s = s
+                .concat("contract: ")
+                .concat(sub.cid)
+                .concat(" balance: ")
+                .concat((balance/token_units()).toString());
+        };
+        balances_db2[sk].string = s;
+        console.log("RRRR BALANCES DB2 IS: " + JSON.stringify(balances_db2));
+        show_balances_();
+        //}, get_ip(), 8090);
+        //};
+        return(callback2());
+        
+    };
+
+
+    const ticker_regex = /W = ((qtrade\.io)|(coinmarketcap\.com)|(coinpaprika\.com)); T = [\d|:|\-| ]*China Standard Time \(GMT\+8\); ticker = [(a-z)(A-Z)]*; return\(the price of ticker at time T according to website W\) \* \d*/;
+    const stablecoin_0 = /standard\s+stablecoin\s+0\s*;\s*ticker_path\s*=\s*\[(\w+\s*,\s*)*\w+\s*\]\s*;\s*website_path\s*=\s*\[([^,\]]+,\s*)[^,\]]+\]\s*;\s*time\s*=[^;]+;\s*price\s*=\s*\d+\s*;\s*for\(i=0; i<website_path\.length; i\+\+\)\{\s*price \*= \(the price of ticker_path\[i\] in ticker_path\[i\+1\] according to website\[i\]\)\s*\};\s*scale\s*=\s*\d+\s*;\s*return\(price\s*\*\s*scale\);/;
+
+    function is_ticker_format_(x) {
+        var b = (ticker_regex.test(x) ||
+                 stablecoin_0.test(x));
+        if(!(b)){
+            //console.log(x);
+        };
+        return(b);
+    };
 
 
     async function viewTrading(offer){
