@@ -276,6 +276,8 @@ var tabs = (function(){
         return(callback2());
         
     };
+
+    
     function change_tab(To) {
         return(function(button){
             buttons.map(function(aa){

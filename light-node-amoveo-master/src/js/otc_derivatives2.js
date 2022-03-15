@@ -111,7 +111,90 @@ function bet_builder(bet_e, amount_e, them_e){
 
 };
 
+    var fee = 152050;
+    var ZERO = btoa(array_to_string(integer_to_array(0, 32)));
 
+    async function doitConcession(key){
+        console.log("in doitConcession: " + JSON.stringify(key));
+        var key1 = key;
+        var bet = atob(key.oracleLanguage[1]); //= bet_e.value;
+        var amount = Math.round(parseFloat(key.bal));
+        var them = Math.round(Number(0.0005)*parseFloat(key.bal));
+
+        var my_acc = await rpc.apost(["account", keys.pub()])
+        if(my_acc === 0){
+            display.innerHTML = "error: no key loaded. ";
+            return(0);
+        };
+        var offer = {};
+        offer.nonce = my_acc[2] + 1;
+        var now = headers_object.top()[1];
+        offer.start_limit = now - 1;
+ //       var TimeLimit = parseInt(timelimit.value);
+        offer.end_limit = now + 144;
+        offer.amount1 = parseInt(key.bal);
+        offer.amount2 = parseInt(Number(key.bal)*0.0009);
+        offer.cid1 = key.cid;
+        offer.cid2 = "";
+        if("" === offer.cid1){
+            offer.cid1 = ZERO;
+        }
+        if("" === offer.cid2){
+            offer.cid2 = ZERO;
+        }
+        offer.type1 = (parseInt(key.type) || 0);
+        offer.type2 = (parseInt(0) || 0);
+        
+        offer.fee1 = fee;
+        offer.fee2 = fee;
+        offer.acc1 = keys.pub();
+        offer.partial_match = false;
+        var signed_offer;
+        
+        if(offer.type1 == 0){
+            var bal = my_acc[1];
+            if(my_acc == "empty"){
+                console.log("not enough veo to make this offer. (possibly no key loaded?) ");
+                return(0);
+            };
+            if(offer.amount1 > bal){
+                console.log("not enough veo to make this offer");
+                return(0);
+            } else {
+                console.log(JSON.stringify(offer));
+                signed_offer = swaps.pack(offer);
+         //       display.innerHTML = JSON.stringify(signed_offer);
+                publishSwap(signed_offer);
+                console.log("CONCESSION PUBLISHED");
+            }
+        } else {
+            var key = btoa(array_to_string(sub_accounts.key(keys.pub(), offer.cid1, offer.type1)));
+            var sub_acc = await merkle.arequest_proof("sub_accounts", key);
+            if(sub_acc == "empty"){
+                console.log("not enough subcurrency to  make this offer (possibly no key loaded?)");
+                return(0);
+            };
+            bal = sub_acc[1];
+            if(offer.amount1 > bal){
+                console.log("not enough subcurrency to  make this offer");
+                return(0);
+            } else {
+                
+                signed_offer = swaps.pack(offer);
+            //    display.innerHTML = JSON.stringify(signed_offer);
+            console.log("IP IS" + get_ip());
+//                    var response12 = await rpc.apost(
+//            ["add", signed_offer],
+//            get_ip(), 8090);
+ //       console.log(response12);
+
+                publishSwap(signed_offer);
+              //  console.log("CONCESSION signed_offer +" signed_offer);
+                console.log("CONCESSION PUBLISHED");
+                console.log(JSON.stringify(signed_offer));
+            };
+        };
+    };
 
 
 
@@ -1013,7 +1096,7 @@ function showSportEventFields(){
         return cid_grab(cid, l.slice(1));
     };
 
-return {print_offer: print_offer, above: above, below: below, div: div, binary_view: binary_view};
+return {print_offer: print_offer, above: above, below: below, div: div, binary_view: binary_view, doitConcession: doitConcession};
 
 })();
 

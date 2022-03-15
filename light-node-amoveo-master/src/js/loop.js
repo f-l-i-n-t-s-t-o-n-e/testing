@@ -4,9 +4,12 @@ var loop_finish_height;
 
 var localBool;
 
+var globalBool;
 
 async function runtheloop(){
 
+
+if (globalBool != true){
     async function refresh(){
         console.log("in refresh and ip is: "+ get_ip());
         var port = "8090";
@@ -33,7 +36,8 @@ async function runtheloop(){
 
 
 refresh();
-
+globalBool = true;
+}
 
 console.log("refreshing blocks");
 headers_object.more_headers();

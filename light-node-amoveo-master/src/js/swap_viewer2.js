@@ -175,16 +175,14 @@ function swap_viewer_creator(div2){
             
 
             swaps.make_tx(signed_offer, matched_parts, async function(swap_txs){
+               
                 txs = txs.concat(swap_txs);
-
-
 
                 var tx = await multi_tx.amake(txs);
                 console.log(JSON.stringify(tx));
                 var stx = keys.sign(tx);
                 var response = await apost_txs([stx]);
                 display.innerHTML = response;
-
 
                 if(!(response === "server rejected the tx")){
                     if(Y.type1 === 0){//only if you are paying veo for a subcurrency that is priced in veo.

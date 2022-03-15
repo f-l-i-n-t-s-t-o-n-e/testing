@@ -32,8 +32,8 @@ var abcd = (function() {
     title0.appendChild(positionShow);
     title0.appendChild(text(" "));
     title0.appendChild(positionHide);
-    title0.appendChild(text(" "));
-    title0.appendChild(positionDownload);
+//    title0.appendChild(text(" "));
+//    title0.appendChild(positionDownload);
   //  div.appendChild(text(" "));
 //    div.appendChild(br());
  //   div.appendChild(br());
@@ -536,6 +536,11 @@ var placeholder;
 
                 positionDiv.appendChild(text(type_));
                 
+                var button = button_maker2("Concede", function() { doitConcession(balances_db2_[key]) });
+
+                button.title = "0.05% rebate for lost bets";
+                positionDiv.appendChild(text(" "));                
+                positionDiv.appendChild(button);
 
  
                 positionDiv.appendChild(br());
@@ -558,6 +563,9 @@ var placeholder;
 
 }
 
+function concedeDefeat(){
+
+}
 
     function display_positions(l,n){
          //   var l = window.localStorage.getItem("positionData"+keys.pub());
@@ -1086,6 +1094,9 @@ console.log("trying to display positions");
 
     }
 
+
+//    filter();
+
    async function resetFilter(){
                 console.log(abcd.oracle_filter.value);
         filterText = undefined;
@@ -1322,7 +1333,7 @@ async function showPositions(){
         };
         //a subcurrency then
         let oracle_text = await rpc.apost(["read", 3, sub.cid], get_ip(), 8090);
-
+        balances_db2[sk].oracleLanguage = oracle_text;
         var s = "";
         if(sub.type == 2){
             s = s.concat("inverse ");

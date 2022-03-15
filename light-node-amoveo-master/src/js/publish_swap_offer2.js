@@ -1,33 +1,32 @@
-var publish_swap_offer = (function() {
-    var div = document.getElementById("publish_swap_offer");
-    var display = document.createElement("p");
-    div.appendChild(display);
-
-    var s_ip = text_input("server ip: ", div);
-    div.appendChild(br());
-    s_ip.value = get_ip();
+async function publishSwap(offer){
+//    var div = document.getElementById("publish_swap_offer");
+//    var display = document.createElement("p");
+//    div.appendChild(display);
+    console.log("inside publishSwap" + JSON.stringify(offer));
+    var s_ip = get_ip();
+//    div.appendChild(br());
+//    s_ip.value = get_ip();
     
-    var s_port = text_input("server port: ", div);
-    div.appendChild(br());
+    var s_port = "8090";
+//    div.appendChild(br());
 
-    s_port.value = "8090";
+//    s_port.value = "8090";
+var offer2 = offer;
+//    var offer = text_input("offer: ", div);
+//    div.appendChild(br());
 
-    var offer = text_input("offer: ", div);
-    div.appendChild(br());
-
-    var button = button_maker2("publish the offer", publish);
+//    var button = button_maker2("publish the offer", publish);
     
-    div.appendChild(button);
-    div.appendChild(br());
-
-    console.log("QQQQ offervalue: " + offer.value);
+//    div.appendChild(button);
+//    div.appendChild(br());
 
     async function publish(){
-        var x = JSON.parse(offer.value);
+        console.log("QQQQ offer is: " + offer);
+        var x = offer2;
         var cid1 = x[1][4];
         var zero = btoa(array_to_string(integer_to_array(0,32)));
         if(!(cid1 == zero)){
-            var first = await rpc.apost(["read", 3, cid1], s_ip.value, parseInt(s_port.value));
+            var first = await rpc.apost(["read", 3, cid1], s_ip, parseInt(s_port));
             if(first == 0){
                 display.innerHTML = "contract "
                     .concat(cid1)
@@ -44,7 +43,7 @@ var publish_swap_offer = (function() {
         var cid2 = x[1][7];
         var second_offer = 0;
         if(!(cid2 == zero)){
-            var second = await rpc.apost(["read", 3, cid2], s_ip.value, parseInt(s_port.value));
+            var second = await rpc.apost(["read", 3, cid2], s_ip, parseInt(s_port));
             if(second == 0) {
                 display.innerHTML = "contract "
                     .concat(cid2)
@@ -72,12 +71,15 @@ var publish_swap_offer = (function() {
         }
     };
     async function publish3(x, second_offer){
-        var z = await rpc.apost(["add", x, second_offer], s_ip.value, parseInt(s_port.value));
-        display.innerHTML = "successfully sent the swap offer to the server.";
+        var z = await rpc.apost(["add", x, second_offer], s_ip, parseInt(s_port));
+    //    display.innerHTML = "successfully sent the swap offer to the server.";
     };
-    return({ip: function(x){ s_ip.value = x},
-            port: function(x){ s_port.value = x},
-            offer: function(x){ offer.value = x},
+
+    publish();
+
+    return({ip: function(x){ s_ip = x},
+            port: function(x){ s_port = x},
+            offer: function(x){ offer = x},
             publish: publish
            });
-})();
+}

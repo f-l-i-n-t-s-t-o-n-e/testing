@@ -6,6 +6,8 @@ var rpc = (function() {
         var u = url(8088, get_ip());
         return talk(cmd, u, callback, 10000);
     };
+
+    
     async function main2(cmd, ip, port) {
         if (ip == undefined){
             ip = get_ip();

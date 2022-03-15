@@ -69,6 +69,8 @@ function bet_tab_builder(div, selector){
         swap.acc1 = keys.pub();
         swap.end_limit = headers_object.top()[1] + expires;
         var offer99 = swaps.offer_99(swap);
+
+
         /*
         var offer99 = {};
         offer99.type1 = 1;
