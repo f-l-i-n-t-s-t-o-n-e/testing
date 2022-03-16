@@ -260,7 +260,10 @@ var swaps = (function(){
         offer99.start_limit = offer.start_limit;
         offer99.end_limit = offer.end_limit + 12000;
         offer99.amount1 = offer.amount2;
-        offer99.amount2 = Math.round((offer.amount2 * 0.999));//new oracle, oracle report, oracle close, withdraw winnings, oracle winnings
+        console.log("offer.amount2 is: " + offer.amount2);
+        console.log("offer.amount2 * 0.999 is: " + offer.amount2 * 0.999);
+
+        offer99.amount2 = Math.round((offer.amount2 * 0.9985));//new oracle, oracle report, oracle close, withdraw winnings, oracle winnings
         offer99.cid1 = offer.cid2;
         offer99.cid2 = ZERO;
         offer99.type2 = 0;

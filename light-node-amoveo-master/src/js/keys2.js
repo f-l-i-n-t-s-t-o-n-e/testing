@@ -205,7 +205,19 @@ function copy_address(){
     }
     function update_pubkey() {
     //    pub_div.innerHTML = ("").concat(pubkey_64());
-        pub_div.innerHTML = ("Address: ").concat(pubkey_64().substring(0,5).concat("...").concat(pubkey_64().substring(84,88)));
+
+                var a1 = document.createElement("a");
+                var cid_1
+        
+
+            var cidTruncate1 = pubkey_64().substring(0,5).concat("...").concat(pubkey_64().substring(84,88));
+            a1.innerHTML = cidTruncate1;
+            a1.target = "_blank";
+            a1.href = "http://159.89.87.58:8080/explorers/account_explorer.html?pubkey=".concat(pubkey_64());
+        pub_div.innerHTML = ("Address: ");
+
+        //.concat(pubkey_64().substring(0,5).concat("...").concat(pubkey_64().substring(84,88)));
+        pub_div.appendChild(a1);
 
     }
     function watch_only_func() {

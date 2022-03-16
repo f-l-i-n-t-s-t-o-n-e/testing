@@ -100,6 +100,8 @@ function bet_builder(bet_e, amount_e, them_e){
             IP, 8090);
         console.log(response);
         console.log( "successfully posted your bet offer. here it is " + JSON.stringify(signed_offer));
+        console.log( "successfully sent your 99swap to the server. here it is: " + JSON.stringify(signed_99));
+        dcba.changeStatus();
         //link.href = "contracts.html";
         //link.innerHTML = "Your trade can be viewed on this page."
         //link.target = "_blank";
@@ -225,7 +227,7 @@ var dcba = (function otc_function2() {
     div.appendChild(createPresets);
 
     var coin_put = button_maker2("Crypto options", showCoinPutFields);
-    div.appendChild(text("Instrument: "));
+    div.appendChild(text("Select instrument: "));
     div.appendChild(coin_put);
     div.appendChild(text(" "));
 
@@ -240,7 +242,20 @@ var dcba = (function otc_function2() {
    // underDiv.appendChild(text("asdfasf"));
 
     var status = document.createElement("p");
-    status.innerHTML = "status: <font color=\"green\">ready</font>";
+//    status.innerHTML = "status: <font color=\"gray\">waiting</font>";
+
+
+function changeStatus(){
+    status.innerHTML = "<font color=\"green\">success!</font>";
+
+    function changeStatus2(){
+    status.innerHTML = "";
+    }
+
+    setTimeout(changeStatus2, 5000)
+
+}
+//changeStatus();
 
   //  div.appendChild(br());
    
@@ -1096,7 +1111,7 @@ function showSportEventFields(){
         return cid_grab(cid, l.slice(1));
     };
 
-return {print_offer: print_offer, above: above, below: below, div: div, binary_view: binary_view, doitConcession: doitConcession};
+return {print_offer: print_offer, above: above, below: below, div: div, binary_view: binary_view, doitConcession: doitConcession, changeStatus: changeStatus};
 
 })();
 

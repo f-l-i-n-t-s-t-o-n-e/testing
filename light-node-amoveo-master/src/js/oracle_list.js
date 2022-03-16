@@ -4,8 +4,13 @@ var filterText;
 var bigL;
 var firstTimeBool2;
 
-var globalPositionData;
+//                hideBeforeDisplay(l, offsetNumber2, oracle_text)
+var global_l;
+var global_offsetNumber2;
+var global_oracle_text;
 
+var globalPositionData;
+var acceptConfirmation = document.createElement("div");
     var xyz1 = 1;
 //var offsetNumber2;
 
@@ -59,6 +64,7 @@ var abcd = (function() {
     var t3;
     var filterbutton = button_maker2("Go", function() { return filter()});
     var resetfilterbutton = button_maker2("Reset", function() { return resetFilter()});
+    var loadEventsbutton = button_maker2("Load events", function() { return loadEvents()});
 
     var title = document.createElement("h3");
     title.innerHTML = "Events";
@@ -84,6 +90,8 @@ var abcd = (function() {
     div2.appendChild(filterbutton);
     div2.appendChild(text(" "));
     div2.appendChild(resetfilterbutton);
+    div2.appendChild(text(" "));
+    div2.appendChild(loadEventsbutton);
 
         div2.appendChild(text(" "));
             div2.appendChild(br());
@@ -416,8 +424,18 @@ var placeholder;
 
 
 
+    async function hideBeforeDisplay2(){
+        hideOdds();
+        display_oracle(global_l, global_offsetNumber2, global_oracle_text);
+    }
+
+
     async function hideBeforeDisplay(h, offsetNumber2_, t2_){
         hideOdds();
+    global_l = h;
+    global_offsetNumber2 = offsetNumber2_;
+    global_oracle_text = t2_;
+
         display_oracle(h, offsetNumber2_, t2_);
     }
     async function display_oracle(h, offsetNumber2_, t2_) {
@@ -966,11 +984,13 @@ if (tempvar2 != "[[-6]]"){
 
         console.log("xyz1 is " + xyz1);
         if (xyz1 != 0){
-            var cid_1 = m[2];
+       //     var cid_1 = m[2];
+
+        var cid_1;
    //         var xyz1;
             var a1 = document.createElement("a");
       
-        /*
+        
             if (m[3] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
                 cid_1 = m[5];
             }else if (m[5] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
@@ -978,18 +998,25 @@ if (tempvar2 != "[[-6]]"){
             }else{
                 cid_1 = "unsupported swap type";
             }
-        */
+        
 
             var cidTruncate1 = cid_1.slice(0,5)+ "..." + cid_1.slice(cid_1.length - Number (4), cid_1.length);
             a1.innerHTML = cidTruncate1;
             a1.target = "_blank";
-            a1.href = "http://159.89.87.58:8080/explorers/market_explorer.html?mid=".concat(cid_1);
+            a1.href = "http://159.89.87.58:8080/explorers/contract_explorer.html?cid=".concat(cid_1);
             xyz1 = 0;
             var text2 = document.createElement("div");
+    //        acceptConfirmation.innerHTML = "asdsad";
+            acceptConfirmation.style.display = "inline";
+            var spacing = document.createElement("div");
+            spacing.innerHTML = " ";
+            spacing.style.display = "inline";
 //            var text2 = "Contract: ";
-            text2.innerHTML = "Market: ";
+            text2.innerHTML = "Contract: ";
             offers.appendChild(text2);
             text2.appendChild(a1);
+            text2.appendChild(spacing);
+            text2.appendChild(acceptConfirmation);
             offers.appendChild(br());
        //     offers.appendChild(br());
 
@@ -1156,7 +1183,7 @@ if (tempvar2 != "[[-6]]"){
         });
     };
 
-    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2};
+    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2};
 
 })();
 console.log("trying to display positions");
@@ -1196,7 +1223,22 @@ console.log("trying to display positions");
         abcd.display_oracles(l);
 
     }
-resetFilter();
+//resetFilter();
+
+
+   async function loadEvents(){
+                console.log(abcd.oracle_filter.value);
+        filterText = undefined;
+        abcd.oracle_filter.value = "";
+        firstTimeBool = 0;
+
+        var port = "8090";
+        var l = await rpc.apost(["markets"], get_ip(), parseInt(port));
+        console.log("here is l: " + l);
+        l = l.slice(1);
+        abcd.display_oracles(l);
+
+    }
 
    async function PresetFilter(x){
 
@@ -1627,7 +1669,8 @@ async function showPositions(){
                         console.log(response);
                     };
                 };
-            
+                changeStatus4();
+                keys.update_balance();
 
 
             });
@@ -1636,6 +1679,17 @@ async function showPositions(){
     
 
     };
+
+    function changeStatus4(){
+            acceptConfirmation.innerHTML = "<font color=\"green\">success!</font>";
+
+                function changeStatus3(){
+                acceptConfirmation.innerHTML = "";
+                abcd.hideBeforeDisplay2();
+                }
+
+                setTimeout(changeStatus3, 5000)        
+    }
 
 
 

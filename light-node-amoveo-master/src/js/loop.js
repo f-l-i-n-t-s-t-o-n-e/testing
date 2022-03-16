@@ -9,6 +9,7 @@ var globalBool;
 async function runtheloop(){
 
 
+/*
 if (globalBool != true){
     async function refresh(){
         console.log("in refresh and ip is: "+ get_ip());
@@ -25,6 +26,8 @@ if (globalBool != true){
 
 
 }
+
+
  //           var z = await rpc.apost(["read", m[2]], s_ip.value, parseInt(s_port.value));
  //           var orders = z[1][7];
  //           console.log(JSON.stringify(orders));
@@ -38,6 +41,8 @@ if (globalBool != true){
 refresh();
 globalBool = true;
 }
+
+*/
 
 console.log("refreshing blocks");
 headers_object.more_headers();
