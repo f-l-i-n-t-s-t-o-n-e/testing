@@ -5,6 +5,8 @@ var bigL;
 var firstTimeBool2;
 
 var globalPositionData;
+
+    var xyz1 = 1;
 //var offsetNumber2;
 
 var abcd = (function() {
@@ -261,12 +263,12 @@ var placeholder;
                                 console.log("this is a date format" + n1);
 //flipping for perspective of user
                                 if (offsetNumber == Number(1)){
-                                t2 = text(coinName + " price is not more than "+ coinPrice + " at Midnight " + n1 + " GMT ");
+                                t2 = text(coinName + " price is more than "+ coinPrice + " at Midnight " + n1 + " GMT ");
                     //            t__ = t2;
                                 }
 
                                 if (offsetNumber == Number(2)){
-                                t2 = text(coinName + " price is more than "+ coinPrice + " at Midnight " + n1 + " GMT ");
+                                t2 = text(coinName + " price is not more than "+ coinPrice + " at Midnight " + n1 + " GMT ");
                     //            t__ = t2;
                                 }
 
@@ -315,12 +317,12 @@ var placeholder;
 
 //flipping this so it's from the perspective of the user
                                 if (offsetNumber == Number(1)) {
-                                t2 = text(team1 + " will not defeat " + team2 + " in the competition starting on " + n1 + " (local time) ");
+                                t2 = text(team1 + " will defeat " + team2 + " in the competition starting on " + n1 + " (local time) ");
                                 t__ = t2;
                                 }
 //was coinMaturity
                                 if (offsetNumber == Number(2)) {
-                                t2 = text(team1 + " will defeat " + team2 + " in the competition starting on " + n1 + " (local time) ");
+                                t2 = text(team1 + " will not defeat " + team2 + " in the competition starting on " + n1 + " (local time) ");
                                 t__ = t2;
                                 }
 
@@ -760,9 +762,12 @@ if (tempvar2 != "[[-6]]"){
             }
         }
     };
+
+
     async function display_offers2(orders, l, type, offsetNumber2_, t2_, d1message, d2message) {
 
         if (JSON.stringify(orders) == "[]") {
+            xyz1 = 1;
             return 0;
         }else{
 
@@ -770,9 +775,31 @@ if (tempvar2 != "[[-6]]"){
         var direction;
             var t = document.createElement("div");
         var m = l;
+        console.log("mdisplayoffers2 is: " + m[2]);
         console.log("mdisplayoffers2 is: " + m);
         var type1 = m[4];
         var type2 = m[6];
+
+        //type1 is what you gain if you accept, type2 is what you lose if you accept
+
+        var newDirection;
+        if ((type1 == 1) && (type2 == 0)){
+            newDirection = "the result is true";
+        }
+        if ((type1 == 0) && (type2 == 2)){
+            newDirection = "the result is true";
+        }
+
+
+        if ((type1 == 2) && (type2 == 0)){
+            newDirection = "the result is false";
+        }
+        if ((type1 == 0) && (type2 == 1)){
+            newDirection = "the result is false";
+        }
+
+
+
     //    console.log()
         console.log("mdisplayoffers3 is type 1: " + type1 +" type2: " + type2);
 
@@ -802,6 +829,19 @@ if (tempvar2 != "[[-6]]"){
         console.log("xxxx swap bool: " + amountSwapped2);
         console.log("xxxx t2 is :" + (t2_.search("competition") != "-1"));
 
+
+            //offsetnumber2 being 1 means it is a preformatted question
+            //lets just figure out what it is given
+
+            //      you gain veo + lose type 1 = you bet on false
+    //              you gain type 2 + lose veo = you bet on false
+    
+    //              you gain type 1 + lose veo = you bet on true
+    //              you gain veo and lose type 2 = you bet on true
+            //
+            //
+            //
+
             if (offsetNumber2_ == 1) {
                 direction = "the result is true";
             } else if (type == "scalar") {
@@ -820,7 +860,7 @@ if (tempvar2 != "[[-6]]"){
         
 //        var text = "bet type: ".concat(type).concat("; price = ").concat(price.toFixed(5)).concat(d1message).concat((1/price).toFixed(5)).concat(d2message).concat(" you win if ").concat(direction).concat("; they pay = ").concat(s2c(h[7])).concat("; you pay = ").concat(s2c(h[8])).concat("; expires: ").concat(h[5]);
   
-
+           direction = newDirection;
 
           offers.style.display = "inline";
           
@@ -923,10 +963,52 @@ if (tempvar2 != "[[-6]]"){
 
 
 
+
+        console.log("xyz1 is " + xyz1);
+        if (xyz1 != 0){
+            var cid_1 = m[2];
+   //         var xyz1;
+            var a1 = document.createElement("a");
+      
+        /*
+            if (m[3] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
+                cid_1 = m[5];
+            }else if (m[5] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
+                cid_1 = m[3];
+            }else{
+                cid_1 = "unsupported swap type";
+            }
+        */
+
+            var cidTruncate1 = cid_1.slice(0,5)+ "..." + cid_1.slice(cid_1.length - Number (4), cid_1.length);
+            a1.innerHTML = cidTruncate1;
+            a1.target = "_blank";
+            a1.href = "http://159.89.87.58:8080/explorers/market_explorer.html?mid=".concat(cid_1);
+            xyz1 = 0;
+            var text2 = document.createElement("div");
+//            var text2 = "Contract: ";
+            text2.innerHTML = "Market: ";
+            offers.appendChild(text2);
+            text2.appendChild(a1);
+            offers.appendChild(br());
+       //     offers.appendChild(br());
+
+        }
+
+       // xyz1 = 0
+
         t.innerHTML = text;
         
 
             t.style.display = "inline";
+
+
+
+        if (type1 == type2){
+        t.innerHTML = "Unsupported format - trade hidden";
+        offers.appendChild(t);
+        offers.appendChild(br());
+        }else{
 
 
         offers.appendChild(t);
@@ -941,7 +1023,11 @@ if (tempvar2 != "[[-6]]"){
    //     offers.appendChild(text(" "));
         offers.appendChild(button);
         offers.appendChild(br());
+
+    }
         display_offers2(orders.slice(1), l, type, offsetNumber2_, t2_, d1message, d2message);
+
+
     }
 };
 
@@ -1140,7 +1226,7 @@ async function showPositions(){
         abcd.positionDiv.innerHTML = "";
         internalNonce = 0;
 
-
+        console.log("KEYSPUB IS: " + keys.pub());
             const response = await rpc.apost(["account", keys.pub()], get_ip(), 8091);
             if(response == "error") {
                 //display.innerHTML = "<h3>load a key with funds.</h3>";
@@ -1536,7 +1622,7 @@ async function showPositions(){
                         var signed_offer = swaps.pack(offer99);
                         var response = await rpc.apost(
                             ["add", signed_offer, 0],
-                            IP, 8090);
+                            get_ip(), 8090);
                         console.log(JSON.stringify(offer99));
                         console.log(response);
                     };

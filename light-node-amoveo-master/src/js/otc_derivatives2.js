@@ -99,7 +99,7 @@ function bet_builder(bet_e, amount_e, them_e){
             ["add", signed_offer, signed_99],
             IP, 8090);
         console.log(response);
-        console.log( "successfully posted your bet offer. ");
+        console.log( "successfully posted your bet offer. here it is " + JSON.stringify(signed_offer));
         //link.href = "contracts.html";
         //link.innerHTML = "Your trade can be viewed on this page."
         //link.target = "_blank";
