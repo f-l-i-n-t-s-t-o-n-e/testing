@@ -43,9 +43,11 @@ globalBool = true;
 }
 
 */
-
+console.log("globalVariable is: " + intervalVar);
+if (intervalVar != 1){
 console.log("refreshing blocks");
 headers_object.more_headers();
+//keys.bal_div.appendChild(title9);
 console.log("refreshing oracle list");
    //     abcd.oracles.innerHTML = "";           
 
@@ -58,8 +60,8 @@ firstTimeBool = 0;
 
 console.log("seeing if we can update balance");
 console.log(keys.pub());
-console.log("privkey");
-console.log(localStorage.getItem('privkey'));
+//console.log("privkey");
+//console.log(localStorage.getItem('privkey'));
 
 if (keys.pub().length > 0){
 	console.log("updating balance");
@@ -68,11 +70,60 @@ if (keys.pub().length > 0){
 }
 //console.log("refreshing blocks");
 
+
+}
+if (globalVariable == 1){
+console.log("aborting header refresh because loading events");
+}
+
+intervalVar = 0;
+
 }
 
 
-setInterval(async function(){ runtheloop() }, 1000*10)
+const myInterval = setInterval(async function(){ runtheloop() }, 1000*10);
+var intervalVar;
 
+function myStopFunction() {
+ // clearInterval(myInterval);
+  intervalVar = 1;
+
+  console.log("interval cleared");
+}
+/*
+var obj3;
+
+function Obj2() {
+
+  this.func1 = function() {
+    this.func2()
+  }
+
+  this.func2 = function() {
+    setInterval(function(self) {
+        runtheloop();
+      console.log(typeof self.func2); //=> 'function'
+    
+
+    }, 1000*10, this)
+  }
+
+}
+
+function main2() {
+  var obj = new Obj2()
+  var ob3 = obj
+  obj.func1()
+  console.log("in main2");
+}
+
+main2()
+
+function clearInterval2(){
+    clearInterval(obj3.func1());
+}
+
+*/
 //setInterval(console.log(globalBalance), 150*30);
 
 

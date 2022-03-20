@@ -59,6 +59,9 @@ Lab.innerHTML = "adsfds";
  //       div.appendChild(br());
 function setDefaultKey(){
     console.log("setting default key");
+
+    window.localStorage.setItem("placeholder", "1");
+
     pushtolocal();
    // console.log("here is the private key:");
     console.log();
@@ -347,7 +350,7 @@ function copy_address(){
     function decrypt(val) {
 	return encryption_object.get(val, keys_internal);
     }
-    return {bal_div: bal_div, new_keys_check: new_keys_check, load_keys2: load_keys2, set_balance: set_balance, update_pubkey: update_pubkey, update_balance: update_balance, make: new_keys, pub: pubkey_64, raw_sign: raw_sign, sign: sign_tx, ec: (function() { return ec; }), encrypt: encrypt, decrypt: decrypt, check_balance: check_balance, keys_internal: (function() {return keys_internal;}), compress: compress_pub, decompress: decompress_pub };
+    return {bal_div: bal_div, new_keys_check: new_keys_check, load_keys2: load_keys2, set_balance: set_balance, update_pubkey: update_pubkey, update_balance: update_balance, make: new_keys, pub: pubkey_64, raw_sign: raw_sign, sign: sign_tx, ec: (function() { return ec; }), encrypt: encrypt, decrypt: decrypt, check_balance: check_balance, keys_internal: (function() {return keys_internal;}), compress: compress_pub, decompress: decompress_pub, div: div, pub_div: pub_div, copy_address_button: copy_address_button, set_key_button: set_key_button, download_key_button: download_key_button, file_selector: file_selector};
 }
 
 var keys = keys_function1();

@@ -411,6 +411,7 @@ function headers_main() {
         if (get_more) { more_headers(); }
         else {
             keys.update_balance();
+            
             wallet_text.innerHTML = "Current height: " + top_header[1];
         }
     }
@@ -503,11 +504,12 @@ function headers_main() {
                 db: headers_db,
                 read_ewah: read_ewah,
                 on_height_change: on_height_change,
-                forks: forks};
+                forks: forks, wallet_text: wallet_text};
 }
 var headers_object = headers_main();
 
 headers_object.more_headers();
+//main2();
 
 
     function clearblockslocal() {

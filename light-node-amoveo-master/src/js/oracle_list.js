@@ -1,4 +1,6 @@
 
+var globalVariable;
+
 var firstTimeBool;
 var filterText;
 var bigL;
@@ -8,6 +10,7 @@ var firstTimeBool2;
 var global_l;
 var global_offsetNumber2;
 var global_oracle_text;
+var global_oracleSimplified_text;
 
 var globalPositionData;
 var acceptConfirmation = document.createElement("div");
@@ -24,6 +27,9 @@ var abcd = (function() {
     glossary.link2(div, "accepting_channel_offer", "how to accept a trade");
     var contract_div = document.createElement("div");
     //div.appendChild(contract_div);
+
+
+
     var title0 = document.createElement("h3");
     title0.innerHTML = "My positions";
     div.appendChild(title0);
@@ -350,6 +356,7 @@ var placeholder;
                                 }
 
 
+
                                             }
 
 //                                offsetNumber2 = 0;
@@ -359,14 +366,16 @@ var placeholder;
 }
                     
 
-                    console.log("xxxy this is t");
-                    console.log(t3);
+                    console.log("xxxy this is t" + t2.outerHTML);
+                    console.log(t2);
                     console.log((t3.split(" ")));
                                             console.log((t3.split(" "))[0]);
                     console.log(t2[0]);
                     console.log("xyzxyz button: " + h);
                     console.log("xxyx first t2 is: " + oracle_text);
-                    var button = button_maker2("See Odds", function() { return hideBeforeDisplay(l, offsetNumber2, oracle_text) });
+
+                    var temp_t2 = t2.outerHTML;
+                    var button = button_maker2("See Odds", function() { return hideBeforeDisplay(l, offsetNumber2, oracle_text, temp_t2) });
                     //adding some space
                     console.log("firstTimeBool: " + firstTimeBool);
                     console.log(filterText === undefined);
@@ -426,19 +435,21 @@ var placeholder;
 
     async function hideBeforeDisplay2(){
         hideOdds();
-        display_oracle(global_l, global_offsetNumber2, global_oracle_text);
+        
+        display_oracle(global_l, global_offsetNumber2, global_oracle_text, global_oracleSimplified_text);
     }
 
 
-    async function hideBeforeDisplay(h, offsetNumber2_, t2_){
+    async function hideBeforeDisplay(h, offsetNumber2_, t2_, t3_){
         hideOdds();
     global_l = h;
     global_offsetNumber2 = offsetNumber2_;
     global_oracle_text = t2_;
+    global_oracleSimplified_text = t3_;
 
-        display_oracle(h, offsetNumber2_, t2_);
+        display_oracle(h, offsetNumber2_, t2_, t3_);
     }
-    async function display_oracle(h, offsetNumber2_, t2_) {
+    async function display_oracle(h, offsetNumber2_, t2_, t3_) {
     //    console.log(JSON.stringify([Buys, Sells]));
     //    var l = Buys.concat(Sells.slice(1));
     //    console.log("this is l:");
@@ -464,7 +475,7 @@ var placeholder;
             console.log("xyzxyz: " + l[0]);
   //          console.log("L is display oracle" + bigL);
         //    firstTimeBool2 = 0;
-            return display_offers(m, offsetNumber2_, t2_);
+            return display_offers(m, offsetNumber2_, t2_, t3_);
     //        display_oracle(h.slice(1));
 
   //      });
@@ -528,7 +539,7 @@ var placeholder;
 
                 if (internalNonce != 0){
     //            positionDiv.appendChild(br());
-                positionDiv.appendChild(br());
+        //        positionDiv.appendChild(br());
                 }
 
 
@@ -580,7 +591,7 @@ var placeholder;
 
                       
     }
-
+balances_db2 = {};
 }
 
 function concedeDefeat(){
@@ -722,7 +733,7 @@ if (tempvar2 != "[[-6]]"){
                       
     }
 
- async function display_offers(l, offsetNumber2_, t2_) {
+ async function display_offers(l, offsetNumber2_, t2_, t3_) {
 
 
 
@@ -752,7 +763,7 @@ if (tempvar2 != "[[-6]]"){
             if (1 == 1) {
                 type = "binary";
             //    price = h[3];
-                return display_offers2(orders, l, type, offsetNumber2_, t2_, " or ", "");
+                return display_offers2(orders, l, type, offsetNumber2_, t2_, t3_, " or ", "");
             } 
 
          /*   else if (h[9] == 2) {
@@ -782,7 +793,7 @@ if (tempvar2 != "[[-6]]"){
     };
 
 
-    async function display_offers2(orders, l, type, offsetNumber2_, t2_, d1message, d2message) {
+    async function display_offers2(orders, l, type, offsetNumber2_, t2_, t3_, d1message, d2message) {
 
         if (JSON.stringify(orders) == "[]") {
             xyz1 = 1;
@@ -828,8 +839,10 @@ if (tempvar2 != "[[-6]]"){
         var amount = order[2];
         var tid = order[3];
         swapOffer = await trade_details2(tid);
+        var swapOffer2 = swapOffer;
         console.log("THIS IS T4: " + swapOffer[1][6]);
         console.log("SWAPOFFER IS: " + swapOffer);
+        console.log("tid is: " + tid);
         var amountGain = swapOffer[1][9];
         var amountLose = swapOffer[1][6];
 
@@ -971,15 +984,17 @@ if (tempvar2 != "[[-6]]"){
           if (direction == "the result is false"){
                 implProb = ((100*((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain))))).toPrecision(3) + "%"
                     }
-*/
+*/       
 
+        //for debugging
+        var idStuff = "type: "+type1 + "/" + type2 + " | amounts: " + swapOffer[1][6] + "/" + swapOffer[1][9] ;
         if (amountSwapped2 != true){
-        var text = "You win if "+direction+ probLanguage.concat(implProb).concat(" | Risk: ").concat(Number((s2c(amountGain) - s2c(amountLose)).toPrecision(3))).concat(" ")+"| Profit: ".concat(Number(s2c(amountLose).toPrecision(3))).concat(" | ");
+        var text = "You win if "+direction+ probLanguage.concat(implProb).concat(" | Risk: ").concat(Number((s2c(amountGain) - s2c(amountLose)).toPrecision(3))).concat(" ")+"| Profit: ".concat(Number(s2c(amountLose).toPrecision(3))).concat(" | ").concat(idStuff);
         } else {
-        var text = "You win if "+direction+ probLanguage.concat(implProb).concat(" | Risk: ").concat(Number((s2c(amountLose)).toPrecision(3))).concat(" ")+"| Profit: ".concat(Number(s2c(amountGain).toPrecision(3))).concat(" | ");
+        var text = "You win if "+direction+ probLanguage.concat(implProb).concat(" | Risk: ").concat(Number((s2c(amountLose)).toPrecision(3))).concat(" ")+"| Profit: ".concat(Number(s2c(amountGain).toPrecision(3))).concat(" | ").concat(idStuff);
         }
 
-
+  //      var text.appendChild("asdfs");
 
 
         console.log("xyz1 is " + xyz1);
@@ -990,6 +1005,11 @@ if (tempvar2 != "[[-6]]"){
    //         var xyz1;
             var a1 = document.createElement("a");
       
+            var b1 = document.createElement("a");
+
+            console.log("XXXX t3 is " + t3_);
+            
+            b1.innerHTML = t3_;
         
             if (m[3] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
                 cid_1 = m[5];
@@ -999,13 +1019,14 @@ if (tempvar2 != "[[-6]]"){
                 cid_1 = "unsupported swap type";
             }
         
-
             var cidTruncate1 = cid_1.slice(0,5)+ "..." + cid_1.slice(cid_1.length - Number (4), cid_1.length);
             a1.innerHTML = cidTruncate1;
             a1.target = "_blank";
             a1.href = "http://159.89.87.58:8080/explorers/contract_explorer.html?cid=".concat(cid_1);
             xyz1 = 0;
             var text2 = document.createElement("div");
+            var text3 = document.createElement("div");
+
     //        acceptConfirmation.innerHTML = "asdsad";
             acceptConfirmation.style.display = "inline";
             var spacing = document.createElement("div");
@@ -1013,11 +1034,23 @@ if (tempvar2 != "[[-6]]"){
             spacing.style.display = "inline";
 //            var text2 = "Contract: ";
             text2.innerHTML = "Contract: ";
+            text3.innerHTML = "Event: ";
+            b1.style.display = "inline";
+    //        text3.style.display = "inline";
+
+            text2.style.textIndent = "50px";
+            text3.style.textIndent = "50px";
+
+
             offers.appendChild(text2);
             text2.appendChild(a1);
             text2.appendChild(spacing);
             text2.appendChild(acceptConfirmation);
+
+            offers.appendChild(text3);
+            text3.appendChild(b1);
             offers.appendChild(br());
+        //    offers.appendChild(br());
        //     offers.appendChild(br());
 
         }
@@ -1042,7 +1075,10 @@ if (tempvar2 != "[[-6]]"){
         console.log("PPPP button h: " + swapOffer);
         console.log("PPPP button type: " + type);
 
-        var button = button_maker2("Accept trade", function() { viewTrading(swapOffer) });
+        var button = button_maker2("Accept trade", function() { viewTrading(swapOffer2) });
+//        var button = button_maker2("Accept trade", function() { swap_viewer3.view(swapOffer2) });
+
+
         button.style.display = "inline";
 
 
@@ -1203,8 +1239,10 @@ console.log("trying to display positions");
         var l = await rpc.apost(["markets"], get_ip(), parseInt(port));
         console.log("here is l: " + l);
         l = l.slice(1);
-        abcd.display_oracles(l);
 
+        myStopFunction();
+        await abcd.display_oracles(l);
+  //      myInterval = setInterval(async function(){ runtheloop() }, 1000*10);
     }
 
 
@@ -1220,8 +1258,10 @@ console.log("trying to display positions");
         var l = await rpc.apost(["markets"], get_ip(), parseInt(port));
         console.log("here is l: " + l);
         l = l.slice(1);
-        abcd.display_oracles(l);
 
+        myStopFunction();
+        await abcd.display_oracles(l);
+    //    myInterval = setInterval(async function(){ runtheloop() }, 1000*10);
     }
 //resetFilter();
 
@@ -1236,8 +1276,10 @@ console.log("trying to display positions");
         var l = await rpc.apost(["markets"], get_ip(), parseInt(port));
         console.log("here is l: " + l);
         l = l.slice(1);
-        abcd.display_oracles(l);
 
+        myStopFunction();
+        await abcd.display_oracles(l);
+    //    myInterval = setInterval(async function(){ runtheloop() }, 1000*10);
     }
 
    async function PresetFilter(x){
@@ -1252,8 +1294,10 @@ console.log("trying to display positions");
         var l = await rpc.apost(["markets"], get_ip(), parseInt(port));
         console.log("here is l: " + l);
         l = l.slice(1);
-        abcd.display_oracles(l);
 
+        myStopFunction();
+        abcd.display_oracles(l);
+   //     myInterval = setInterval(async function(){ runtheloop() }, 1000*10);
     }
 
 
@@ -1265,6 +1309,8 @@ console.log("trying to display positions");
 var tempvar2;
 
 async function showPositions(){
+
+
         abcd.positionDiv.innerHTML = "";
         internalNonce = 0;
 
@@ -1361,6 +1407,8 @@ async function showPositions(){
                 };
             };
         };
+                console.log("lol41");
+
     };
 
 
@@ -1415,16 +1463,22 @@ async function showPositions(){
             return(callback());
         };
         async function callback2(){
-            setTimeout(function(){
+        //    setTimeout(function(){
                 return(lb2_(subs.slice(1), callback));
-            }, 200);
+        //    }, 200);
         };
+
+
         var sub = subs[0];
         var sk = sub.sub_key;
+
+
+// /*
         if(balances_db2[sk] &&
            balances_db2[sk].time &&
            ((Date.now() - balances_db2[sk].time) <
             update_frequency2)){
+
             return(callback2());
             //return(lb2(subs.slice(1), callback));
             //don't update.
@@ -1432,23 +1486,36 @@ async function showPositions(){
         if(!balances_db2[sk]){
             balances_db2[sk] = {};
         };
+
+
         balances_db2[sk].time = Date.now();
+// */
+
+        console.log("lol3 1");
         let sa = await sub_accounts.arpc(sk);
+        console.log("lol3sa " + sa);
+
         var balance = 0;
         if(sa && (sa[0] === "sub_acc")){
             balance = sa[1];
         };
         if(balance < 10001){
             //do we need to erase it, if it exists?
-            balances_db2[sk].time = Date.now()*2;
+//            balances_db2[sk].time = Date.now()*2;
             //return(lb2(subs.slice(1), callback));
             return(callback2());
         };
+
+
         balances_db2[sk].bal = balance;
         balances_db2[sk].type = sub.type;
         balances_db2[sk].cid = sub.cid;
+
+
         if(sub.type == 0) {//its a market
             //build the string. load it in balances_db.
+            
+    /*
             var mid = sub.cid;
             var s = "market: "
                 .concat(mid)
@@ -1456,17 +1523,24 @@ async function showPositions(){
                 .concat((balance / token_units()).toString());
             balances_db2[sk].string = s;
             show_balances_();
+    */
+
             return(callback2());
             //return(lb2(subs.slice(1), callback));
         };
         //a subcurrency then
-        let oracle_text = await rpc.apost(["read", 3, sub.cid], get_ip(), 8090);
-        balances_db2[sk].oracleLanguage = oracle_text;
+    //    let oracle_text = await rpc.apost(["read", 3, sub.cid], get_ip(), 8090);
+
+        oracle_text = "lol";
+        console.log("lol2");
+//        balances_db2[sk].oracleLanguage = oracle_text;
         var s = "";
         if(sub.type == 2){
             s = s.concat("inverse ");
         };
         if(oracle_text &&(!(oracle_text == 0))){
+
+            /*
             var ot1 = atob(oracle_text[1]);
             if(is_ticker_format_(ot1)){
                 var ticker = decode_ticker(ot1);
@@ -1488,12 +1562,16 @@ async function showPositions(){
                         .concat((balance/token_units()).toString());
                 };
             } else if (oracle_text[0] === "contract"){
+                */
+
        /*-record(contract, 
         {cid, source = <<0:256>>, 
          source_type = 0, choose_address_timeout,
          oracle_start_height, blockchain,
          amount, ticker, date, trade_id, now
          }).*/
+
+         /*
                 var trade_direction;
                 if(sub.type === 2){
                     trade_direction = "buying VEO. Spending ";
@@ -1525,16 +1603,22 @@ async function showPositions(){
                     .concat(" balance: ")
                     .concat((balance/token_units()).toString());
             };
+            */
+
+
         } else {
-            s = s
-                .concat("contract: ")
-                .concat(sub.cid)
-                .concat(" balance: ")
-                .concat((balance/token_units()).toString());
+//            s = s
+//                .concat("contract: ")
+//                .concat(sub.cid)
+//                .concat(" balance: ")
+//                .concat((balance/token_units()).toString());
         };
-        balances_db2[sk].string = s;
-        console.log("RRRR BALANCES DB2 IS: " + JSON.stringify(balances_db2));
+ //       balances_db2[sk].string = s;
+ //       console.log("RRRR BALANCES DB2 IS: " + JSON.stringify(balances_db2));
+
+        console.log("lol4");
         show_balances_();
+
         //}, get_ip(), 8090);
         //};
         return(callback2());
@@ -1562,7 +1646,7 @@ async function showPositions(){
         var now = headers_object.top()[1];
         
         var contract1, contract2;
-        console.log(offer);
+        console.log("XXXX offer is: " + offer);
         console.log(JSON.stringify(Y));
         var original_limit_order_size = Y.parts;
         var available_to_match;
@@ -1578,9 +1662,9 @@ async function showPositions(){
 //                .concat(string_to_array(
 //                    atob(Y.salt))))));
         var TID = swaps.id_maker(Y.acc1, Y.salt);
-        console.log(TID);
+        console.log("XXXX TID is: " + TID);
         var trade = await rpc.apost(["trades", TID])
-        console.log(trade);
+        console.log("XXXX trade is: " + trade);
         if(trade === 0){
             available_to_match = original_limit_order_size;
         } else {
@@ -1593,22 +1677,28 @@ async function showPositions(){
         
         if(Y.cid1 == btoa(array_to_string(integer_to_array(0, 32)))){
             contract1 = "veo";
+            console.log("XXXX veo is1: " + contract1);
         }else{
                 //contract1 = Y.cid1
                 //    .concat(" type ")
                 //    .concat(Y.type1);
             contract1 = await contract_text2(
                 Y.cid1, Y.type1);
+
+            console.log("XXXX veo is2: " + contract1);
         }
         
         if(Y.cid2 == btoa(array_to_string(integer_to_array(0, 32)))){
             //currency 2 is the kind that you need to send. So this is the only type you could ever need to make the contract for.
             contract2 = "veo";
+            console.log("XXXX veo2 is1: " + contract2);
         //    update_display(Y, now, contract1, contract2, available_to_match, original_limit_order_size);
             return(view2Trading([], X, Y, original_limit_order_size, available_to_match, q));
         }else{
             contract2 = await contract_text2(
                 Y.cid2, Y.type2);
+
+            console.log("XXXX veo2 is2: " + contract2);
         }
 //        update_display(Y, now, contract1, contract2, available_to_match, original_limit_order_size);
         console.log("amount to make contracts");
@@ -1627,26 +1717,26 @@ async function showPositions(){
         //swap_txs is the contract_use_txs
             var amount_to_match = Math.round(parseFloat(q_, 10) * token_units());
             if(!amount_to_match){
-                display.innerHTML =
-                    "<p>You need to choose how much you want to buy</p>";
+        //        display.innerHTML =
+        //            "<p>You need to choose how much you want to buy</p>";
                 return(0);
             }
             var A1 = Math.round(Y.amount1 * available_to_match / original_limit_order_size);
             if (amount_to_match > A1){
-                display.innerHTML =
-                    "<p> that is more than everything that is available to buy. There is only "
-                    .concat(A1.toString())
-                    .concat(" available, so you cannot buy ")
-                    .concat(amount_to_match.toString())
-                    .concat("</p>")
-                    .concat("");
+       //         display.innerHTML =
+        //            "<p> that is more than everything that is available to buy. There is only "
+        //            .concat(A1.toString())
+        //            .concat(" available, so you cannot buy ")
+        //            .concat(amount_to_match.toString())
+        //            .concat("</p>")
+        //            .concat("");
                 return(0);
             };
             
 
             var matched_parts = Math.round(available_to_match * amount_to_match / A1);
             var signed_offer = X;
-            
+                    console.log("XXXX view2Tradin signed_offer is: " + signed_offer);            
 
             swaps.make_tx(signed_offer, matched_parts, async function(swap_txs){
                
@@ -1655,9 +1745,19 @@ async function showPositions(){
                 var tx = await multi_tx.amake(txs);
                 console.log(JSON.stringify(tx));
                 var stx = keys.sign(tx);
+                console.log("signed tx: " + JSON.stringify(stx));
+                //need this
                 var response = await apost_txs([stx]);
+
+
+
+                console.log("response is: " + response);
            //     display.innerHTML = response;
 
+                
+
+                //need this
+                
                 if(!(response === "server rejected the tx")){
                     if(Y.type1 === 0){//only if you are paying veo for a subcurrency that is priced in veo.
                         var offer99 = swaps.accept_99(Y);
@@ -1669,7 +1769,9 @@ async function showPositions(){
                         console.log(response);
                     };
                 };
-                changeStatus4();
+
+                
+        //        changeStatus4();
                 keys.update_balance();
 
 
@@ -1721,21 +1823,28 @@ async function showPositions(){
 
 
     async function maybe_make_contracts2(cid, Txs, callback) {
+        console.log("XXXX cid is: " + cid);
         if(cid == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
             return(callback(Txs));
         };
         var Contract = await merkle.arequest_proof("contracts", cid);
+        console.log("XXXX contract is: " + Contract);
         if(!(Contract === "empty")){
             return(callback(Txs));
+        console.log("XXXX callback is: ");
         }
         var z = await rpc.apost(["read", 3, cid], explore_swap_offer.ip_get, 8090);
+
+        console.log("XXXX Z is: " + z);        
         if(z[0] == "scalar"){
             console.log("is scalar ");
             //{Text, Height, MaxPrice, Now}
             var tx = new_scalar_contract.make_tx(atob(z[1]), parseInt(z[3]), z[5], parseInt(z[6]));
+                    console.log("XXXX tx is: " + tx);
             return(maybe_make_contracts2(tx[5], [tx].concat(Txs), callback));
             
         } else if (z[0] === "contract"){
+                    console.log("XXXX elseif is: ");
             //contract hash is not in the buy_veo_contract.
             var oracle_start_height = z[5];
             var blockchain = z[6];
@@ -1749,6 +1858,7 @@ async function showPositions(){
             var contract1bytes = buy_veo_contract.contract1bytes(settings);
             var contract_hash = btoa(array_to_string(hash(contract1bytes)));
             var tx = buy_veo_contract.new_contract_tx(contract_hash);
+                    console.log("XXXX elseif tx is: " + tx);
             return(maybe_make_contracts2(tx[5], [tx].concat(Txs), callback));
         } else {
             display.innerHTML =
@@ -1829,6 +1939,16 @@ function showTradeExplorer(){
     abcd.oracle_filter.style.display = 'inline';
     abcd.oracles.style.display = 'block';
     abcd.div2.style.display = 'block';
+
+    keys.div.style.display = 'block';
+    keys.bal_div.style.display = 'block';
+    keys.pub_div.style.display = 'none';
+
+    keys.copy_address_button.style.display = 'none';
+    keys.set_key_button.style.display = 'none';
+    keys.download_key_button.style.display = 'none';
+    keys.file_selector.style.display = 'none';
+
 }
 
 function hideCreateABet(){
@@ -1838,11 +1958,60 @@ function hideCreateABet(){
 
 function showCreateABet(){
     dcba.div.style.display = 'block';
+    keys.div.style.display = 'block';
+    keys.bal_div.style.display = 'block';
+    keys.pub_div.style.display = 'none';
+
+    keys.copy_address_button.style.display = 'none';
+    keys.set_key_button.style.display = 'none';
+    keys.download_key_button.style.display = 'none';
+    keys.file_selector.style.display = 'none';
+
+//    keys.c
+
+//    copy_address_button: copy_address_button, set_key_button: set_key_button, download_key_button: download_key_button, file_selector: file_selector
     
+
+
+}
+
+function hideAccountManagement(){
+    keys.div.style.display  = 'none';
+    keys.bal_div.style.display = 'block';
+
+    headers_object.wallet_text.style.display = 'none';
+//    keys.bal_div.style.display = 'block';
+}
+
+function showAccountManagement(){
+    hideTradeExplorer();
+    hideCreateABet();
+    keys.div.style.display  = 'block';
+
+    headers_object.wallet_text.style.display = 'block';
+
+    keys.pub_div.style.display = 'block';
+
+    keys.copy_address_button.style.display = 'inline';
+    keys.set_key_button.style.display = 'inline';
+    keys.download_key_button.style.display = 'inline';
+    keys.file_selector.style.display = 'inline';
+
+    
+}
+
+
+
+function accountManagement(){
+    hideTradeExplorer();
+    hideCreateABet();
+    showAccountManagement();
+    console.log("firsttimecheck is " + (abc == null));
 }
 
 function createABet(){
     hideTradeExplorer();
+    hideAccountManagement();
     showCreateABet();
     // Do stuff
 
@@ -1851,12 +2020,25 @@ function createABet(){
 
 function tradeExplorer(){
     hideCreateABet();
+    hideAccountManagement();
     showTradeExplorer();
 
 }
+var abc = window.localStorage.getItem("placeholder");
+console.log("firsttimecheck is: " + abc == "null");
 
 //hideCreateABet();
+//determine first time?
+function firstTime(){
+console.log("in first time");
+if (abc == null){
+showAccountManagement();
+}else{
 tradeExplorer();
+}
+}
+
+firstTime();
 
 //abcd.oracle_list_pull();
 
