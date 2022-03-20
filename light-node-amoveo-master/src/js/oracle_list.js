@@ -1,11 +1,12 @@
 
 var globalVariable;
-
+            var fullDate;
 var firstTimeBool;
 var filterText;
 var bigL;
 var firstTimeBool2;
 
+var zHolder;
 //                hideBeforeDisplay(l, offsetNumber2, oracle_text)
 var global_l;
 var global_offsetNumber2;
@@ -33,6 +34,263 @@ var abcd = (function() {
     var title0 = document.createElement("h3");
     title0.innerHTML = "My positions";
     div.appendChild(title0);
+
+
+
+
+    var title3 = document.createElement("h3");
+    title3.innerHTML = "Provide liquidity";
+
+    div.appendChild(title3);
+
+    title3.appendChild(br());
+   // title3.appendChild(br());
+    var newDiv = document.createElement("p");
+    newDiv.style.fontWeight = "normal";
+    newDiv.innerHTML = "Max risk per bet (VEO): "
+    newDiv.style.fontSize = "16px";
+    title3.appendChild(newDiv);
+ //   var words = text("Max loss per bet: ");
+ //       title3.appendChild(text("Max loss per bet: "));
+
+    var LPinput = document.createElement("INPUT");
+    LPinput.style.display = "inline";
+    var text10 = text(" ");
+    text10.style.display = "inline";
+    newDiv.appendChild(text10);
+    newDiv.appendChild(LPinput);
+
+    var LPGoButton = button_maker2("Go", function() { return liquidityProvision()});
+    title3.appendChild(LPGoButton);
+
+    title3.style.display = 'none';
+    title3.appendChild(br());
+    title3.appendChild(br());
+    var successVar = document.createElement("div");
+    title3.appendChild(successVar);
+
+    async function liquidityProvision(){
+
+        var maxRisk = Number(LPinput.value);  // * 100000000; lol
+        successVar.innerHTML = "<font color=\"green\">LP bot started</font>";
+
+    //    need to pull them from zacks server
+
+    
+        var bettingOdds = await rpc.apost(["test", 1], "46.101.185.98", parseInt("8084"));
+        console.log("odds are: " + bettingOdds);
+        console.log("odds are: " + atob(bettingOdds[3]));
+            //Friday, March 4, 2022
+
+            var date_ = atob(bettingOdds[3]);
+            console.log(date_[2]);
+            var sport = atob(bettingOdds[1]);
+            console.log("sport is: " + sport);
+
+
+        function numberFromWord(){
+
+
+            console.log(date_[2]);
+            var monthDay = date_.split(",")[1];
+            var year = date_.split(",")[2];
+            console.log("year is " + year);
+            console.log("monthday split is " + monthDay.split(" ")[0]);
+            var month;
+       //     console.log(monthDay.search(" "));
+            if (monthDay.split(" ")[1] == "January"){
+                month = "01";
+            }
+        
+            if (monthDay.split(" ")[1] == "February"){
+                month = "02";
+            }
+        
+            if (monthDay.split(" ")[1] == "March"){
+                month = "03";
+            }
+        
+            if (monthDay.split(" ")[1] == "April"){
+                month = "04";
+            }
+        
+            if (monthDay.split(" ")[1] == "May"){
+                month = "05";
+            }
+        
+            if (monthDay.split(" ")[1] == "June"){
+                month = "06";
+            }
+        
+            if (monthDay.split(" ")[1] == "July"){
+                month = "07";
+            }
+        
+            if (monthDay.split(" ")[1] == "August"){
+                month = "08";
+            }
+        
+            if (monthDay.split(" ")[1] == "September"){
+                month = "09";
+            }
+        
+            if (monthDay.split(" ")[1] == "October"){
+                month = "10";
+            }
+        
+            if (monthDay.split(" ")[1] == "November"){
+                month = "11";
+            }
+        
+            if (monthDay.split(" ")[1] == "December"){
+                month = "12";
+            }
+
+            var day = monthDay.split(" ")[2];
+
+            if (day < 10){
+                day = "0" + day;
+            }
+
+            var year = year.substring(1, 5);
+            console.log("year: " + year);
+
+            fullDate = month + "/" + day + "/" + year;
+
+            console.log("fulldate is" + fullDate);
+
+
+        }
+
+        numberFromWord();
+
+        var teamOne;
+        var teamTwo;
+        var myAmountCalc;
+        var theirAmountCalc;
+
+
+
+        var bettingOdds = atob(bettingOdds[2]);
+
+        console.log("testingodds is: " + bettingOdds.split(",")[1]);
+        
+        var header
+
+        if (sport == "NBA BASKETBALL"){
+            sport = "NBA";
+        }
+
+        teamOne = sport + bettingOdds.split(",")[1];
+        teamTwo = sport + bettingOdds.split(",")[2];
+        console.log("last minus is " + bettingOdds.split(",")[18]);
+        var plusOdds = bettingOdds.split(",")[5];
+        plusOdds = plusOdds.split("+")[1];
+
+        if ((bettingOdds.split(",")[9]).split("+")[1] > plusOdds){
+            plusOdds = (bettingOdds.split(",")[9]).split("+")[1];
+        }
+
+        if ((bettingOdds.split(",")[11]).split("+")[1] > plusOdds){
+            plusOdds = (bettingOdds.split(",")[11]).split("+")[1];
+        }
+
+        if ((bettingOdds.split(",")[13]).split("+")[1] > plusOdds){
+            plusOdds = (bettingOdds.split(",")[13]).split("+")[1];
+        }
+
+        if ((bettingOdds.split(",")[15]).split("+")[1] > plusOdds){
+            plusOdds = (bettingOdds.split(",")[15]).split("+")[1];
+        }
+
+        if ((bettingOdds.split(",")[17]).split("+")[1] > plusOdds){
+            plusOdds = (bettingOdds.split(",")[17]).split("+")[1];
+        }
+
+        console.log("highest plusodds are: " + plusOdds);
+//        plusOdds = plusOdds.split(1, plusOdds.length - 1);
+
+        console.log("plusodds is " + (bettingOdds.split(",")[5]).split("+")[1]);
+
+
+//now do minusOdds
+
+
+        var minusOdds = bettingOdds.split(",")[6];
+        minusOdds = minusOdds.split("-")[1];
+
+        if ((bettingOdds.split(",")[10]).split("-")[1] < minusOdds){
+            minusOdds = (bettingOdds.split(",")[10]).split("-")[1];
+        }
+
+        if ((bettingOdds.split(",")[12]).split("-")[1] < minusOdds){
+            minusOdds = (bettingOdds.split(",")[12]).split("-")[1];
+        }
+
+        if ((bettingOdds.split(",")[14]).split("-")[1] < minusOdds){
+            minusOdds = (bettingOdds.split(",")[14]).split("-")[1];
+        }
+
+        if ((bettingOdds.split(",")[16]).split("-")[1] < minusOdds){
+            minusOdds = (bettingOdds.split(",")[16]).split("-")[1];
+        }
+
+        console.log("lowest minus is: " + minusOdds);
+
+        var convertedMinus = (minusOdds) / (Number(minusOdds) + Number(100));
+        var convertedPlus = Number(100) / (Number(plusOdds) + Number(100));
+
+        console.log("plus: " + convertedPlus + ", minus: " + convertedMinus);
+        console.log("plus plus minus is: " +  (Number(convertedPlus) + Number(convertedMinus)));
+
+        var vigNumber = (Number(convertedPlus) + Number(convertedMinus));
+
+
+
+
+        //  7:00p, Cleveland, Philadelphia, NBCS-PH, BSOH, +260, -310, 0.0%, 0.0%, +250, -310, +263, -306, +250, -300, +247, -299, +265, -2717:00p, Atlanta, Washington, NBCS-DC, BSSE, -180, +160, 0.0%, 0.0%, -175, +155, -184, +165, -165, +140, -180, +150, -170, +1667:00p, Indiana, Detroit, BSDET+, BSIN, -150, +130, 0.0%, 0.0%, -145, +125, -139, +126, -150, +130, -152, +127, -132, +1307:30p, Orlando, Toronto, Sportsnet, BSFL, +270, -325, 0.0%, 0.0%, +280, -360, +275, -322, +280, -360, +274, -333, +275, -3047:30p, Milwaukee, Chicago, ESPN, NBCS-CHI, -150, +130, 0.0%, 0.0%, -200, +170, -194, +173, -210, +175, -197, +164, -176, +1728:00p, Utah, New Orleans, SportsNet RM, BSNO, -160, +140, 0.0%, 0.0%, -170, +150, -166, +149, -175, +150, -162, +1408:00p, Minnesota, Oklahoma City, BSN, BSOK, -350, +280, 0.0%, 0.0%, -425, +325, +171, -245, -388, +316, -385, +3509:00p, Houston, Denver, ALT, SportsNet SW, +700, -1100, 0.0%, 0.0%, +700, -1100, +650, -1100, +700, -91010:00p, New York, Phoenix, MSG, ESPN, +220, -260, 0.0%, 0.0%, +245, -305, +240, -290, +220, -228, -, Time/TV
+            // 0    1           2               3       4   5       6   7       8   9       10  11      12  13      14  15      16  17      18
+        //bettingOdds
+        var plusBool;
+
+        //1 is true, 0 is false
+        function chooseAmounts(){
+
+            if (plusBool != 1){
+                //then its minus
+                dcba.myAmount.value = maxRisk;
+                dcba.theirAmount.value = maxRisk * (Number(convertedMinus) / (Number(1) - Number(convertedMinus)));
+
+            }else{
+                //do plus
+
+                dcba.myAmount.value = maxRisk;
+                dcba.theirAmount.value = Math.floor(maxRisk * (100/plusOdds));
+            }
+        
+        }
+
+        chooseAmounts();
+
+
+        dcba.whichCoin.value = teamOne;
+        dcba.coinPrice.value = teamTwo;
+        dcba.maturityDate1.value = fullDate;
+
+
+        dcba.above.checked = true;
+//        dcba.myAmount.value = myAmountCalc;
+//        dcba.theirAmount.value = theirAmountCalc;
+
+
+        setTimeout(eraseSuccess, 3000);
+
+    }
+
+
+    function eraseSuccess(){
+            successVar.innerHTML = "";
+        }
 
     var positionDownload = button_maker2("Download", function() { return downloadPositions()});
     var positionShow = button_maker2("Show", function() { return showPositions()});
@@ -90,6 +348,17 @@ var abcd = (function() {
     var div2 = document.createElement("div");
     div.appendChild(div2);
     var oracle_filter = document.createElement("INPUT");
+
+    oracle_filter.addEventListener("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.keyCode === 13) {
+    // Cancel the default action, if needed
+//    event.preventDefault();
+    // Trigger the button element with a click
+    filter();
+   // document.getElementById("filterbutton").click();
+          }
+        });
     div2.appendChild(text("Custom filter: "));
     div2.appendChild(oracle_filter);
     div2.appendChild(text(" "));
@@ -128,7 +397,7 @@ var abcd = (function() {
 //        console.log("right before display_oracles(l)");
 //        display_oracles(l);
 //    });
-
+var displayOraclesNumber = 0;
 //firstTimeBool = 1;
    async function display_oracles(l) {
         console.log("showing h1" + l);
@@ -169,17 +438,22 @@ var placeholder;
     var offsetNumber2;
 
   //  if h[]
+  //          if (displayOraclesNumber != 1){
             z = await rpc.apost(["read", 3, placeholder], get_ip(), parseInt("8090"));
-            
+            zHolder = z;
+//            displayOraclesNumber = 1;
+    //        }
 
-            console.log("zee is: " + atob(z[1]));
+            console.log("XYXY is ");
 
-            Oracle = z;
-            oracle_text = atob(z[1]);
+            console.log("zee is: " + atob(zHolder[1]));
+
+            Oracle = zHolder;
+            oracle_text = atob(zHolder[1]);
 //            }
           //  oraclePull(h);
             console.log("oracle_text zee is: " + oracle_text);
-            console.log("zee is: " + z);
+            console.log("zee is: " + zHolder);
 
 //        await rpc.apost(["oracle", h[1]], async function(Oracle) {
                 //rpc.post(["oracle", h], function(Oracle) {
@@ -424,6 +698,7 @@ var placeholder;
 
     //        });
                 display_oracles(l.slice(1));
+                displayOraclesNumber = 1;
         };
 
     oraclePull(h);
@@ -1219,15 +1494,20 @@ if (tempvar2 != "[[-6]]"){
         });
     };
 
-    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2};
+    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3};
 
 })();
 console.log("trying to display positions");
 
 
 
+function focusOracleFilter(){
+    abcd.oracle_filter.focus();
+//    abcd.oracle_filter.select();
 
+}
 
+focusOracleFilter();
 
     async function filter(){
         console.log(abcd.oracle_filter.value);
@@ -1309,7 +1589,7 @@ console.log("trying to display positions");
 var tempvar2;
 
 async function showPositions(){
-
+        myStopFunction();
 
         abcd.positionDiv.innerHTML = "";
         internalNonce = 0;
@@ -2005,6 +2285,7 @@ function showAccountManagement(){
 function accountManagement(){
     hideTradeExplorer();
     hideCreateABet();
+    hideProvideLiquidity();
     showAccountManagement();
     console.log("firsttimecheck is " + (abc == null));
 }
@@ -2012,6 +2293,7 @@ function accountManagement(){
 function createABet(){
     hideTradeExplorer();
     hideAccountManagement();
+    hideProvideLiquidity();
     showCreateABet();
     // Do stuff
 
@@ -2021,8 +2303,33 @@ function createABet(){
 function tradeExplorer(){
     hideCreateABet();
     hideAccountManagement();
+    hideProvideLiquidity();
     showTradeExplorer();
 
+}
+
+function liquidityProvider(){
+    hideCreateABet();
+    hideAccountManagement();
+    hideTradeExplorer();
+
+    keys.div.style.display = 'block';
+    keys.bal_div.style.display = 'block';
+    keys.pub_div.style.display = 'none';
+
+    keys.copy_address_button.style.display = 'none';
+    keys.set_key_button.style.display = 'none';
+    keys.download_key_button.style.display = 'none';
+    keys.file_selector.style.display = 'none';
+
+    abcd.title3.style.display = 'block';
+//    abcd.div.appendChild(title1);
+
+
+}
+
+function hideProvideLiquidity(){
+        abcd.title3.style.display = 'none';
 }
 var abc = window.localStorage.getItem("placeholder");
 console.log("firsttimecheck is: " + abc == "null");

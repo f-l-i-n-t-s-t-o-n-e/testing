@@ -1111,7 +1111,7 @@ function showSportEventFields(){
         return cid_grab(cid, l.slice(1));
     };
 
-return {print_offer: print_offer, above: above, below: below, div: div, binary_view: binary_view, doitConcession: doitConcession, changeStatus: changeStatus};
+return {print_offer: print_offer, above: above, below: below, div: div, binary_view: binary_view, doitConcession: doitConcession, changeStatus: changeStatus, whichCoin: whichCoin, coinPrice: coinPrice, myAmount: myAmount, maturityDate1: maturityDate1, theirAmount: theirAmount, above: above, below: below};
 
 })();
 
