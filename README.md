@@ -18,7 +18,7 @@ under construction:
 
 After putting light-node-amoveo-master on your local machine, double click the below html file to get started.
 
-  light-node-amoveo-master/src/js/trading.html
+    light-node-amoveo-master/src/js/trading.html
 
 When you load the trading.html page for the first time, you will see something like the below.
 
