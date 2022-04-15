@@ -34,8 +34,6 @@ ACCEPT A TRADE OFFER
 
   - This page lets you explore events and odds, accept trades, and manage your positions.
 
-![image](https://user-images.githubusercontent.com/99594388/163635248-010507a0-84af-4d41-a012-a95e3ce609e2.png)
-
   - Let's say you want to find odds for the Chudley Cannons' quidditch match. Enter "Chudley Cannons" into the custom filter as below, hit Go then wait a few seconds.
 
   - You can see that there are odds offered for the match against the Falmouth Falcons on April 16th 2022.
