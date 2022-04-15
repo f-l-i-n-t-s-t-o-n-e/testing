@@ -10,8 +10,8 @@ despite functioning it is still a work in progress. there are probably more bugs
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 
-critical issues:
-  - concede button on my positions doesn't work
-
 under construction:
-  - provide liquidity. users hit the Go button and the page uses their VEO to create bets on sports matches slightly undercutting professional odds scraped from a website
+
+- provide liquidity. users hit the Go button and the page uses their VEO to create bets on sports matches slightly undercutting professional odds scraped from a website
+
+- load events faster. batching data from the server so everything can be done in one request will solve this
