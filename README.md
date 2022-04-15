@@ -14,4 +14,4 @@ critical issues:
   - concede button on my positions doesn't work
 
 under construction:
-  - provide liquidity
+  - provide liquidity. users hit the Go button and the page uses their VEO to create bets on sports matches slightly undercutting professional odds scraped from a website
