@@ -355,7 +355,7 @@ var abcd = (function() {
     var successVar2 = document.createElement("div");
     newDiv2.appendChild(successVar2);
     successVar2.style.display = 'inline';
-    successVar2.innerHTML = " successVar2";
+    successVar2.innerHTML = "";
 
     newDiv2.style.display = 'none';
 
@@ -942,9 +942,15 @@ var placeholder;
                 testList[key] = balances_db2_[key];
                 testListNonce[x] = key;
 
-                var button = button_maker2("Concede", function() { doitConcession(balances_db2_[key])});
 
-                var button2 = button_maker2("Sell", function() { doitConcession3(testList, testListNonce, x, balances_db2_[key] ) });
+                let bdk = balances_db2_[key];
+                let testList2 = testList;
+                let testListNonce2 = testListNonce;
+                let x2 = x;
+
+                var button = button_maker2("Concede", function() { doitConcession(bdk)});
+
+                var button2 = button_maker2("Sell", function() { doitConcession3(testList2, testListNonce2, x2, bdk) });
 
 
                 console.log("testlist is: " + JSON.stringify(testList));
@@ -995,7 +1001,6 @@ function testListTest(){
 
 //testListTest();
 
-
 var globalDB;
 
 function doitConcession3(testList_, testListNonce_, x_, a_){
@@ -1003,12 +1008,14 @@ function doitConcession3(testList_, testListNonce_, x_, a_){
     newDiv2.style.display = 'block';
     globalBalDB = a_;
 
-    console.log("doit3: " + JSON.stringify(testList_));
-    console.log("doit3: " + JSON.stringify(testListNonce_));
-    console.log("doit3: " + JSON.stringify(x_));
-
+//    console.log("doit3: " + JSON.stringify(testList_));
+//    console.log("doit3: " + JSON.stringify(testListNonce_));
+//    console.log("doit3: " + JSON.stringify(x_));
+    console.log("doit4: " + JSON.stringify(a_));
 
 }
+
+
 function concedeDefeat(){
 
 }
@@ -1402,7 +1409,11 @@ if (tempvar2 != "[[-6]]"){
 */       
 
         //for debugging
-        var idStuff = "type: "+type1 + "/" + type2 + " | amounts: " + swapOffer[1][6] + "/" + swapOffer[1][9] ;
+//        var idStuff = "type: "+type1 + "/" + type2 + " | amounts: " + swapOffer[1][6] + "/" + swapOffer[1][9] ;
+
+        var idStuff = "";
+
+
         if (amountSwapped2 != true){
         var text = "You win if "+direction+ probLanguage.concat(implProb).concat(" | Risk: ").concat(Number((s2c(amountGain) - s2c(amountLose)).toPrecision(3))).concat(" ")+"| Profit: ".concat(Number(s2c(amountLose).toPrecision(3))).concat(" | ").concat(idStuff);
         } else {
@@ -1634,7 +1645,7 @@ if (tempvar2 != "[[-6]]"){
         });
     };
 
-    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2};
+    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput};
 
 })();
 console.log("trying to display positions");
@@ -2191,7 +2202,7 @@ async function showPositions(){
                 };
 
                 
-        //        changeStatus4();
+                changeStatus4();
                 keys.update_balance();
 
 
@@ -2203,7 +2214,7 @@ async function showPositions(){
     };
 
     function changeStatus4(){
-            acceptConfirmation.innerHTML = "<font color=\"green\">success!</font>";
+            acceptConfirmation.innerHTML = "<font color=\"green\">    Trade offer accepted!</font>";
 
                 function changeStatus3(){
                 acceptConfirmation.innerHTML = "";

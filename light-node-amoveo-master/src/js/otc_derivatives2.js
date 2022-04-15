@@ -205,7 +205,9 @@ function bet_builder(bet_e, amount_e, them_e){
         var key1 = key;
      //   var bet = atob(key.oracleLanguage[1]); //= bet_e.value;
         var amount = Math.round(parseFloat(key.bal));
-        var them = Math.round(Number(0.0005)*parseFloat(key.bal));
+//        var them = Math.round(Number(0.0005)*parseFloat(key.bal));
+
+        var them = Math.round(Number(100000000)*Number(amount_));
 
         var my_acc = await rpc.apost(["account", keys.pub()])
         if(my_acc === 0){
@@ -282,14 +284,14 @@ function bet_builder(bet_e, amount_e, them_e){
                 console.log("CONCESSION PUBLISHED");
                 console.log(JSON.stringify(signed_offer));
 
-                abcd.successVar2.innerHTML = "SUCCESS!!!";
-                
+                abcd.successVar2.innerHTML = "<font color=\"green\"> Sell offer posted!</font>";
+
                 function clean(){
                 abcd.successVar2.innerHTML = "";
-
+                abcd.positionsInput.value ="";
                 abcd.newDiv2.style.display = 'none';
                 }
-                setTimeout(clean, 3000);
+                setTimeout(clean, 5000);
 
             };
         };
