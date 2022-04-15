@@ -6,6 +6,8 @@ var filterText;
 var bigL;
 var firstTimeBool2;
 
+var globalBalDB;
+
 var zHolder;
 //                hideBeforeDisplay(l, offsetNumber2, oracle_text)
 var global_l;
@@ -35,11 +37,14 @@ var abcd = (function() {
     title0.innerHTML = "My positions";
     div.appendChild(title0);
 
+//    var title4 = document.createElement("h3");
+//    title4.innerHTML = "Provide liquidity (under construction)";
+
 
 
 
     var title3 = document.createElement("h3");
-    title3.innerHTML = "Provide liquidity";
+    title3.innerHTML = "Provide liquidity (under construction)";
 
     div.appendChild(title3);
 
@@ -164,6 +169,8 @@ var abcd = (function() {
 
         numberFromWord();
 
+
+
         var teamOne;
         var teamTwo;
         var myAmountCalc;
@@ -172,6 +179,10 @@ var abcd = (function() {
 
 
         var bettingOdds = atob(bettingOdds[2]);
+        console.log("slice attempt: " + bettingOdds.split(",").slice(19));
+        console.log("slice attempt: " + bettingOdds.split(",").slice(19).slice(19));
+
+
 
         console.log("testingodds is: " + bettingOdds.split(",")[1]);
         
@@ -180,6 +191,9 @@ var abcd = (function() {
         if (sport == "NBA BASKETBALL"){
             sport = "NBA";
         }
+
+        var i = 1;
+        function loopTheOdds(bettingOdds_){
 
         teamOne = sport + bettingOdds.split(",")[1];
         teamTwo = sport + bettingOdds.split(",")[2];
@@ -260,12 +274,15 @@ var abcd = (function() {
                 //then its minus
                 dcba.myAmount.value = maxRisk;
                 dcba.theirAmount.value = maxRisk * (Number(convertedMinus) / (Number(1) - Number(convertedMinus)));
-
+                dcba.above.checked = true;
+                dcba.below.checked = false;
             }else{
                 //do plus
 
                 dcba.myAmount.value = maxRisk;
                 dcba.theirAmount.value = Math.floor(maxRisk * (100/plusOdds));
+                dcba.above.checked = false;
+                dcba.below.checked = true;
             }
         
         }
@@ -281,6 +298,11 @@ var abcd = (function() {
         dcba.above.checked = true;
 //        dcba.myAmount.value = myAmountCalc;
 //        dcba.theirAmount.value = theirAmountCalc;
+        i = i+1;
+
+        loopTheOdds(bettingOdds_.slice(18));
+        }
+
 
 
         setTimeout(eraseSuccess, 3000);
@@ -303,6 +325,42 @@ var abcd = (function() {
     title0.appendChild(positionShow);
     title0.appendChild(text(" "));
     title0.appendChild(positionHide);
+    title0.appendChild(br());
+
+    var newDiv2 = document.createElement("p");
+    newDiv2.style.fontWeight = "normal";
+    newDiv2.innerHTML = "Sell for how much VEO: "
+    newDiv2.style.fontSize = "16px";
+    title0.appendChild(newDiv2);
+ //   var words = text("Max loss per bet: ");
+ //       title3.appendChild(text("Max loss per bet: "));
+
+    var positionsInput = document.createElement("INPUT");
+    positionsInput.style.display = "inline";
+    var text11 = text(" ");
+    text11.style.display = "inline";
+    newDiv2.appendChild(text11);
+    newDiv2.appendChild(positionsInput);
+
+    var positionsGoButton = button_maker2("Create offer", function() { return doitConcession2(globalBalDB, positionsInput.value)});
+
+    var text12 = text(" ");
+    text12.style.display = "inline";
+    newDiv2.appendChild(text12);
+    newDiv2.appendChild(positionsGoButton);
+
+   // newDiv2.style.display = 'none';
+//    title0.appendChild(br());
+//    title0.appendChild(br());
+    var successVar2 = document.createElement("div");
+    newDiv2.appendChild(successVar2);
+    successVar2.style.display = 'inline';
+    successVar2.innerHTML = " successVar2";
+
+    newDiv2.style.display = 'none';
+
+
+
 //    title0.appendChild(text(" "));
 //    title0.appendChild(positionDownload);
   //  div.appendChild(text(" "));
@@ -773,12 +831,25 @@ var placeholder;
 
          var key1 = Object.keys(balances_db2_);
          var x = 0
+
+ 
+        var tempKey;
+        var tempDiv = document.createElement('div');
+        positionDiv.appendChild(tempDiv);
+
+
         do {
         var key = key1[x];
 
-         console.log("RRRR display_positions21: " + JSON.stringify(balances_db2));
+               var tempBalDB;
 
-         console.log("RRRR display_positions22: " + JSON.stringify(balances_db2_[key]));   
+
+         console.log("RRRR display_positions21: " + JSON.stringify(balances_db2));
+         console.log("RRRR display_positions211: " + JSON.stringify(balances_db2[1]));
+
+         console.log("RRRR display_positions22: " + JSON.stringify(balances_db2_[key]));
+
+         var wat = balances_db2_[key];
          var bal_ = balances_db2_[key].bal;
          var type_ = balances_db2_[key].type;
          var cid_ = balances_db2_[key].cid;
@@ -829,27 +900,68 @@ var placeholder;
         //        positionDiv.appendChild(br());
 
 
-                positionDiv.appendChild(text("Contract: "));
-                positionDiv.appendChild(a);
-                positionDiv.appendChild(text(" | "));                
+                tempDiv.appendChild(text("Contract: "));
+                tempDiv.appendChild(a);
 
-                positionDiv.appendChild(text("Balance: "));
-                positionDiv.appendChild(text(Number(bal_ / 100000000).toPrecision(3)));
+                var firstThing = text(" | ");
+                tempDiv.appendChild(firstThing);                
 
-                positionDiv.appendChild(text(" | "));                
-                positionDiv.appendChild(text("Type: "));
+                firstThing.appendChild(text("Balance: "));
+                firstThing.appendChild(text(Number(bal_ / 100000000).toPrecision(3)));
+
+                firstThing.appendChild(text(" | "));                
+                firstThing.appendChild(text("Type: "));
 
 
-                positionDiv.appendChild(text(type_));
+                firstThing.appendChild(text(type_));
                 
-                var button = button_maker2("Concede", function() { doitConcession(balances_db2_[key]) });
+
+                console.log("balances_db2_ data: " + JSON.stringify(balances_db2_[key]));
+
+                console.log("balance db slicing: " +JSON.stringify(balances_db2_) );
+      //          console.log("balance db slicing: " +JSON.stringify(balances_db2.slice(1)));
+
+
+
+                    var json_data = balances_db2_;
+                    var result1 = [];
+
+                    for(var i in json_data)
+                        result1.push([i, json_data [i]]);
+
+                    console.log("result1 is: " + result1);
+
+                    console.log(JSON.stringify(json_data[1]));
+
+
+                tempKey = key;
+                globalDB = balances_db2_[key];
+                console.log("Wat is: " + JSON.stringify(wat));
+
+
+                testList[key] = balances_db2_[key];
+                testListNonce[x] = key;
+
+                var button = button_maker2("Concede", function() { doitConcession(balances_db2_[key])});
+
+                var button2 = button_maker2("Sell", function() { doitConcession3(testList, testListNonce, x, balances_db2_[key] ) });
+
+
+                console.log("testlist is: " + JSON.stringify(testList));
+
+                console.log("testlist is: " + JSON.stringify(testListNonce[1]));
+
 
                 button.title = "0.05% rebate for lost bets";
-                positionDiv.appendChild(text(" "));                
-                positionDiv.appendChild(button);
+                button2.title = "create an offer to sell your position for VEO" + JSON.stringify(balances_db2_[key]);
+                firstThing.appendChild(text(" "));                
+                firstThing.appendChild(button);
+
+                firstThing.appendChild(text(" "));                
+                firstThing.appendChild(button2);
 
  
-                positionDiv.appendChild(br());
+                firstThing.appendChild(br());
 
 //                positionDiv.appendChild(text("Reward: "));
 //                positionDiv.appendChild(text(Number(((Number(theirStake))/100000000).toPrecision(3))));
@@ -869,6 +981,34 @@ var placeholder;
 balances_db2 = {};
 }
 
+var testList = {};
+var testListNonce = {};
+
+
+function testListTest(){
+
+    testList['test'] = "123";
+    testList['test2'] = "456";
+    console.log(testList);
+
+}
+
+//testListTest();
+
+
+var globalDB;
+
+function doitConcession3(testList_, testListNonce_, x_, a_){
+
+    newDiv2.style.display = 'block';
+    globalBalDB = a_;
+
+    console.log("doit3: " + JSON.stringify(testList_));
+    console.log("doit3: " + JSON.stringify(testListNonce_));
+    console.log("doit3: " + JSON.stringify(x_));
+
+
+}
 function concedeDefeat(){
 
 }
@@ -1494,7 +1634,7 @@ if (tempvar2 != "[[-6]]"){
         });
     };
 
-    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3};
+    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2};
 
 })();
 console.log("trying to display positions");
