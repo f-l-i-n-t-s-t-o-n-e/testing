@@ -14,7 +14,7 @@ under construction:
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 
-INSTRUCTIONS
+**INSTRUCTIONS**
 
 After putting light-node-amoveo-master on your local machine, double click the below html file to get started.
 
@@ -26,7 +26,7 @@ Make sure to download your private key with the "Download Key" button. Next, cop
 
 ![image](https://user-images.githubusercontent.com/99594388/163622332-2786b1b6-5a29-46eb-923f-fcce9a51acb0.png)
 
-ACCEPT A TRADE OFFER
+**HOW TO ACCEPT A TRADE OFFER**
 
   - Once the VEO sent to your account has confirmed, click the "Explore" link at the top of the page. The page will look something like this:
 
