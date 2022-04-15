@@ -44,7 +44,7 @@ ACCEPT A TRADE OFFER
 
 ![image](https://user-images.githubusercontent.com/99594388/163636067-9d06466c-62e2-4854-a65a-59230b838247.png)
 
-  -Here you can see you are being offered odds of +150 if the described event "The Chudley Cannons will defeat The Falmouth Falcons in the competition starting on Apr 16 2022 (local time)" is false. So if the Falcons defeat the Cannons, you make money.
+  - Here you can see you are being offered odds of +150 if the described event "The Chudley Cannons will defeat The Falmouth Falcons in the competition starting on Apr 16 2022 (local time)" is false. So if the Falcons defeat the Cannons, you make money.
 
   - The amount of VEO you risk is 1 ("Risk: 1") and your profit is 1.5 ("Profit 1.5") meaning if you bet 1 VEO and win, you will be returned 2.5 VEO.
 
