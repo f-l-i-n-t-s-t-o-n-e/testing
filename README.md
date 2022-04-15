@@ -58,7 +58,7 @@ Make sure to download your private key with the "Download Key" button. Next, cop
 
   - Once your accepted trade confirms your balance of VEO will decrease.
 
-  - Hit the "Show" button next to "My Positions" to see your position. After hitting "Show", it will look like this:
+  - Once the trade has confirmed, hit the "Show" button next to "My Positions" to see your position. After hitting "Show", it will look like this:
 
 | ![tempsnip4](https://user-images.githubusercontent.com/99594388/163648508-27ba2599-6dde-4d89-abce-e95358042b09.png) |
 | ------ |
