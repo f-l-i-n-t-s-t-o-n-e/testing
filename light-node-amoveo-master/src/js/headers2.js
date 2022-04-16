@@ -111,6 +111,116 @@ function headers_main() {
     var wallet_text = document.createElement("div");
     wallet_text.innerHTML = "Downloading blockchain data";
     document.body.appendChild(wallet_text);
+
+
+
+    var wallet_text2= document.createElement("div");
+    wallet_text2.innerHTML = "";
+
+    var wallet_text3= document.createElement("div");
+    wallet_text3.innerHTML = "Send VEO ";
+    wallet_text3.style.display = 'block';
+    wallet_text3.style.fontWeight = 'bold';
+
+    document.body.appendChild(wallet_text3);
+    wallet_text3.appendChild(br());
+    wallet_text3.appendChild(br());
+
+
+    var addressInput = document.createElement("INPUT");
+    
+    var amountInput = document.createElement("INPUT");
+
+
+
+    var receivingAddressText= document.createElement("div");
+    var sendingAmountText= document.createElement("div");
+
+    var spaceText= document.createElement("div");
+
+
+    receivingAddressText = text("Address: ");
+    sendingAmountText = text(" Amount: ");
+    spaceText = text(" ");
+
+    receivingAddressText.style.fontWeight = 'normal';
+    sendingAmountText.style.fontWeight = 'normal';
+
+
+    wallet_text3.appendChild(receivingAddressText);
+    addressInput.style.display = 'inline';
+
+    wallet_text3.appendChild(addressInput);
+//    wallet_text3.appendChild(br());
+
+    wallet_text3.appendChild(sendingAmountText);
+    amountInput.style.display = 'inline';
+
+    wallet_text3.appendChild(amountInput);
+
+    wallet_text3.appendChild(br());
+   wallet_text3.appendChild(br());
+
+    var spendButton = button_maker2("Send", function() { return send2()});
+    spendButton.style.display = 'inline';
+
+
+ //   wallet_text3.appendChild(spaceText);
+
+    wallet_text3.appendChild(spendButton);
+
+   // wallet_
+
+
+    async function send2(){
+        var to = parse_address(addressInput.value);
+        var from = keys.pub();
+        var amount = Math.round(parseFloat(amountInput.value, 10)* token_units());
+        if("veo" == "veo"){
+            var tx = await spend_tx.amake_tx(to, from, amount);
+            var stx = keys.sign(tx);
+            var msg = await apost_txs([stx]);
+            console.log(msg);
+        } else {
+
+            /*
+            var ma = await rpc.apost(["account", keys.pub()]);
+            var V = JSON.parse(selector.value);
+            var cid = V[0];
+            var type = parseInt(V[1]);
+            var sk = sub_accounts.key(keys.pub(), cid, type);
+            var sk = btoa(array_to_string(sk));
+            var balances_db = tabs.balances_db;
+            console.log(sk);
+            console.log(balances_db);
+            if(balances_db[sk] &&
+               balances_db[sk].limit){
+                amount = Math.floor(
+                    amount /
+                        balances_db[sk].limit);
+            };
+            var Nonce = ma[2] + 1;
+            var fee = 152050;
+            var tx = ["sub_spend_tx",
+                      keys.pub(),
+                      Nonce,
+                      fee, to, amount,
+                      cid, type];
+            var stx = keys.sign(tx);
+            var msg = await apost_txs([stx]);
+            display.innerHTML = msg;
+            */
+
+        };
+    };
+
+//    document.body.appendChild(wallet_text2);
+//    document.body.appendChild(wallet_text3);
+
+
+
+//    wallet_text.appendChild(text("dsfsfddf"));
+
     //more_headers()
     function write_header(header, ewah) {
         var acc_difficulty = header[9];
@@ -118,6 +228,9 @@ function headers_main() {
             top_diff = acc_difficulty;
             top_header = header;
             wallet_text.innerHTML = "Current height: " + header[1];
+            wallet_text.appendChild(br());
+                                    wallet_text.appendChild(br());
+
         }
         h = hash(serialize_header(header));
         headers_db[h] = [header, ewah];
@@ -413,6 +526,9 @@ function headers_main() {
             keys.update_balance();
             
             wallet_text.innerHTML = "Current height: " + top_header[1];
+                        wallet_text.appendChild(br());
+                        wallet_text.appendChild(br());
+
         }
     }
     function more_headers() {
@@ -504,7 +620,7 @@ function headers_main() {
                 db: headers_db,
                 read_ewah: read_ewah,
                 on_height_change: on_height_change,
-                forks: forks, wallet_text: wallet_text};
+                forks: forks, wallet_text: wallet_text, wallet_text3: wallet_text3};
 }
 var headers_object = headers_main();
 

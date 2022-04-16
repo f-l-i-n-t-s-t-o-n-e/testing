@@ -2412,6 +2412,10 @@ function hideAccountManagement(){
 
     headers_object.wallet_text.style.display = 'none';
 //    keys.bal_div.style.display = 'block';
+
+    headers_object.wallet_text3.style.display = 'none';
+
+
 }
 
 function showAccountManagement(){
@@ -2427,6 +2431,10 @@ function showAccountManagement(){
     keys.set_key_button.style.display = 'inline';
     keys.download_key_button.style.display = 'inline';
     keys.file_selector.style.display = 'inline';
+
+
+    headers_object.wallet_text3.style.display = 'block';
+
 
     
 }

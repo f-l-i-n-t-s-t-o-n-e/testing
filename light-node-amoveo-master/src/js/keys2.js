@@ -398,4 +398,14 @@ function pushtolocal() {
     window.localStorage.setItem("privKey", keys.keys_internal().getPrivate("hex"));
 }
 
+function clearKey() {
+   // console.log("pushtolocal check");
+   // console.log((keys.keys_internal().getPrivate("hex")));
+    window.localStorage.removeItem("privKey");
+    window.localStorage.removeItem("placeholder");
+
+}
+
+
+
 //keys.update_balance();
