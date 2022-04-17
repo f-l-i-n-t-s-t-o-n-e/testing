@@ -420,8 +420,17 @@ function showCoinPutFields(){
     underDiv.appendChild(above);
     underDiv.appendChild(text(" or below: "));
     underDiv.appendChild(below);
+    
 
+    underDiv.appendChild(br());
+    underDiv.appendChild(br());
+    
+    underDiv.appendChild(printButton2);
 
+    underDiv.appendChild(br());
+    underDiv.appendChild(br());
+
+    underDiv.appendChild(status);
 
 }
 
@@ -462,6 +471,16 @@ function showSportEventFields(){
     underDiv.appendChild(above);
     underDiv.appendChild(text(" or Team 2 wins: "));
     underDiv.appendChild(below);
+
+    underDiv.appendChild(br());
+    underDiv.appendChild(br());
+    
+    underDiv.appendChild(printButton2);
+
+    underDiv.appendChild(br());
+    underDiv.appendChild(br());
+
+    underDiv.appendChild(status);
 
 
 }
@@ -612,16 +631,20 @@ function showSportEventFields(){
         var startButton = button_maker2("offer to make this trade via encrypted message to one person", start);
         //div.appendChild(startButton);
         var printButton = button_maker2("asfdsfsdfsd", print_offer);
-        div.appendChild(printButton);
+//        div.appendChild(printButton);
     }
+
+
+    var printButton2 = button_maker2("Broadcast offer", pre_print_offer);
+
     function binary_view() {
         
         //we need to create the oracle language first
 
         div.appendChild(br());
         var printButton = button_maker2("Go", pre_print_offer);
-        div.appendChild(printButton);
-            div.appendChild(status);
+//        div.appendChild(printButton);
+//            div.appendChild(status);
     }
 
     function pre_print_offer(){
