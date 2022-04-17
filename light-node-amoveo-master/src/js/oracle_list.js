@@ -523,7 +523,7 @@ function offerInputBookmark(){
 
     //check length of existing database
 
-    var bnonce = window.localStorage.getItem("bookmarknonce");
+    var bnonce = window.localStorage.getItem(keys.pub() + "bookmarknonce");
 
     if (bnonce == null){
         bnonce = 0;
@@ -542,7 +542,7 @@ function offerInputBookmark(){
 //    window.localStorage.setItem(_cid, "bookmarkData1," + keys.pub() + "," + bnonce);
 //    window.localStorage.setItem(oracleText, "bookmarkData2," + keys.pub() + "," + bnonce);
 
-    window.localStorage.setItem("bookmarknonce", bnonce);
+    window.localStorage.setItem(keys.pub() + "bookmarknonce", bnonce);
 
   //  setTimeout(getBookMark(), 3000);
 
@@ -566,7 +566,7 @@ function getBookMark(){
 //    var _nonce = 55;
     var i;
 
-    var bmnonce = window.localStorage.getItem("bookmarknonce");
+    var bmnonce = window.localStorage.getItem(keys.pub() + "bookmarknonce");
 
 
     for (let i = 1; i < 1000; i++) {
