@@ -13,17 +13,13 @@ function headers_main() {
         mode = "testnet";
         server_port.value = "8070";
         if (server_ip.value == "") {
-            server_ip.value = "46.101.185.98";
+            server_ip.value = "159.89.87.58";
         }
     } else {
         mode = "production";
         server_port.value = "8080";
         if (server_ip.value == "") {
-
-//            server_ip.value = "159.89.87.58";
-
-            server_ip.value = "46.101.185.98";
-
+            server_ip.value = "159.89.87.58";
         }
     }
     console.log(mode);
@@ -172,28 +168,6 @@ function headers_main() {
  //   wallet_text3.appendChild(spaceText);
 
     wallet_text3.appendChild(spendButton);
-
-    
-
-    wallet_text3.appendChild(br());
-    wallet_text3.appendChild(br());
-
-//    wallet_text3.appendChild(br());
-
-
-
-    var bookmarkText= document.createElement("div");
-    var bookmarkText2= document.createElement("div");
-
-    bookmarkText = text("Bookmarks");
-
-    wallet_text3.appendChild(bookmarkText);
-    wallet_text3.appendChild(bookmarkText2);
-
-
-//    wallet_text3.appendChild(br());
-//    wallet_text3.appendChild(br());
-
 
    // wallet_
 
@@ -646,7 +620,7 @@ function headers_main() {
                 db: headers_db,
                 read_ewah: read_ewah,
                 on_height_change: on_height_change,
-                forks: forks, wallet_text: wallet_text, wallet_text3: wallet_text3, bookmarkText: bookmarkText, bookmarkText2: bookmarkText2};
+                forks: forks, wallet_text: wallet_text, wallet_text3: wallet_text3};
 }
 var headers_object = headers_main();
 

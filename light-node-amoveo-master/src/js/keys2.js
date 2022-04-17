@@ -272,15 +272,6 @@ function copy_address(){
     var update_balance_callback = function(){
         return(0);
     };
-
-
-//    var telegramLink = document.createElement("div");
-    var telegramLink = document.createElement("a");
-  //          var cidTruncate = cid_.slice(0,5)+ "..." + cid_.slice(cid_.length - Number (4), cid_.length);
-            telegramLink.innerHTML = "Buy or sell VEO on telegram. Type /exchange to get started.";
-            telegramLink.target = "_blank";
-            telegramLink.href = "http://tlg.name/ExchangeAmoveo_bot";
-
     async function update_balance() {
         var trie_key = pubkey_64();
         var headers_top = headers_object.top();
@@ -303,8 +294,6 @@ function copy_address(){
             (C).toString()).concat(
                 " VEO");
 
-
-
         if (U.toString() == 'NaN'){
             U = 0;
         }
@@ -317,8 +306,6 @@ function copy_address(){
                         " VEO");
         };
         bal_div.innerHTML = S;
-
-      //              bal_div.appendChild(telegramLink);
         update_balance_callback();
         return(0);
     }

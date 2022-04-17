@@ -1,8 +1,6 @@
 
 function default_ip() {
-//    return("159.89.87.58");
-    return("46.101.185.98");
-
+    return("159.89.87.58");
     //return("0.0.0.0");
 };
 

@@ -7,10 +7,7 @@ var rpc = (function() {
         return talk(cmd, u, callback, 10000);
     };
     function default_explorer(cmd, callback) {
-//        var u = "http://159.89.87.58:8090/";
-
-        var u = "http://46.101.185.98:8090/";
-
+        var u = "http://159.89.87.58:8090/";
         return talk(cmd, u, callback, 10000);
     };
 
