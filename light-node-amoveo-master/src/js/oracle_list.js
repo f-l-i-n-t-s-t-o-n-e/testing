@@ -2126,7 +2126,7 @@ if (tempvar2 != "[[-6]]"){
         var amountSwapped2;
 
         if (type1 != 0){
-           amountGain = swapOffer[1][6];
+           amountGain = Number(swapOffer[1][6]);
            amountLose = swapOffer[1][9]; 
            amountSwapped2 = true;
 
@@ -2179,7 +2179,15 @@ if (tempvar2 != "[[-6]]"){
           var probLanguage = " | Implied Probability: ";
 
           if (amountSwapped2 == true){
+          //      amountGain = Number(amountGain) + Number(amountLose);
+
+
           var implProb = (Number(100) - 100*((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain)))).toPrecision(3) + "%";
+
+//          var implProb = (Number(100) - 100*((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain)))).toPrecision(3) + "%";
+
+
+
           console.log("bbbb " + implProb);
             }else{
 
@@ -2223,6 +2231,9 @@ if (tempvar2 != "[[-6]]"){
 
             if (amountSwapped2 ==true){
             //if sports match is confirmed
+
+      //      amountGain = Number(amountGain) + Number(amountLose);
+
             if (t2_.search("competition") != "-1") {
                 
                 if( (s2c(amountLose) > (s2c(amountGain) - s2c(amountLose)) ) ){
@@ -2272,7 +2283,9 @@ if (tempvar2 != "[[-6]]"){
         if (amountSwapped2 != true){
         var text = "You win if "+direction+ probLanguage.concat(implProb).concat(" | Risk: ").concat(Number((s2c(amountGain) - s2c(amountLose)).toPrecision(3))).concat(" ")+"| Profit: ".concat(Number(s2c(amountLose).toPrecision(3))).concat(" | ").concat(idStuff);
         } else {
-        var text = "You win if "+direction+ probLanguage.concat(implProb).concat(" | Risk: ").concat(Number((s2c(amountLose)).toPrecision(3))).concat(" ")+"| Profit: ".concat(Number(s2c(amountGain).toPrecision(3))).concat(" | ").concat(idStuff);
+       
+        var text = "You win if "+direction+ probLanguage.concat(implProb).concat(" | Risk: ").concat(Number((s2c(amountLose)).toPrecision(3))).concat(" ")+"| Profit: ".concat(Number((s2c(amountGain) - s2c(amountLose)).toPrecision(3))).concat(" | ").concat(idStuff);
+        
         }
 
   //      var text.appendChild("asdfs");
