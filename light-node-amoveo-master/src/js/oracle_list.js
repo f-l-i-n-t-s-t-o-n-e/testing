@@ -1,10 +1,15 @@
 
+
+var globalB1;
+
 var globalVariable;
             var fullDate;
 var firstTimeBool;
 var filterText;
 var bigL;
 var firstTimeBool2;
+
+var globalInputBool;
 
 var globalBalDB;
 
@@ -18,6 +23,7 @@ var global_oracleSimplified_text;
 var globalPositionData;
 var acceptConfirmation = document.createElement("div");
     var xyz1 = 1;
+var xyz2 = 1;    
 //var offsetNumber2;
 
 var abcd = (function() {
@@ -370,7 +376,7 @@ var abcd = (function() {
     var positionDiv = document.createElement("div");
     div.appendChild(positionDiv);
 
-    var hideOddsButton = button_maker2("Hide", function() { return hideOdds()});
+    var hideOddsButton = button_maker2("Hide", function() { return hideOdds2()});
 
     var title1 = document.createElement("h3");
     title1.innerHTML = "Odds";
@@ -379,7 +385,48 @@ var abcd = (function() {
     title1.appendChild(hideOddsButton);
     var offers = document.createElement("div");
     
-    div.appendChild(offers);
+
+
+    var offersLoad = document.createElement("div");
+    var offersInput = document.createElement("INPUT");
+    var offersButton = button_maker2("Load", function() { return offerInputLoad()});
+
+    var offersButton2 = button_maker2("Bookmark", function() { return offerInputBookmark()});
+    var offersButton3 = button_maker2("Testing", function() { return getBookMark()});
+
+//    headers_object.bookmarkText;
+    offersLoad.style.display = 'inline';
+    offersInput.style.display = 'inline';
+    offersButton.style.display = 'inline';
+
+    offersButton2.style.display = 'none';
+
+
+    offersLoad.innerHTML = "Load offers by contract: ";
+
+
+    console.log("xyzw: " + (offersInput.value == ""));
+
+
+//    div.appendChild(br());
+//    div.appendChild(br());
+
+    div.appendChild(offersLoad);
+    offersLoad.appendChild(offersInput);
+
+    offersLoad.appendChild(text(" "));
+
+    offersLoad.appendChild(offersButton);
+
+    offersLoad.appendChild(text(" "));
+
+    offersLoad.appendChild(offersButton2);
+//    offersLoad.appendChild(offersButton3);
+
+//    div.appendChild(br());
+//    div.appendChild(br());
+
+    offersLoad.appendChild(offers);
     
     var oracleDoc = document.createElement("h8");
     var t2 = document.createElement("h8");
@@ -455,36 +502,233 @@ var abcd = (function() {
 //        console.log("right before display_oracles(l)");
 //        display_oracles(l);
 //    });
+
+
+
+
+
+function offerInputBookmark(){
+
+    var _cid = offersInput.value;
+    
+    if (_cid == ''){
+        console.log("cant do that sorry");
+    }else{
+
+    var oracleText = globalB1;
+    
+    console.log("oracleText is: " + oracleText);
+
+    //check length of existing database
+
+    var bnonce = window.localStorage.getItem("bookmarknonce");
+
+    if (bnonce == null){
+        bnonce = 0;
+    }
+
+    bnonce = Number(bnonce) + Number(1);
+
+    window.localStorage.setItem("bookmarkData1," + keys.pub() + "," + bnonce, _cid);
+    window.localStorage.setItem("bookmarkData2," + keys.pub() + "," + bnonce, oracleText);
+
+//    window.localStorage.setItem(_cid, "bookmarkData1," + keys.pub() + "," + bnonce);
+//    window.localStorage.setItem(oracleText, "bookmarkData2," + keys.pub() + "," + bnonce);
+
+    window.localStorage.setItem("bookmarknonce", bnonce);
+
+  //  setTimeout(getBookMark(), 3000);
+
+    }
+}
+
+
+function getBookMark(){
+
+    headers_object.bookmarkText2.innerHTML = "";
+
+
+
+//    var _nonce = 55;
+    var i;
+
+
+
+    for (let i = 1; i < 1000; i++) {
+    
+
+
+
+
+
+    var _nonce = i;
+
+    var _key1 = "bookmarkData1," + keys.pub() + "," + _nonce;
+    var _key2 = "bookmarkData2," + keys.pub() + "," + _nonce;
+
+    let retrieved1 = window.localStorage.getItem(_key1);
+    let retrieved2 = window.localStorage.getItem(_key2);
+    
+    console.log("retrieved1 is: " + retrieved1);
+    console.log("retrieved1 is2: " + retrieved2);
+
+    if (retrieved1 == null){
+ //       i = 1000;
+
+        if (i == 1){
+            headers_object.bookmarkText.innerHTML = "";
+        }else{
+            headers_object.bookmarkText.innerHTML = "Bookmarks"
+        }
+
+//        retrieved1 = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+
+    }
+
+    if (retrieved2 == null){
+ //       i = 1000;
+//        retrieved2 = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+        
+    }
+
+
+
+    if (i < 1000){
+
+    var _div1 = document.createElement("div");
+    var _div2 = document.createElement("div");
+    var _div3 = document.createElement("div");
+    var _div4 = document.createElement("div");
+
+
+    var _div0 = document.createElement("div");
+    var _divnegativeone = document.createElement("div");
+
+    _div0 = text("Contract: ");
+    _divnegativeone = text("Event: ");
+
+//    _div1 = text(retrieved1);
+    _div2 = text(retrieved2);
+    _div3 = text(" | ");
+    _div4 = text(" | ");
+
+    _div2.style.fontWeight = 'normal';
+    _div3.style.fontWeight = 'normal';
+    _div4.style.fontWeight = 'normal';
+
+
+    _div0.style.fontWeight = 'normal';
+    _divnegativeone.style.fontWeight = 'normal';
+
+    headers_object.bookmarkText2.appendChild(br());
+//    headers_object.bookmarkText.appendChild(br());
+
+//    var a = document.createElement("a");
+    var divTruncate = retrieved1.slice(0,5)+     "..." + retrieved1.slice(retrieved1.length - Number (4), retrieved1.length);
+//    a.innerHTML = divTruncate;
+
+
+    _div1 = text(divTruncate);
+    _div1.style.fontWeight = 'normal';
+
+
+    console.log("retrieved1 is: " + retrieved1);
+    var bookmarkbutton = button_maker2("Load market", function() { return loadBookmark(retrieved1) });
+
+//    a.target = "_blank";
+//    a.href = "http://159.89.87.58:8080/explorers/contract_explorer.html?cid=".concat(cid_);
+
+
+    if (i == 1){
+    
+
+  //      headers_object.bookmarkText2.appendChild(br());
+        
+    }
+
+
+    headers_object.bookmarkText2.appendChild(_div0);
+
+    headers_object.bookmarkText2.appendChild(_div1);
+
+    headers_object.bookmarkText2.appendChild(_div3);
+
+    headers_object.bookmarkText2.appendChild(_divnegativeone);
+
+    headers_object.bookmarkText2.appendChild(_div2);
+
+     headers_object.bookmarkText2.appendChild(_div4);
+
+      headers_object.bookmarkText2.appendChild(bookmarkbutton);
+
+//    headers_object.bookmarkText.appendChild(br());
+
+    console.log("xxx i is: " + i);
+
+    console.log(retrieved1, retrieved2, i);
+
+
+    }
+
+
+}
+
+
+
+
+}
+
+
+//getBookMark();
+
+
+async function loadBookmark(_contract){
+    console.log("contract is: " + _contract);
+
+
+    offersInput.value = _contract;
+    await offerInputLoad()
+    hideAccountManagement();
+    showTradeExplorer();
+
+}
+
+
+
 var displayOraclesNumber = 0;
 //firstTimeBool = 1;
-   async function display_oracles(l) {
-        console.log("showing h1" + l);
-        console.log(firstTimeBool);
+//xxxxxxxx
 
-if (firstTimeBool != 1){
-                    oracles.innerHTML = "";
-                    firstTimeBool = 1;
-                }
+async function display_oracles(l) {
 
-var Oracle;
-var oracle_text;
-var z;
-var t__;
-        div.appendChild(oracleDoc);
-        //oracleDoc.innerHTML = "testing";
-        if (JSON.stringify(l) == "[]") {
-            return 0;
-        } else {
-            var h = l[0];
-            console.log("showing h12: " + h[5]);
-            //console.log("this is h");
-            //console.log(JSON.stringify(h));
-            console.log("here is h3: "+ h);
 
-            console.log("here is el: "+ l[0]);
+                    console.log("showing h1" + l);
+                    console.log(firstTimeBool);
 
-            async function oraclePull (h){
-//            var Oracle = await rpc.apost(["oracle", h[1]]);
+            if (firstTimeBool != 1){
+                                oracles.innerHTML = "";
+                                firstTimeBool = 1;
+                            }
+
+            var Oracle;
+            var oracle_text;
+            var z;
+            var t__;
+                    div.appendChild(oracleDoc);
+                    //oracleDoc.innerHTML = "testing";
+                    if (JSON.stringify(l) == "[]") {
+                        return 0;
+                    } else {
+                        var h = l[0];
+                        console.log("showing h12: " + h[5]);
+                        //console.log("this is h");
+                        //console.log(JSON.stringify(h));
+                        console.log("here is h3: "+ h);
+
+                        console.log("here is el: "+ JSON.stringify(h));
+
+                        async function oraclePull (h){
+            //            var Oracle = await rpc.apost(["oracle", h[1]]);
             
 var placeholder;
 
@@ -496,8 +740,358 @@ var placeholder;
     var offsetNumber2;
 
   //  if h[]
+
+  console.log("placeholder is: " + placeholder);
+
+
   //          if (displayOraclesNumber != 1){
             z = await rpc.apost(["read", 3, placeholder], get_ip(), parseInt("8090"));
+console.log("zee1 is: " + z);
+            zHolder = z;
+//            displayOraclesNumber = 1;
+    //        }
+
+            console.log("XYXY is ");
+
+            console.log("zee is: " + atob(zHolder[1]));
+
+            Oracle = zHolder;
+            oracle_text = atob(zHolder[1]);
+//            }
+          //  oraclePull(h);
+            console.log("oracle_text zee is: " + oracle_text);
+            console.log("zee is: " + zHolder);
+
+//        await rpc.apost(["oracle", h[1]], async function(Oracle) {
+                //rpc.post(["oracle", h], function(Oracle) {
+                if(Oracle == "error") {
+                    console.log("non existant oracle.");
+                } else {
+                    console.log(JSON.stringify(Oracle));
+        //            console.log(atob(Oracle[1]));
+        //            var oracle_text = atob(Oracle[1]);
+                    //determine if it is bitcoin put or call
+                    console.log(oracle_text.search("as reported by Close price as of "));
+                    console.log(oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/"));
+
+                    if (( (oracle_text.search("bitcoin price is more than ") == 0) || (oracle_text.search("bitcoin price is less than ") == 0)) && (oracle_text.search("as reported by Close price as of ") >= 33) && (oracle_text.search("as reported by Close price as of ") <= 35) && (oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/") >= 77) && (oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/") <= 79)) {
+                        console.log("oracle text success");
+                        console.log();
+                            var price = oracle_text.slice(26,33);
+                            console.log(price);
+                            console.log("price testing");
+                            console.log(price[price.length-1] == " ");
+                            console.log(price[price.length]);
+                            if ((price[1] == "$") && (price[0] == " ") && (price[price.length-1] == " ")){
+                            console.log(price.slice(2,price.length-1));
+                            console.log(price.search(" "));
+
+                            var coinPrice = price.slice(2,price.length-1);
+
+
+                            console.log("date testing");
+
+                            console.log(oracle_text.slice(oracle_text.search("as reported by Close price as of ")+("as reported by Close price as of ").length,oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/")));
+                            var dateValue = oracle_text.slice(oracle_text.search("as reported by Close price as of ")+("as reported by Close price as of ").length,oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/"));
+                            
+                            console.log(dateValue.slice(0,3));
+                            if ((dateValue.slice(0,3) == "Jul") || (dateValue.slice(0,3) == "Aug") || (dateValue.slice(0,3) == "Sep") || (dateValue.slice(0,3) == "Oct") ){
+                                    console.log("success!");
+                                    console.log(oracle_text.slice(17,21));
+                            var callorput;
+
+                            if (oracle_text.slice(17,21) == "more"){
+
+                            callorput =  "call";
+                            
+                            } else if (oracle_text.slice(17,21) == "less"){
+                                callorput = "put";
+                            }
+
+                            t2 = text("Bitcoin ".concat(callorput)+ " option | Strike: $"+ coinPrice+" | Maturity: Midnight "+dateValue+" GMT | ");
+                            t3 = "Bitcoin ".concat(callorput)+ " option | Strike: $"+ coinPrice+" | Maturity: Midnight "+dateValue+" GMT | ";
+                            }
+                            }
+                            
+                    }else{
+
+                 //       console.log("splitting text " + oracle_text.split(";"));
+          //       console.log("splitting text0 " + oracle_text.split(";")[3].substring(21, oracle_text.split(";")[3].length));
+         //        console.log("splitting text1" + (oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ));
+                      //      console.log("splitting text " + (oracle_text.split(";")[1].substring(5, oracle_text.split(";")[1].length) ));
+                        console.log("oracletextis " + oracle_text);    
+            if (oracle_text.search(";") < 0 ){
+
+                        t2 = text(oracle_text);
+                          t3 = oracle_text;  
+                      }else{
+
+                        console.log("splitting0: " + oracle_text.split(";")[5]);
+                        console.log("splitting01: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
+                        
+                        var offsetNumber;
+                        if (" return opposite of previous output" == oracle_text.split(";")[5]){
+                            offsetNumber = Number(2);
+                        }else{
+                            offsetNumber = Number(1);
+                        }
+
+
+                        if ((oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") && (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (price of Y is more than X as of Z as reported by W)") && (oracle_text.split(";")[0] == "W = https://www.coinmarketcap.com historical data daily close price") && (oracle_text.split(";")[4] == " return (price of Y is more than X as of Z as reported by W)")) {
+                                console.log("splitting")
+                      //        var coinName = oracle_text.split(";")[2].substring(6,3) ;
+                                var coinPrice = oracle_text.split(";")[1].substring(5, oracle_text.split(";")[1].length);
+                                var coinName = oracle_text.split(";")[2].substring(5, oracle_text.split(";")[2].length);
+                                var coinMaturity = oracle_text.split(";")[3].substring(21, oracle_text.split(";")[3].length);
+                                offsetNumber2 = 1;
+ 
+                                var d1 = new Date(coinMaturity);
+                                var n1 = d1.toString();
+
+                                n1 = n1.substring(16,4);
+
+                                                              console.log("here is d1: " + n1[Number(n1.length) - Number(1)]);
+                                console.log("here is d1 2" + n1);  
+                                if (n1[n1.length -1] == " "){
+                                    n1 = n1.substring(n1.length -1, 0);
+                                }
+                                console.log("this is a date format" + n1);
+//flipping for perspective of user
+                                if (offsetNumber == Number(1)){
+                                t2 = text(coinName + " price is more than "+ coinPrice + " at Midnight " + n1 + " GMT ");
+                    //            t__ = t2;
+                                }
+
+                                if (offsetNumber == Number(2)){
+                                t2 = text(coinName + " price is not more than "+ coinPrice + " at Midnight " + n1 + " GMT ");
+                    //            t__ = t2;
+                                }
+
+
+
+                                t3 =  "The price of " + coinName + " is more than "+ coinPrice + " at Midnight " + n1 + "GMT "; // Jul 15 2020 GMT; 
+                                    
+                        }else{
+                                console.log("1maturity is" + (oracle_text.split(";")[0].substring(5, 0) == " W = "));
+                                console.log("1maturiy is" + oracle_text.split(";")[0].substring(5, 0));
+
+                                console.log("1maturiy is" + " Z (in MM/DD/YYYY) = ");
+
+                        console.log("splitting1: " + oracle_text.split(";")[5]);
+                        console.log("splitting11: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
+                        console.log("splitting11 offsetNumber is " + offsetNumber);
+                        console.log("splitting111 is" + (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (Team W defeated Team X in the game that started on date Z (in local time))")  );
+                        console.log("splitting1111 is" + (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber]));
+
+                        console.log("splitting14 is" + ( (oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[0].substring(4, 0) == "W = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") ));
+
+
+                            if ((oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[0].substring(4, 0) == "W = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") && (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (Competitor W defeated Competitor X in the competition that started on date Z (in local time))") && (oracle_text.split(";")[4] == " return (Competitor W defeated Competitor X in the competition that started on date Z (in local time))")) {
+
+                        console.log("splitting2: " + oracle_text.split(";")[5]);
+                        console.log("splitting22: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
+
+                                offsetNumber2 = 1;
+                                var team1 = oracle_text.split(";")[0].substring(4, oracle_text.split(";")[0].length);
+                                var team2 = oracle_text.split(";")[1].substring(5, oracle_text.split(";")[1].length);
+                                var coinMaturity = oracle_text.split(";")[3].substring(22, oracle_text.split(";")[3].length);
+
+
+                                var d1 = new Date(coinMaturity);
+                                var n1 = d1.toString();
+
+                                n1 = n1.substring(16,4);
+
+                                                              console.log("here is d1: " + n1[Number(n1.length) - Number(1)]);
+                                console.log("here is d1 2" + n1);  
+                                if (n1[n1.length -1] == " "){
+                                    n1 = n1.substring(n1.length -1, 0);
+                                }
+                                console.log("this is a date format" + n1);
+
+
+//flipping this so it's from the perspective of the user
+                                if (offsetNumber == Number(1)) {
+                                t2 = text(team1 + " will defeat " + team2 + " in the competition starting on " + n1 + " (local time) ");
+                                t__ = t2;
+                                }
+//was coinMaturity
+                                if (offsetNumber == Number(2)) {
+                                t2 = text(team1 + " will not defeat " + team2 + " in the competition starting on " + n1 + " (local time) ");
+                                t__ = t2;
+                                }
+
+
+                             //   }
+                                t3 =  team1 + " will defeat " + team2 + " in the competition starting on " + coinMaturity + " (local time) ";
+
+
+
+                            }else{
+
+
+
+
+                        t2 = text(oracle_text);
+                          t3 = oracle_text;   
+                                }
+
+
+
+                                            }
+
+//                                offsetNumber2 = 0;
+
+                                                        }
+                        
+}
+                    
+
+                    console.log("xxxy this is t" + t2.outerHTML);
+                    console.log(t2);
+                    console.log((t3.split(" ")));
+                                            console.log((t3.split(" "))[0]);
+                    console.log(t2[0]);
+
+
+                    console.log("xyzxyz button2: " + l[0]);
+
+                    console.log("xyzxyz button: " + l[0][5]);
+                    
+                    console.log("xxyx first t2 is: " + oracle_text);
+
+                    var temp_t2 = t2.outerHTML;
+
+                    var cidHolder;
+
+                    if (l[0][3] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=") {
+                        cidHolder = l[0][5];
+                    }
+
+                    if (l[0][5] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=") {
+                        cidHolder = l[0][3];
+                    }
+
+
+                    console.log("xyzxyz button3: " + cidHolder);
+
+
+
+                    //return loadBookmark(_contract)
+
+//                    var button = button_maker2("See Odds", function() { return hideBeforeDisplay(l, offsetNumber2, oracle_text, temp_t2) });
+
+
+                    var button = button_maker2("See Odds", function() { return loadBookmark(cidHolder) });
+
+
+                    //adding some space
+                    console.log("firstTimeBool: " + firstTimeBool);
+                    console.log(filterText === undefined);
+                    if (filterText === undefined){
+
+                    oracles.appendChild(t2);
+                    oracles.appendChild(text(" "));
+                    oracles.appendChild(button);
+                    oracles.appendChild(br());
+
+                    
+                    }else{
+
+                        //check if strings match
+                        console.log("filter text is: " + filterText);
+                        //start slicing filterText
+                        var increment2;
+                        increment2 = 0;
+                        var increment;
+                        ;
+                        var lengthSplit = (filterText.split(" ")).length;
+                        console.log(lengthSplit);
+
+                //    for (i = 0; i < cars.length; i++) {
+                //    text += cars[i] + "<br>";
+                //    }
+
+                        for (increment = 0; increment < lengthSplit; increment++ ){;
+                        
+                        if (t3.search((filterText.split(" "))[increment]) < 0){
+
+                            increment2 = increment2 + 1;
+
+                        }
+}
+                        if (increment2 < 1) {
+                        oracles.appendChild(t2);
+                        oracles.appendChild(button);
+                        oracles.appendChild(br());
+                        }
+
+                    }
+
+                };
+               // firstTimeBool = 1;
+
+    //        });
+                display_oracles(l.slice(1));
+                displayOraclesNumber = 1;
+        };
+
+    oraclePull(h);
+
+    }
+    };
+
+
+
+//calculate what you need then execute the function
+async function display_oracles2(l, _placeholder1, _placeholder2) {
+
+
+                    console.log("showing h1" + l);
+                    console.log(firstTimeBool);
+
+            if (firstTimeBool != 1){
+                                oracles.innerHTML = "";
+                                firstTimeBool = 1;
+                            }
+
+            var Oracle;
+            var oracle_text;
+            var z;
+            var t__;
+                    div.appendChild(oracleDoc);
+                    //oracleDoc.innerHTML = "testing";
+                    if (JSON.stringify(l) == "[]") {
+                        return 0;
+                    } else {
+                        var h = l;
+                        console.log("showing h12: " + h[5]);
+                        //console.log("this is h");
+                        //console.log(JSON.stringify(h));
+                        console.log("here is h3: "+ h);
+
+                        console.log("here is el: "+ JSON.stringify(l));
+
+                        async function oraclePull (h, _placeholder1, _placeholder2){
+            //            var Oracle = await rpc.apost(["oracle", h[1]]);
+            
+var placeholder;
+
+    if(_placeholder1 == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
+        placeholder = _placeholder2;
+    }else{
+        placeholder = _placeholder1;
+    }
+    var offsetNumber2;
+
+  //  if h[]
+
+  console.log("placeholder is: " + placeholder);
+
+
+  //          if (displayOraclesNumber != 1){
+            z = await rpc.apost(["read", 3, placeholder], get_ip(), parseInt("8090"));
+                    console.log("zee1 is: " + z);
             zHolder = z;
 //            displayOraclesNumber = 1;
     //        }
@@ -707,16 +1301,19 @@ var placeholder;
                     console.log("xxyx first t2 is: " + oracle_text);
 
                     var temp_t2 = t2.outerHTML;
-                    var button = button_maker2("See Odds", function() { return hideBeforeDisplay(l, offsetNumber2, oracle_text, temp_t2) });
+//                    var button = button_maker2("See Odds", function() { return hideBeforeDisplay(l, offsetNumber2, oracle_text, temp_t2) });
+                 return hideBeforeDisplay3(l, offsetNumber2, oracle_text, temp_t2);
+
+
                     //adding some space
                     console.log("firstTimeBool: " + firstTimeBool);
                     console.log(filterText === undefined);
                     if (filterText === undefined){
 
-                    oracles.appendChild(t2);
-                    oracles.appendChild(text(" "));
-                    oracles.appendChild(button);
-                    oracles.appendChild(br());
+//                    oracles.appendChild(t2);
+//                    oracles.appendChild(text(" "));
+//                    oracles.appendChild(button);
+//                    oracles.appendChild(br());
 
                     
                     }else{
@@ -744,9 +1341,9 @@ var placeholder;
                         }
 }
                         if (increment2 < 1) {
-                        oracles.appendChild(t2);
-                        oracles.appendChild(button);
-                        oracles.appendChild(br());
+//                        oracles.appendChild(t2);
+//                        oracles.appendChild(button);
+//                        oracles.appendChild(br());
                         }
 
                     }
@@ -755,32 +1352,129 @@ var placeholder;
                // firstTimeBool = 1;
 
     //        });
-                display_oracles(l.slice(1));
+//                display_oracles(l.slice(1));
                 displayOraclesNumber = 1;
+   console.log("through");     
         };
 
-    oraclePull(h);
-
+    oraclePull(h, _placeholder1, _placeholder2);
+console.log("through");
     }
     };
 
+
+
+
+
+
+    async function offerInputLoad(){
+
+        // the server stores trades based on market id which is a function of what is being traded for what in the swap offer.
+        // so we cover two cases: VEO & Type 1 are being traded and VEO & Type 2 are being traded.
+ 
+        if (offersInput.value == ''){
+
+        }else{
+
+        hideOdds();
+        var mid1_;
+        var mid2_;
+
+        var veoCID = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+        var subCID = offersInput.value;
+
+        mid1_ = new_market.mid(offersInput.value, veoCID, 1, 0);
+        mid2_ = new_market.mid(offersInput.value, veoCID, 2, 0);
+
+        console.log("offersInput value is: " + offersInput.value);
+        console.log("mids are: " + mid1_ + " " + mid2_);
+
+
+//now we need to construct l then start calling display oracles
+// here is what one looks like ["market",1,"ETxn0LRZlJALWplG8YxYt0j92mQ9+PdKNBZlp/hrQ6M=","0hXzpa20rOZpJzDq8UvCvFCQkqjPjdkWRGl3cRPvO2c=",2,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",0,0];
+
+    var input1 = new Array;
+    input1.push("market");
+    input1.push(mid1_);
+
+    input1.push(veoCID);
+    input1.push(0);
+
+    input1.push(offersInput.value);
+    input1.push(1);
+
+    input1.push(0);
+    var newJSON1 = Object.assign({}, input1);
+
+    console.log(newJSON1);
+
+    console.log(newJSON1[5]);
+    console.log(input1[5]);
+
+
+// ["market",1,"pqxNEAbT+KNRmZ3GSeJcUJW1AEefv0pt+LIf2EwGWXs=","0hXzpa20rOZpJzDq8UvCvFCQkqjPjdkWRGl3cRPvO2c=",1,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",0,0]
+    await display_oracles2(JSON.stringify(newJSON1), subCID, veoCID);
+
+    var input2 = new Array;
+    input2.push("market");
+    input2.push(mid2_);
+
+    input2.push(veoCID);
+    input2.push(0);
+
+    input2.push(offersInput.value);
+    input2.push(2);
+
+    input2.push(0);
+
+    var newJSON2 = Object.assign({}, input2);
+
+//    console.log(JSON.stringify(input2));
+
+    await display_oracles2(JSON.stringify(newJSON2), subCID, veoCID);
+
+    globalInputBool = 0;
+       
+    offersButton2.style.display = 'inline';
+    }
+
+}
+
+
+
+    async function hideBeforeDisplay3(h, offsetNumber2_, t2_, t3_){
+    //    hideOdds();
+        console.log("through2");
+
+       display_oracle_2(h, offsetNumber2_, t2_, t3_);
+    
+    }
 
 
     async function hideBeforeDisplay2(){
         hideOdds();
         
         display_oracle(global_l, global_offsetNumber2, global_oracle_text, global_oracleSimplified_text);
+    
     }
 
 
     async function hideBeforeDisplay(h, offsetNumber2_, t2_, t3_){
         hideOdds();
+        
+
+
+        offersInput.value = "";
     global_l = h;
     global_offsetNumber2 = offsetNumber2_;
     global_oracle_text = t2_;
     global_oracleSimplified_text = t3_;
 
+
+
         display_oracle(h, offsetNumber2_, t2_, t3_);
+    
+
     }
     async function display_oracle(h, offsetNumber2_, t2_, t3_) {
     //    console.log(JSON.stringify([Buys, Sells]));
@@ -792,20 +1486,23 @@ var placeholder;
  //                   z = await rpc.apost(["read", 3, h[3]], get_ip(), parseInt("8090"));
  //           console.log("z is: " + atob(z[1]));
         console.log("whatsh: " + h[0]);
-
+   //     console.log("whatsh2: " + h[4][1])
         var m = h[0];
-        var l = await rpc.apost(["markets"], get_ip(), parseInt("8090"));
-            console.log("FIRST L IS: " + JSON.stringify(l));
-            console.log("FIRST SLICE IS" + l.slice(1)[0]);
-            l = l.slice(1);
-            console.log("SECOND SLICE IS: " + l.slice(1));
+
+
+
+//        var l = await rpc.apost(["markets"], get_ip(), parseInt("8090"));
+//            console.log("FIRST L IS: " + JSON.stringify(l));
+//            console.log("FIRST SLICE IS" + l.slice(1)[0]);
+//            l = l.slice(1);
+//            console.log("SECOND SLICE IS: " + l.slice(1));
 
   //      rpc.default_explorer(["get_offers", l], function(l2) {
  //           console.log("here are the offers   " + JSON.stringify(l2));
  //           console.log(JSON.stringify(l2));
  //           offers.innerHTML = "";
  //           bigL = l2.slice(1);
-            console.log("xyzxyz: " + l[0]);
+//            console.log("xyzxyz: " + l[0]);
   //          console.log("L is display oracle" + bigL);
         //    firstTimeBool2 = 0;
             return display_offers(m, offsetNumber2_, t2_, t3_);
@@ -813,6 +1510,40 @@ var placeholder;
 
   //      });
     };
+
+
+    async function display_oracle_2(h, offsetNumber2_, t2_, t3_) {
+    //    console.log(JSON.stringify([Buys, Sells]));
+    //    var l = Buys.concat(Sells.slice(1));
+    //    console.log("this is l:");
+   //     console.log(l);
+
+
+ //                   z = await rpc.apost(["read", 3, h[3]], get_ip(), parseInt("8090"));
+ //           console.log("z is: " + atob(z[1]));
+        console.log("whatsh: " + h[0]);
+
+        var m = h;
+//        var l = await rpc.apost(["markets"], get_ip(), parseInt("8090"));
+//            console.log("FIRST L IS: " + JSON.stringify(l));
+//            console.log("FIRST SLICE IS" + l.slice(1)[0]);
+//            l = l.slice(1);
+//            console.log("SECOND SLICE IS: " + l.slice(1));
+
+  //      rpc.default_explorer(["get_offers", l], function(l2) {
+ //           console.log("here are the offers   " + JSON.stringify(l2));
+ //           console.log(JSON.stringify(l2));
+ //           offers.innerHTML = "";
+ //           bigL = l2.slice(1);
+ //           console.log("xyzxyz: " + l[0]);
+  //          console.log("L is display oracle" + bigL);
+        //    firstTimeBool2 = 0;
+            return display_offersLoad(m, offsetNumber2_, t2_, t3_);
+    //        display_oracle(h.slice(1));
+
+  //      });
+    };
+
 
 //var globalPositionData;
 
@@ -1214,6 +1945,389 @@ if (tempvar2 != "[[-6]]"){
         }
     };
 
+ async function display_offersLoad(l, offsetNumber2_, t2_, t3_) {
+
+
+
+
+        console.log("TESTING" + l);
+     //   bigL = l;
+    //    console.log("L is "+ bigL);
+        console.log("displaying offers" + JSON.parse(l)[1]);
+        l = JSON.parse(l);
+            var m = l;
+            var z = await rpc.apost(["read", l[1]], get_ip(), parseInt("8090"));
+            console.log("Z ORDERS 0.5 ARE: " + JSON.stringify(z[1][7]));
+            console.log("Z ORDERS ARE: " + JSON.stringify(z));
+            var orders = z[1][7];
+            console.log("Z ORDERS 2 ARE: " + orders);
+  //          console.log("Z ORDERS 2.5 ARE: " + z[1][7].slice(1));
+            orders = orders.slice(1);
+            console.log("Z ORDERS 3 ARE: " + JSON.stringify(orders));
+            var orders2 = orders.slice(1);
+            console.log("Z ORDERS 4 ARE: " + JSON.stringify(orders2));
+        if (JSON.stringify(l) == "[]") {
+            return 0;
+        } else {
+            var h = l;
+   //         var t = document.createElement("div");
+            var type;
+//            if (h[9] == 1) {
+            if (1 == 1) {
+                type = "binary";
+            //    price = h[3];
+                return display_offers2Load(orders, l, type, offsetNumber2_, t2_, t3_, " or ", "");
+            } 
+
+         /*   else if (h[9] == 2) {
+                var oid = h[2];
+                type = "scalar"
+                oracle_limit(oid, function(oracle_max) {
+                    console.log("oracle_list callback");
+                    console.log(oracle_max);
+                    var direction = h[4];
+                    if (direction == 2) {
+                        price = (1023 - h[3]) * oracle_max / 1023;
+                    } else if (direction == 1) {
+                        price = h[3] * oracle_max / 1023;
+                    } else {
+                        console.log("fail");
+                        return 0
+                    };
+                    return display_offers2(l, h, t, type, price, " veo/stablecoin or ", " stablecoin/veo;");
+                });
+            }  */
+
+             else {
+                console.log(h[9]);
+                console.log("contract type not supported.");
+            }
+        }
+    };
+
+
+    async function display_offers2Load(orders, l, type, offsetNumber2_, t2_, t3_, d1message, d2message) {
+
+        if (JSON.stringify(orders) == "[]") {
+            xyz2 = 1;
+            return 0;
+        }else{
+
+
+        var direction;
+            var t = document.createElement("div");
+        var m = l;
+        console.log("mdisplayoffers2 is: " + (m[5] == 0));
+        console.log("mdisplayoffers2 is: " + JSON.stringify(m));
+
+
+
+
+    //    console.log()
+        console.log("mdisplayoffers3 is type 1: " + type1 +" type2: " + type2);
+
+
+        var order = orders[0];
+        var Maximum = 4294967295;
+        var price = order[1] / Maximum;
+        var amount = order[2];
+        var tid = order[3];
+        swapOffer = await trade_details2(tid);
+        var swapOffer2 = swapOffer;
+        console.log("THIS IS T4: " + swapOffer[1][5]);
+        console.log("SWAPOFFER IS: " + swapOffer);
+        console.log("SWAPOFFER IS 2: " +swapOffer[1][8])
+        console.log("tid is: " + tid);
+
+        var type1 = swapOffer[1][5];
+        var type2 = swapOffer[1][8];
+
+        //type1 is what you gain if you accept, type2 is what you lose if you accept
+
+        var newDirection;
+        if ((type1 == 1) && (type2 == 0)){
+            newDirection = "the result is true";
+        }
+        if ((type1 == 0) && (type2 == 2)){
+            newDirection = "the result is true";
+        }
+
+
+        if ((type1 == 2) && (type2 == 0)){
+            newDirection = "the result is false";
+        }
+        if ((type1 == 0) && (type2 == 1)){
+            newDirection = "the result is false";
+        }
+
+
+
+
+        var amountGain = swapOffer[1][9];
+        var amountLose = swapOffer[1][6];
+
+        var amountSwapped = false;
+        var amountSwapped2;
+
+        if (type1 != 0){
+           amountGain = swapOffer[1][6];
+           amountLose = swapOffer[1][9]; 
+           amountSwapped2 = true;
+
+        }
+// if not 0, then it means sell veo and buy subcurrency
+        console.log("xxxx: " + offsetNumber2_);
+        console.log("xxxx swap bool: " + amountSwapped2);
+        console.log("xxxx t2 is :" + (t2_.search("competition") != "-1"));
+
+
+            //offsetnumber2 being 1 means it is a preformatted question
+            //lets just figure out what it is given
+
+            //      you gain veo + lose type 1 = you bet on false
+    //              you gain type 2 + lose veo = you bet on false
+    
+    //              you gain type 1 + lose veo = you bet on true
+    //              you gain veo and lose type 2 = you bet on true
+            //
+            //
+            //
+
+            if (offsetNumber2_ == 1) {
+                direction = "the result is true";
+            } else if (type == "scalar") {
+                direction = "the price of stablecoin measured in veo increases";
+                return 0;
+            }
+
+            if (offsetNumber2_ == undefined) {
+                direction = "the result is false";
+            } else if (type == "scalar") {
+                direction = "the price of stablecoin measured in veo decreases";
+                return 0;
+            }
+        
+
+
+        
+//        var text = "bet type: ".concat(type).concat("; price = ").concat(price.toFixed(5)).concat(d1message).concat((1/price).toFixed(5)).concat(d2message).concat(" you win if ").concat(direction).concat("; they pay = ").concat(s2c(h[7])).concat("; you pay = ").concat(s2c(h[8])).concat("; expires: ").concat(h[5]);
+  
+           direction = newDirection;
+
+          offers.style.display = "inline";
+          
+          console.log("amount1Gain is " + s2c(amountGain));
+          console.log("amount1Lose is " + s2c(amountLose));
+
+
+          var probLanguage = " | Implied Probability: ";
+
+          if (amountSwapped2 == true){
+          var implProb = (Number(100) - 100*((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain)))).toPrecision(3) + "%";
+          console.log("bbbb " + implProb);
+            }else{
+
+            var implProb = (100*((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain)))).toPrecision(3) + "%";
+
+            }
+
+
+
+          if (amountSwapped2 !=true){
+            //if sports match is confirmed
+            if (t2_.search("competition") != "-1") {
+                if((s2c(amountGain) - s2c(amountLose)) > s2c(amountLose)){
+                 
+                 console.log("ZZZZ")   
+                 var percentage = ((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain)));
+                 var x = Number(-100) + Number(10000)/(Number(100)*(Number(1)-percentage));
+                 console.log("ZZZZ: " + "-"+x.toPrecision(3)); 
+                 var probLanguage = " | Betting odds: ";
+                implProb = "-"+x.toPrecision(4);
+
+
+                }
+            
+            if ((s2c(amountGain) - s2c(amountLose)) <= s2c(amountLose)){
+
+                 var percentage = ((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain)));
+                 var x = (Number(100)*(Number(1)/percentage)) - Number(100);
+                 console.log("GGGG" + "+"+x.toPrecision(3));
+                 var probLanguage = " | Betting odds: ";
+                 implProb = "+"+x.toPrecision(4);
+
+            }
+            
+
+
+            }
+
+          }
+
+
+            if (amountSwapped2 ==true){
+            //if sports match is confirmed
+            if (t2_.search("competition") != "-1") {
+                
+                if( (s2c(amountLose) > (s2c(amountGain) - s2c(amountLose)) ) ){
+                 
+                 console.log("ZZZZ")   
+                 var percentage = (s2c(amountLose) / (s2c(amountGain)));
+                 var x = Number(-100) + Number(10000)/(Number(100)*(Number(1)-percentage));
+                 console.log("ZZZZ: " + "-"+x.toPrecision(3)); 
+                 var probLanguage = " | Betting odds: ";
+                implProb = "-"+x.toPrecision(4);
+
+
+                }
+            
+            if ( (s2c(amountLose) <= (s2c(amountGain) - s2c(amountLose)) ) ){
+
+                 var percentage = (s2c(amountLose) / (s2c(amountGain)));
+                 var x = (Number(100)*(Number(1)/percentage)) - Number(100);
+                 console.log("GGGG" + "+"+x.toPrecision(3));
+                 var probLanguage = " | Betting odds: ";
+                 implProb = "+"+x.toPrecision(4);
+
+            }
+            
+
+
+            }
+
+          }
+
+
+//           amountGain = swapOffer[1][9];
+//           amountLose = swapOffer[1][6]; 
+
+/*
+          if (direction == "the result is false"){
+                implProb = ((100*((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain))))).toPrecision(3) + "%"
+                    }
+*/       
+
+        //for debugging
+//        var idStuff = "type: "+type1 + "/" + type2 + " | amounts: " + swapOffer[1][6] + "/" + swapOffer[1][9] ;
+
+        var idStuff = "";
+
+
+        if (amountSwapped2 != true){
+        var text = "You win if "+direction+ probLanguage.concat(implProb).concat(" | Risk: ").concat(Number((s2c(amountGain) - s2c(amountLose)).toPrecision(3))).concat(" ")+"| Profit: ".concat(Number(s2c(amountLose).toPrecision(3))).concat(" | ").concat(idStuff);
+        } else {
+        var text = "You win if "+direction+ probLanguage.concat(implProb).concat(" | Risk: ").concat(Number((s2c(amountLose)).toPrecision(3))).concat(" ")+"| Profit: ".concat(Number(s2c(amountGain).toPrecision(3))).concat(" | ").concat(idStuff);
+        }
+
+  //      var text.appendChild("asdfs");
+
+
+        console.log("xyz2 is " + xyz2);
+        if (globalInputBool != 1 && xyz2 != 0){
+       //     var cid_1 = m[2];
+
+        var cid_1;
+   //         var xyz1;
+            var a1 = document.createElement("a");
+      
+            var b1 = document.createElement("a");
+
+            console.log("XXXX t3 is " + t3_);
+            
+            b1.innerHTML = t3_;
+        
+            if (m[2] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
+                cid_1 = m[4];
+            }else if (m[4] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
+                cid_1 = m[2];
+            }else{
+                cid_1 = "unsupported swap type";
+            }
+        
+            var cidTruncate1 = cid_1.slice(0,5)+ "..." + cid_1.slice(cid_1.length - Number (4), cid_1.length);
+            a1.innerHTML = cidTruncate1;
+            a1.target = "_blank";
+            a1.href = "http://159.89.87.58:8080/explorers/contract_explorer.html?cid=".concat(cid_1);
+            xyz2 = 0;
+            var text2 = document.createElement("div");
+            var text3 = document.createElement("div");
+
+    //        acceptConfirmation.innerHTML = "asdsad";
+            acceptConfirmation.style.display = "inline";
+            var spacing = document.createElement("div");
+            spacing.innerHTML = " ";
+            spacing.style.display = "inline";
+//            var text2 = "Contract: ";
+            text2.innerHTML = "Contract: ";
+            text3.innerHTML = "Event: ";
+            b1.style.display = "inline";
+    //        text3.style.display = "inline";
+
+
+                globalB1 = t3_;
+
+            text2.style.textIndent = "50px";
+            text3.style.textIndent = "50px";
+
+            offers.appendChild(br());
+
+            offers.appendChild(br());
+
+            offers.appendChild(text2);
+            text2.appendChild(a1);
+            text2.appendChild(spacing);
+            text2.appendChild(acceptConfirmation);
+
+            offers.appendChild(text3);
+            text3.appendChild(b1);
+            offers.appendChild(br());
+        //    offers.appendChild(br());
+       //     offers.appendChild(br());
+        globalInputBool = 1;
+        }
+
+       // xyz1 = 0
+
+        t.innerHTML = text;
+        
+
+            t.style.display = "inline";
+
+
+
+        if (type1 == type2){
+        t.innerHTML = "Unsupported format - trade hidden";
+        offers.appendChild(t);
+        offers.appendChild(br());
+        }else{
+
+
+        offers.appendChild(t);
+        console.log("PPPP button h: " + swapOffer);
+        console.log("PPPP button type: " + type);
+
+        var button = button_maker2("Accept trade", function() { viewTrading(swapOffer2) });
+//        var button = button_maker2("Accept trade", function() { swap_viewer3.view(swapOffer2) });
+
+
+        button.style.display = "inline";
+
+
+
+   //     offers.appendChild(text(" "));
+        offers.appendChild(button);
+        offers.appendChild(br());
+
+    }
+        display_offers2Load(orders.slice(1), l, type, offsetNumber2_, t2_, d1message, d2message);
+
+
+    }
+
+ //   globalInputBool = 1;
+};
+
+
 
     async function display_offers2(orders, l, type, offsetNumber2_, t2_, t3_, d1message, d2message) {
 
@@ -1445,6 +2559,9 @@ if (tempvar2 != "[[-6]]"){
                 cid_1 = "unsupported swap type";
             }
         
+
+            offersInput.value = cid_1;
+
             var cidTruncate1 = cid_1.slice(0,5)+ "..." + cid_1.slice(cid_1.length - Number (4), cid_1.length);
             a1.innerHTML = cidTruncate1;
             a1.target = "_blank";
@@ -1462,11 +2579,16 @@ if (tempvar2 != "[[-6]]"){
             text2.innerHTML = "Contract: ";
             text3.innerHTML = "Event: ";
             b1.style.display = "inline";
+
+            globalB1 = t3_;
     //        text3.style.display = "inline";
 
             text2.style.textIndent = "50px";
             text3.style.textIndent = "50px";
 
+            offers.appendChild(br());
+
+            offers.appendChild(br());
 
             offers.appendChild(text2);
             text2.appendChild(a1);
@@ -1516,7 +2638,7 @@ if (tempvar2 != "[[-6]]"){
     }
         display_offers2(orders.slice(1), l, type, offsetNumber2_, t2_, d1message, d2message);
 
-
+        offersButton2.style.display = 'inline';
     }
 };
 
@@ -1645,11 +2767,32 @@ if (tempvar2 != "[[-6]]"){
         });
     };
 
-    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput};
+    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, offersLoad: offersLoad, offersButton2: offersButton2, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark};
 
 })();
 console.log("trying to display positions");
 
+
+function populateInput(){
+
+    var queryStore = window.location.search;
+    queryStore = queryStore.substring(1,queryStore.length);
+
+    abcd.offersInput.value = queryStore;
+}
+
+
+populateInput();
+
+function runInputCheck(){
+    if (abcd.offersInput.value == ""){
+
+    }else{
+        abcd.offerInputLoad();
+    }
+}
+
+runInputCheck();
 
 
 function focusOracleFilter(){
@@ -2311,6 +3454,15 @@ download(window.localStorage.getItem("positionData"+keys.pub()), "My Position Da
 function hideOdds(){
     console.log("hiding odds");
     abcd.offers.innerHTML = "";
+//    abcd.offersInput.value = "";
+}
+
+function hideOdds2(){
+    console.log("hiding odds");
+    abcd.offers.innerHTML = "";
+    abcd.offersInput.value = "";
+
+        abcd.offersButton2.style.display = 'none';
 }
 
 function returnOracleLanguage(x){
@@ -2356,8 +3508,13 @@ function hideTradeExplorer(){
     abcd.oracle_filter.style.display = 'none';
     abcd.oracles.style.display = 'none';
     abcd.div2.style.display = 'none';
-}
 
+    abcd.offersLoad.style.display = 'none';
+
+
+
+}
+// inline
 
 function showTradeExplorer(){
     //here is how to construct it
@@ -2365,7 +3522,7 @@ function showTradeExplorer(){
     abcd.title0.style.display = 'block';
     abcd.positionDiv.style.display = 'block';
     abcd.title1.style.display = 'block';
-    abcd.offers.style.display = 'block';
+    abcd.offers.style.display = 'inline';
     abcd.title.style.display = 'block';
     abcd.oracle_filter.style.display = 'inline';
     abcd.oracles.style.display = 'block';
@@ -2379,6 +3536,8 @@ function showTradeExplorer(){
     keys.set_key_button.style.display = 'none';
     keys.download_key_button.style.display = 'none';
     keys.file_selector.style.display = 'none';
+
+    abcd.offersLoad.style.display = 'inline';
 
 }
 
@@ -2414,6 +3573,7 @@ function hideAccountManagement(){
 //    keys.bal_div.style.display = 'block';
 
     headers_object.wallet_text3.style.display = 'none';
+    headers_object.bookmarkText.style.display = 'none';
 
 
 }
@@ -2421,6 +3581,7 @@ function hideAccountManagement(){
 function showAccountManagement(){
     hideTradeExplorer();
     hideCreateABet();
+//    await abcd.getBookMark();
     keys.div.style.display  = 'block';
 
     headers_object.wallet_text.style.display = 'block';
@@ -2435,6 +3596,7 @@ function showAccountManagement(){
 
     headers_object.wallet_text3.style.display = 'block';
 
+    headers_object.bookmarkText.style.display = 'block';
 
     
 }
@@ -2512,3 +3674,4 @@ firstTime();
 var internalNonce;
 
 //internalNonce = 0;
+abcd.getBookMark();
