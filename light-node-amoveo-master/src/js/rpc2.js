@@ -14,6 +14,15 @@ var rpc = (function() {
         return talk(cmd, u, callback, 10000);
     };
 
+
+    function default_explorer2(cmd, callback) {
+        var u = "http://159.89.87.58:8090/";
+
+//        var u = "http://46.101.185.98:8090/";
+
+        return talk(cmd, u, callback, 10000);
+    };    
+
     async function main2(cmd, ip, port) {
         if (ip == undefined){
             ip = get_ip();

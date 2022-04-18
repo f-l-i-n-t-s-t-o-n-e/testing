@@ -56,3 +56,21 @@ function get_ip() {
     };
     return s;
 }
+
+function get_ip2() {
+    //return JSON.parse(server_ip.value);
+//    var s = server_ip.value;
+
+    var s;
+
+    /*
+    if(s.length === 0){
+        s = default_ip2();
+    };
+    if(s === "zack-bitcoin.github.io"){
+        s = default_ip2();
+    };
+    */
+    s = default_ip2();
+    return s;
+}

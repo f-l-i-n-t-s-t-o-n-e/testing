@@ -6,6 +6,13 @@ function default_ip() {
     //return("0.0.0.0");
 };
 
+function default_ip2() {
+    return("159.89.87.58");
+//    return("46.101.185.98");
+
+    //return("0.0.0.0");
+};
+
 
 function token_units() { return 100000000 }; // VEO
 function s2c(x) { return x / token_units(); }

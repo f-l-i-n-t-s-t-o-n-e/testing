@@ -3011,7 +3011,7 @@ async function showPositions(){
         internalNonce = 0;
 
         console.log("KEYSPUB IS: " + keys.pub());
-            const response = await rpc.apost(["account", keys.pub()], get_ip(), 8091);
+            const response = await rpc.apost(["account", keys.pub()], get_ip2(), 8091);
             if(response == "error") {
                 //display.innerHTML = "<h3>load a key with funds.</h3>";
             } else {
