@@ -6,7 +6,11 @@ function bet_builder2(bet_e, amount_e, them_e, _type){
     var ZERO = btoa(array_to_string(integer_to_array(0, 32)));
     var IP = default_ip();
     
-    console.log("in bet builder");
+    console.log("in bet builder " + bet_e);
+    console.log("in bet builder " + amount_e);
+    console.log("in bet builder " + them_e);
+    console.log("in bet builder " + _type);
+
     var fee = 200000;
 //    var title = document.createElement("h3");
 //    title.innerHTML = "bet on anything";
@@ -106,8 +110,11 @@ function bet_builder2(bet_e, amount_e, them_e, _type){
         //link.innerHTML = "Your trade can be viewed on this page."
         //link.target = "_blank";
         //display.appendChild(link);
-        await abcd.offerInputLoad();
+        if (abcd.offersInput.value == ''){
 
+        }else{
+        await abcd.offerInputLoad();
+            }
     };
 
     doit2();

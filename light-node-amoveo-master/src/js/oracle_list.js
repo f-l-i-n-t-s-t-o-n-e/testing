@@ -53,7 +53,7 @@ var abcd = (function() {
 
 
     var title3 = document.createElement("h3");
-    title3.innerHTML = "Provide liquidity (under construction)";
+    title3.innerHTML = "Provide liquidity across daily NBA, NHL, MLB and Tennis matches";
 
     div.appendChild(title3);
 
@@ -116,12 +116,16 @@ var abcd = (function() {
         var sportsArray = new Array;
 
 
-        console.log(JSON.stringify(bettingOdds.slice(1).map(function(x){return(atob(x))})));
+//        console.log(JSON.stringify(bettingOdds.slice(1).map(function(x){return(atob(x))})));
         
 
 
         var oddsDigest = (bettingOdds.slice(1).map(function(x){return(atob(x))}));
+
+/*
         console.log(oddsDigest[0]);
+
+
 
         console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[0]);
         console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[1]);
@@ -145,7 +149,7 @@ var abcd = (function() {
         console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[27]);
         console.log((bettingOdds.slice(1).map(function(x){return(atob(x))})).length);
 
-
+        */
             //Friday, March 4, 2022
 
 
@@ -270,7 +274,11 @@ var abcd = (function() {
 
                 if (sport == "ATP TENNIS") {
                     sport = "ATP Tennis";
-                }                
+                }
+
+                if (sport == "WTA TENNIS") {
+                    sport = "WTA Tennis";
+                }                                     
 
                 if (sport == "MLB BASEBALL") {
                     sport = "MLB Baseball";
@@ -375,150 +383,109 @@ var abcd = (function() {
 
 
 
+
 //now that sportsArray works, we can start betting
 
+//create oracle text
+    console.log(sportsArray.length);
+    console.log(JSON.stringify(sportsArray));
+
+            for (let i = 0; i < sportsArray.length; i++) {
+
+                if ((i % 5) == 0){
+                    
+                    let _sport = JSON.stringify(sportsArray).split(",")[Number(0)+Number(i)].toString();
+                    _sport = _sport.replace(/"/g, "");
+                    _sport = _sport.replace("[", "");
+
+                    let _comp1 = JSON.stringify(sportsArray).split(",")[Number(1)+Number(i)].toString();
+                    _comp1 = _comp1.replace(/"/g, "");
+                    _comp1 = _comp1.substring(1, _comp1.length);
+
+                    let _comp2 = JSON.stringify(sportsArray).split(",")[Number(2)+Number(i)].toString();
+                    _comp2 = _comp2.replace(/"/g, "");
+
+                    let _day = JSON.stringify(sportsArray).split(",")[Number(3)+Number(i)].toString();
+                    _day = _day.replace(/"/g, "");
+
+                    let _odds = JSON.stringify(sportsArray).split(",")[Number(4)+Number(i)].toString();
+                    _odds = _odds.replace(/"/g, "");
+                    _odds = _odds.replace(" ", "");
+                    let _oracle = _comp1 + " will defeat" + _comp2 + " in the " + _sport + " competition starting on " + _day + " (Eastern time) ";
+                    console.log("xxxx oracle is: " + _oracle);
+
+                    //now that we have oracle, we can create the bet
+                    //need to calculate amounts using the odds
+
+                    let maxRisk = LPinput.value;
+
+                    var profit_;
+
+                    //now we need the odds to tell us how much they bet
+                    console.log("odds is: " + _odds[0]);
+
+                    if (_odds[0] == "+"){
+                    
+                    _odds = _odds.substring(1, _odds.length);
+                    console.log("odds substring is: " + _odds);
+                    let convertedPlus1 = Number(100) / (Number(_odds) + Number(100));
+                    console.log("convertedPlus1 is: " + convertedPlus1);
+                    console.log("maxRisk is: " + maxRisk);
+
+                    profit_ = maxRisk * (Number(100) / Number(_odds));
+                    console.log("plus profit is: " + profit_);
+
+                    }
+
+                    if (_odds[0] == "-"){
+                    
+                    _odds = _odds.substring(1, _odds.length);
+                    console.log("odds substring is minus : " + _odds);
+                    let convertedMinus1 = Number(_odds) / (Number(_odds) + Number(100));
+
+                    profit_ = maxRisk * (Number(convertedMinus1) / (Number(1) - Number(convertedMinus1)));
+                    console.log("minus profit is: " + profit_);
+                    }
+
+                    if (0 == 0){
+
+                    //we need to choose which sports we want to do
+                    //whitelist:
+                    // ATP Tennis
+                    // WTA Tennis
+                    // MLB Baseball
+                    // NHL Hockey
+                    // NBA Basketball
+
+                    //blacklist:
+                    // PREM SOCCER
+                    // LALIGA SOCCER
+                    // USA SOCCER
 
 
+                    //SO IF NOT SOCCER
+                    if ( (_sport == "ATP Tennis") || (_sport == "WTA Tennis") || (_sport == "MLB Baseball") || (_sport == "NHL Hockey") || (_sport == "NBA Basketball") ) {
+                    
+                    await createTrade2(maxRisk, profit_, _oracle, 1);
+                    
+                    console.log("making trade with oracle: " + _oracle);
+                    console.log("tradeNumber is: " + i/5);
+                    }
+
+                    }
 
 
-            console.log(JSON.stringify(bettingOdds.slice(1).map(function(x){return(atob(x))})));
-
-            console.log(JSON.stringify(sportsArray));
-
-
-        var teamOne;
-        var teamTwo;
-        var myAmountCalc;
-        var theirAmountCalc;
+//    async function createTrade2(_risk, _profit, _t2, _type)
+//  need to await
 
 
+                }
 
-        var bettingOdds = atob(bettingOdds[2]);
-        console.log("slice attempt: " + bettingOdds.split(",").slice(19));
-        console.log("slice attempt: " + bettingOdds.split(",").slice(19).slice(19));
-
-
-
-        console.log("testingodds is: " + bettingOdds.split(",")[1]);
-        
-        var header
-
-        if (sport == "NBA BASKETBALL"){
-            sport = "NBA";
-        }
-
-        var i = 1;
-        function loopTheOdds(bettingOdds_){
-
-        teamOne = sport + bettingOdds.split(",")[1];
-        teamTwo = sport + bettingOdds.split(",")[2];
-        console.log("last minus is " + bettingOdds.split(",")[18]);
-        var plusOdds = bettingOdds.split(",")[5];
-        plusOdds = plusOdds.split("+")[1];
-
-        if ((bettingOdds.split(",")[9]).split("+")[1] > plusOdds){
-            plusOdds = (bettingOdds.split(",")[9]).split("+")[1];
-        }
-
-        if ((bettingOdds.split(",")[11]).split("+")[1] > plusOdds){
-            plusOdds = (bettingOdds.split(",")[11]).split("+")[1];
-        }
-
-        if ((bettingOdds.split(",")[13]).split("+")[1] > plusOdds){
-            plusOdds = (bettingOdds.split(",")[13]).split("+")[1];
-        }
-
-        if ((bettingOdds.split(",")[15]).split("+")[1] > plusOdds){
-            plusOdds = (bettingOdds.split(",")[15]).split("+")[1];
-        }
-
-        if ((bettingOdds.split(",")[17]).split("+")[1] > plusOdds){
-            plusOdds = (bettingOdds.split(",")[17]).split("+")[1];
-        }
-
-        console.log("highest plusodds are: " + plusOdds);
-//        plusOdds = plusOdds.split(1, plusOdds.length - 1);
-
-        console.log("plusodds is " + (bettingOdds.split(",")[5]).split("+")[1]);
-
-
-//now do minusOdds
-
-
-        var minusOdds = bettingOdds.split(",")[6];
-        minusOdds = minusOdds.split("-")[1];
-
-        if ((bettingOdds.split(",")[10]).split("-")[1] < minusOdds){
-            minusOdds = (bettingOdds.split(",")[10]).split("-")[1];
-        }
-
-        if ((bettingOdds.split(",")[12]).split("-")[1] < minusOdds){
-            minusOdds = (bettingOdds.split(",")[12]).split("-")[1];
-        }
-
-        if ((bettingOdds.split(",")[14]).split("-")[1] < minusOdds){
-            minusOdds = (bettingOdds.split(",")[14]).split("-")[1];
-        }
-
-        if ((bettingOdds.split(",")[16]).split("-")[1] < minusOdds){
-            minusOdds = (bettingOdds.split(",")[16]).split("-")[1];
-        }
-
-        console.log("lowest minus is: " + minusOdds);
-
-        var convertedMinus = (minusOdds) / (Number(minusOdds) + Number(100));
-        var convertedPlus = Number(100) / (Number(plusOdds) + Number(100));
-
-        console.log("plus: " + convertedPlus + ", minus: " + convertedMinus);
-        console.log("plus plus minus is: " +  (Number(convertedPlus) + Number(convertedMinus)));
-
-        var vigNumber = (Number(convertedPlus) + Number(convertedMinus));
-
-
-
-
-        //  7:00p, Cleveland, Philadelphia, NBCS-PH, BSOH, +260, -310, 0.0%, 0.0%, +250, -310, +263, -306, +250, -300, +247, -299, +265, -2717:00p, Atlanta, Washington, NBCS-DC, BSSE, -180, +160, 0.0%, 0.0%, -175, +155, -184, +165, -165, +140, -180, +150, -170, +1667:00p, Indiana, Detroit, BSDET+, BSIN, -150, +130, 0.0%, 0.0%, -145, +125, -139, +126, -150, +130, -152, +127, -132, +1307:30p, Orlando, Toronto, Sportsnet, BSFL, +270, -325, 0.0%, 0.0%, +280, -360, +275, -322, +280, -360, +274, -333, +275, -3047:30p, Milwaukee, Chicago, ESPN, NBCS-CHI, -150, +130, 0.0%, 0.0%, -200, +170, -194, +173, -210, +175, -197, +164, -176, +1728:00p, Utah, New Orleans, SportsNet RM, BSNO, -160, +140, 0.0%, 0.0%, -170, +150, -166, +149, -175, +150, -162, +1408:00p, Minnesota, Oklahoma City, BSN, BSOK, -350, +280, 0.0%, 0.0%, -425, +325, +171, -245, -388, +316, -385, +3509:00p, Houston, Denver, ALT, SportsNet SW, +700, -1100, 0.0%, 0.0%, +700, -1100, +650, -1100, +700, -91010:00p, New York, Phoenix, MSG, ESPN, +220, -260, 0.0%, 0.0%, +245, -305, +240, -290, +220, -228, -, Time/TV
-            // 0    1           2               3       4   5       6   7       8   9       10  11      12  13      14  15      16  17      18
-        //bettingOdds
-        var plusBool;
-
-        //1 is true, 0 is false
-        function chooseAmounts(){
-
-            if (plusBool != 1){
-                //then its minus
-                dcba.myAmount.value = maxRisk;
-                dcba.theirAmount.value = maxRisk * (Number(convertedMinus) / (Number(1) - Number(convertedMinus)));
-                dcba.above.checked = true;
-                dcba.below.checked = false;
-            }else{
-                //do plus
-
-                dcba.myAmount.value = maxRisk;
-                dcba.theirAmount.value = Math.floor(maxRisk * (100/plusOdds));
-                dcba.above.checked = false;
-                dcba.below.checked = true;
             }
-        
-        }
-
-        chooseAmounts();
 
 
-        dcba.whichCoin.value = teamOne;
-        dcba.coinPrice.value = teamTwo;
-        dcba.maturityDate1.value = fullDate;
 
-
-        dcba.above.checked = true;
-//        dcba.myAmount.value = myAmountCalc;
-//        dcba.theirAmount.value = theirAmountCalc;
-        i = i+1;
-
-     //   loopTheOdds(bettingOdds_.slice(18));
-        }
-
-
+  
 
     //    setTimeout(eraseSuccess, 3000);
 
@@ -2682,6 +2649,22 @@ if (tempvar2 != "[[-6]]"){
 
  //   globalInputBool = 1;
 };
+
+
+
+    async function createTrade2(_risk, _profit, _t2, _type){
+
+
+        let myAmount_ = _risk;
+//        let theirAmount_ = Number(_risk) + Number(_profit);
+
+        let theirAmount_ = Number(_profit);
+
+        await bet_builder2(_t2, myAmount_, theirAmount_, _type);
+//                setTimeout(offerInputLoad(), 3000);
+   
+
+    }
 
 
     async function createTrade(_risk, _profit, _t2){
