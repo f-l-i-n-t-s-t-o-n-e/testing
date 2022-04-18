@@ -3,6 +3,8 @@ var globalCID;
 var globalB1;
 var globalcreatetradenonce;
 
+var globalCID_;
+
 var globalVariable;
             var fullDate;
 var firstTimeBool;
@@ -336,6 +338,8 @@ var abcd = (function() {
 
                         sportsArray.push(odds1);
 
+                        sportsArray.push(sportDigest[Number(i)+Number(0)])
+
                     // 1 sportName & Competitor2
                     // 2 sportName & Competitor1
                     // 3 Date
@@ -367,6 +371,8 @@ var abcd = (function() {
                         }
 
                         sportsArray.push(odds2);
+                        sportsArray.push(sportDigest[Number(i)+Number(0)])
+
 
                 //        sportsArray.push(sportDigest[Number(i)+Number(3)]);
                 
@@ -392,7 +398,7 @@ var abcd = (function() {
 
             for (let i = 0; i < sportsArray.length; i++) {
 
-                if ((i % 5) == 0){
+                if ((i % 6) == 0){
                     
                     let _sport = JSON.stringify(sportsArray).split(",")[Number(0)+Number(i)].toString();
                     _sport = _sport.replace(/"/g, "");
@@ -412,7 +418,7 @@ var abcd = (function() {
                     _odds = _odds.replace(/"/g, "");
                     _odds = _odds.replace(" ", "");
                     let _oracle = _comp1 + " will defeat" + _comp2 + " in the " + _sport + " competition starting on " + _day + " (Eastern time) ";
-                    console.log("xxxx oracle is: " + _oracle);
+          //          console.log("xxxx oracle is: " + _oracle);
 
                     //now that we have oracle, we can create the bet
                     //need to calculate amounts using the odds
@@ -422,29 +428,29 @@ var abcd = (function() {
                     var profit_;
 
                     //now we need the odds to tell us how much they bet
-                    console.log("odds is: " + _odds[0]);
+            //        console.log("odds is: " + _odds[0]);
 
                     if (_odds[0] == "+"){
                     
                     _odds = _odds.substring(1, _odds.length);
-                    console.log("odds substring is: " + _odds);
+           //         console.log("odds substring is: " + _odds);
                     let convertedPlus1 = Number(100) / (Number(_odds) + Number(100));
-                    console.log("convertedPlus1 is: " + convertedPlus1);
-                    console.log("maxRisk is: " + maxRisk);
+           //         console.log("convertedPlus1 is: " + convertedPlus1);
+           //         console.log("maxRisk is: " + maxRisk);
 
                     profit_ = maxRisk * (Number(100) / Number(_odds));
-                    console.log("plus profit is: " + profit_);
+          //          console.log("plus profit is: " + profit_);
 
                     }
 
                     if (_odds[0] == "-"){
                     
                     _odds = _odds.substring(1, _odds.length);
-                    console.log("odds substring is minus : " + _odds);
+          //          console.log("odds substring is minus : " + _odds);
                     let convertedMinus1 = Number(_odds) / (Number(_odds) + Number(100));
 
                     profit_ = maxRisk * (Number(convertedMinus1) / (Number(1) - Number(convertedMinus1)));
-                    console.log("minus profit is: " + profit_);
+          //          console.log("minus profit is: " + profit_);
                     }
 
                     if (0 == 0){
@@ -465,11 +471,126 @@ var abcd = (function() {
 
                     //SO IF NOT SOCCER
                     if ( (_sport == "ATP Tennis") || (_sport == "WTA Tennis") || (_sport == "MLB Baseball") || (_sport == "NHL Hockey") || (_sport == "NBA Basketball") ) {
+
+                    // also need to check if the time is OK
+                    let timeCheck = JSON.stringify(sportsArray).split(",")[Number(5)+Number(i)].toString();
+
+                    let currentTimeEastern = new Date().getTime();
+                    console.log(currentTimeEastern);
+
+                    //we need to convert the date from the website to unix now
+                    //
+
+                    console.log(fullDate.substring(0,2));
+
+                    let _mth = fullDate.substring(0,2);
+                    let _yr = fullDate.substring(6,10);
+                    let _day = fullDate.substring(3,5);
+
+                    if (_mth[0] == 0){
+                        _mth = _mth.substring(1,2);
+                    }
+
+                    if (_day[0] == 0){
+                        _day = _day.substring(1,2);
+                    }
+
+
+                    console.log(_mth);
+                    console.log(_day);
+
+
+                    var mydate = new Date();
+                    mydate.setFullYear(_yr);
+                    mydate.setMonth(_mth - 1);
+                    mydate.setDate(_day);
+                   
+               //     Date.parse()
+
+                    //we need to get these from the sportsArray
+                    //
+
+                    timeCheck = timeCheck.replace("]","");
+                    timeCheck = timeCheck.replace(/"/g,"");
+
+                    if (timeCheck.search(";") > Number(-1)){
+                        timeCheck = timeCheck.split(";")[1];
+                    }
                     
+
+
+                    timeCheck = timeCheck.replace(" ", "");
+
+                    console.log("timecheck is: " + timeCheck);
+
+                    console.log("timecheck is: " + timeCheck[timeCheck.length - 1]);
+
+
+                    let pmBool = 0
+
+                    if (timeCheck[timeCheck.length - 1] == "p"){
+                    
+//                        timeCheck = timeCheck.substring(0,timeCheck.length - 2);
+                        
+                        pmBool = 12;
+                    
+                    }
+
+                        timeCheck = timeCheck.substring(0,timeCheck.length - 2);
+
+                        console.log(timeCheck);
+                        let timeCheck1 = timeCheck.split(":")[0];
+                        let timeCheck2 = timeCheck.split(":")[1]; 
+                        timeCheck1 = Number(timeCheck1) + Number(pmBool);
+
+             
+
+                        console.log("current time is: " + mydate);
+                        mydate.setHours(timeCheck1);
+                        mydate.setMinutes(timeCheck2);
+
+    //                console.log(new Date().getTime([], { hour: '2-digit', minute: "2-digit" }));
+
+
+                            console.log("current time is: " + mydate);
+                           console.log(mydate.getTime() / 1000);
+                            var offset = new Date().getTimezoneOffset();// getting offset to make time in gmt+0 zone (UTC) (for gmt+5 offset comes as -300 minutes)
+                            var date = new Date();
+                            date.setMinutes ( date.getMinutes() + offset);// date now in UTC time
+                                        
+
+                            var easternTimeOffset = -240; //for dayLight saving, Eastern time become 4 hours behind UTC thats why its offset is -4x60 = -240 minutes. So when Day light is not active the offset will be -300
+
+                            date.setMinutes ( date.getMinutes() + easternTimeOffset);
+
+                            console.log(date);
+                            console.log(date.getTime() / 1000);
+                            let currentTime = date.getTime() / 1000;
+                            let betTime = mydate.getTime() / 1000;
+
+
+                            console.log("timeTesting is: " + ((betTime - currentTime) / 3600));
+
+
+                            console.log("timeTesting is: " + _oracle);
+
+
+//                    console.log("DST in effect?:" + isDaylightSavingsInEffect(Date(currentTimeEastern)));
+
+
+                    if (Number( (currentTime - betTime) / 3600) > parseFloat(-1)) {
+                        console.log("tradeCreatedNot");
+                    }else{
+
                     await createTrade2(maxRisk, profit_, _oracle, 1);
                     
+                    console.log("tradeCreated");
+                        
+                        }
+
+                    
                     console.log("making trade with oracle: " + _oracle);
-                    console.log("tradeNumber is: " + i/5);
+                    console.log("tradeNumber is: " + i/6);
                     }
 
                     }
@@ -526,10 +647,14 @@ var abcd = (function() {
 
     var positionsGoButton = button_maker2("Create offer", function() { return doitConcession2(globalBalDB, positionsInput.value)});
 
+    var positionsViewMarketButton = button_maker2("View market", function() { return loadBookmark2(globalCID_)});
+
     var text12 = text(" ");
     text12.style.display = "inline";
     newDiv2.appendChild(text12);
     newDiv2.appendChild(positionsGoButton);
+    newDiv2.appendChild(text(" "));
+    newDiv2.appendChild(positionsViewMarketButton);
 
    // newDiv2.style.display = 'none';
 //    title0.appendChild(br());
@@ -888,6 +1013,20 @@ async function loadBookmark(_contract){
 
 }
 
+
+async function loadBookmark2(_contract){
+    console.log("contract is: " + _contract);
+
+
+    offersInput.value = _contract;
+    await offerInputLoad()
+    true1.checked = false;
+    false1.checked = false;
+
+    hideAccountManagement();
+    showTradeExplorer();
+
+}
 
 
 var displayOraclesNumber = 0;
@@ -1920,7 +2059,10 @@ console.log("through");
 
                 var button = button_maker2("Concede", function() { doitConcession(bdk)});
 
-                var button2 = button_maker2("Sell", function() { doitConcession3(testList2, testListNonce2, x2, bdk) });
+                var button2 = button_maker2("Sell", function() { doitConcession3(testList2, testListNonce2, x2, bdk, cidTemp) });
+                let cidTemp = cid_;
+                var button3_ = button_maker2("View market", function() { loadBookmark2(cidTemp) });
+
 
 
                 console.log("testlist is: " + JSON.stringify(testList));
@@ -1936,6 +2078,8 @@ console.log("through");
                 firstThing.appendChild(text(" "));                
                 firstThing.appendChild(button2);
 
+        //        firstThing.appendChild(text(" "));                
+        //        firstThing.appendChild(button3_);
  
                 firstThing.appendChild(br());
 
@@ -1973,11 +2117,11 @@ function testListTest(){
 
 var globalDB;
 
-function doitConcession3(testList_, testListNonce_, x_, a_){
+function doitConcession3(testList_, testListNonce_, x_, a_, _cid){
 
     newDiv2.style.display = 'block';
     globalBalDB = a_;
-
+    globalCID_  = _cid;
 //    console.log("doit3: " + JSON.stringify(testList_));
 //    console.log("doit3: " + JSON.stringify(testListNonce_));
 //    console.log("doit3: " + JSON.stringify(x_));
@@ -4113,3 +4257,75 @@ var internalNonce;
 
 //internalNonce = 0;
 abcd.getBookMark();
+
+
+
+"use strict";
+function dstOffsetAtDate(dateInput) {
+    var fullYear = dateInput.getFullYear()|0;
+    // "Leap Years are any year that can be exactly divided by 4 (2012, 2016, etc)
+    //   except if it can be exactly divided by 100, then it isn't (2100,2200,etc)
+    //    except if it can be exactly divided by 400, then it is (2000, 2400)"
+    // (https://www.mathsisfun.com/leap-years.html).
+    var isLeapYear = ((fullYear & 3) | (fullYear/100 & 3)) === 0 ? 1 : 0;
+    // (fullYear & 3) = (fullYear % 4), but faster
+    //Alternative:var isLeapYear=(new Date(currentYear,1,29,12)).getDate()===29?1:0
+    var fullMonth = dateInput.getMonth()|0;
+    return (
+        // 1. We know what the time since the Epoch really is
+        (+dateInput) // same as the dateInput.getTime() method
+        // 2. We know what the time since the Epoch at the start of the year is
+        - (+new Date(fullYear, 0)) // day defaults to 1 if not explicitly zeroed
+        // 3. Now, subtract what we would expect the time to be if daylight savings
+        //      did not exist. This yields the time-offset due to daylight savings.
+        - ((
+            ((
+                // Calculate the day of the year in the Gregorian calendar
+                // The code below works based upon the facts of signed right shifts
+                //    • (x) >> n: shifts n and fills in the n highest bits with 0s 
+                //    • (-x) >> n: shifts n and fills in the n highest bits with 1s
+                // (This assumes that x is a positive integer)
+                -1 + // first day in the year is day 1
+                (31 & ((-fullMonth) >> 4)) + // January // (-11)>>4 = -1
+                ((28 + isLeapYear) & ((1-fullMonth) >> 4)) + // February
+                (31 & ((2-fullMonth) >> 4)) + // March
+                (30 & ((3-fullMonth) >> 4)) + // April
+                (31 & ((4-fullMonth) >> 4)) + // May
+                (30 & ((5-fullMonth) >> 4)) + // June
+                (31 & ((6-fullMonth) >> 4)) + // July
+                (31 & ((7-fullMonth) >> 4)) + // August
+                (30 & ((8-fullMonth) >> 4)) + // September
+                (31 & ((9-fullMonth) >> 4)) + // October
+                (30 & ((10-fullMonth) >> 4)) + // November
+                // There are no months past December: the year rolls into the next.
+                // Thus, fullMonth is 0-based, so it will never be 12 in Javascript
+                
+                (dateInput.getDate()|0) // get day of the month
+                
+            )&0xffff) * 24 * 60 // 24 hours in a day, 60 minutes in an hour
+            + (dateInput.getHours()&0xff) * 60 // 60 minutes in an hour
+            + (dateInput.getMinutes()&0xff)
+        )|0) * 60 * 1000 // 60 seconds in a minute * 1000 milliseconds in a second
+        - (dateInput.getSeconds()&0xff) * 1000 // 1000 milliseconds in a second
+        - dateInput.getMilliseconds()
+    );
+}
+
+// Demonstration:
+var date = new Date(2100, 0, 1)
+for (var i=0; i<12; i=i+1|0, date.setMonth(date.getMonth()+1|0))
+    console.log(date.getMonth()+":\t"+dstOffsetAtDate(date)/60/60/1000+"h\t"+date);
+date = new Date(1900, 0, 1);
+for (var i=0; i<12; i=i+1|0, date.setMonth(date.getMonth()+1|0))
+    console.log(date.getMonth()+":\t"+dstOffsetAtDate(date)/60/60/1000+"h\t"+date);
+
+// Performance Benchmark:
+console.time("Speed of processing 16384 dates");
+for (var i=0,month=date.getMonth()|0; i<16384; i=i+1|0)
+    date.setMonth(month=month+1+(dstOffsetAtDate(date)|0)|0);
+console.timeEnd("Speed of processing 16384 dates");
+
+function isDaylightSavingsInEffect(dateInput) {
+    // To satisfy the original question
+    return dstOffsetAtDate(dateInput) !== 0;
+}
