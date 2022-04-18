@@ -12,7 +12,6 @@ under construction:
 
 - load events faster. batching data from the server so everything can be done in one request will solve this
 
-- write a bridge that lets someone send eth and receive veo even if their account starts with 0 veo. defaults first time setup to this page which becomes another tab for future use
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 
