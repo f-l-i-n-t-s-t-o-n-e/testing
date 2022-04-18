@@ -3,6 +3,8 @@ var globalCID;
 var globalB1;
 var globalcreatetradenonce;
 
+var globalLPBool;
+
 var globalCID_;
 
 var globalVariable;
@@ -86,7 +88,7 @@ var abcd = (function() {
     title3.appendChild(successVar);
 
     async function liquidityProvision(){
-
+        globalLPBool = 1;
         var maxRisk = Number(LPinput.value);  // * 100000000; lol
         successVar.innerHTML = "<font color=\"green\">LP bot started</font>";
 
@@ -1006,7 +1008,7 @@ async function loadBookmark(_contract){
 
 
     offersInput.value = _contract;
-    await offerInputLoad()
+    offerInputLoad()
     true1.checked = false;
     false1.checked = false;
 
@@ -1022,7 +1024,7 @@ async function loadBookmark2(_contract){
      myStopFunction();
 
     offersInput.value = _contract;
-    await offerInputLoad()
+    offerInputLoad()
     true1.checked = false;
     false1.checked = false;
 
@@ -1817,6 +1819,8 @@ console.log("through");
     
     globalcreatetradenonce = 0;
     
+    globalLPBool = 0;
+
     }
 
 }
@@ -2363,7 +2367,7 @@ if (tempvar2 != "[[-6]]"){
                 type = "binary";
             //    price = h[3];
                 return display_offers2Load(orders, l, type, offsetNumber2_, t2_, t3_, " or ", "");
-            } 
+            }
 
          /*   else if (h[9] == 2) {
                 var oid = h[2];
@@ -3373,7 +3377,7 @@ focusOracleFilter();
         l = l.slice(1);
 
         myStopFunction();
-        await abcd.display_oracles(l);
+        abcd.display_oracles(l);
   //      myInterval = setInterval(async function(){ runtheloop() }, 1000*10);
     }
 
@@ -3419,7 +3423,7 @@ focusOracleFilter();
         l = l.slice(1);
 
         myStopFunction();
-        await abcd.display_oracles(l);
+        abcd.display_oracles(l);
     //    myInterval = setInterval(async function(){ runtheloop() }, 1000*10);
     }
 

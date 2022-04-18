@@ -113,7 +113,12 @@ function bet_builder2(bet_e, amount_e, them_e, _type){
         if (abcd.offersInput.value == ''){
 
         }else{
+
+        if (globalLPBool != 1){            
+
         await abcd.offerInputLoad();
+            
+        }
             }
     };
 
