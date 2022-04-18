@@ -87,7 +87,16 @@ function headers_main() {
 
         top_header = ["header", 130700, "yClicPvrQ4Ul5sk4hbsrJ62drzli1tue/mf8TYW2dZU=", "Dq6o8Xg3qiUVzMpzXkKijFtlhFd66KQlw2qiN8x37KI=", "bZM+MzTkULo4gzZ8hBlZLqTfWDmvxCnSL684GZSFCn8=", 803559907, 13378, 3, "AAAAAAAAAAAAB4P1tQgLilI01L0VFKSUOcygSIIAAAA=", 2.3808044578490653e+21, 5982];
 
+        let checkPointHeader = ["header",209153,"plvLQwoDmPf7MDX4FlZYgI3lZ1KKjqZQKzJaxn+irRA=","lKESfJYdSxfC7ns7QjJDJ3nt4KPzKqEdzN/Yr/F0h2k=","DjOnMT9LFbpnSU6psWdN8MT8q4VBrnyI1z48/zQpX5s=",1309463741,12297,3,"AAAAAAAAAAAA77ceGwAAAAC3AAAAAAAAAKBcYz4AEBI=",2.741764613372834e+21,5982]; 
+        let checkPointEwah = 44460158247369;
+
             write_header(top_header, 781489233254590);            
+
+//            write_header(checkPointHeader, 44460158247369);            
+
+
+//            write_header(checkPointHeader, checkPointEwah);            
+
         }
 
 //to find the ewah headers_object.read_ewah(hash(headers_object.serialize(headers_object.top())));
@@ -103,6 +112,7 @@ function headers_main() {
         
         var button = button_maker2("sync with network", function() {
             wallet_text.innerHTML = "Downloading blockchain data";
+            
             return more_headers();
         });
         document.body.appendChild(button);
@@ -115,6 +125,8 @@ function headers_main() {
     var wallet_text = document.createElement("div");
     wallet_text.innerHTML = "Downloading blockchain data";
     document.body.appendChild(wallet_text);
+            wallet_text.appendChild(br());
+            wallet_text.appendChild(br());
 
 
 

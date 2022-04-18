@@ -2063,6 +2063,14 @@ if (tempvar2 != "[[-6]]"){
     };
 
 
+            var true1 = document.createElement("INPUT");
+            true1.type = 'checkbox';
+            true1.style="width:15px;height:15px;"
+         //   above.vertical-align = 'bottom';
+            var false1 = document.createElement("INPUT");
+            false1.type = 'checkbox';
+            false1.style="width:15px;height:15px;"
+
     async function display_offers2Load(orders, l, type, offsetNumber2_, t2_, t3_, d1message, d2message) {
 
         if (JSON.stringify(orders) == "[]") {
@@ -2082,7 +2090,7 @@ if (tempvar2 != "[[-6]]"){
 
     //    console.log()
         console.log("mdisplayoffers3 is type 1: " + type1 +" type2: " + type2);
-
+        console.log("order1 is: " + t2_);
 
         var order = orders[0];
         var Maximum = 4294967295;
@@ -2321,7 +2329,22 @@ if (tempvar2 != "[[-6]]"){
             xyz2 = 0;
             var text2 = document.createElement("div");
             var text3 = document.createElement("div");
+            var text4 = document.createElement("div");
+            var text5 = document.createElement("div");
+            var text6 = document.createElement("div");
+            var text7 = document.createElement("div");
+            var text8 = document.createElement("div");
 
+            var input4 = document.createElement("INPUT");
+            var input5 = document.createElement("INPUT");
+//            var input6 = document.createElement("INPUT");
+
+            input4.style.display = 'inline';
+            input5.style.display = 'inline';
+
+
+
+            var tradingButton = button_maker2("Create trade", function() { createTrade(Number(input4.value), Number(input5.value), t2_) });
     //        acceptConfirmation.innerHTML = "asdsad";
             acceptConfirmation.style.display = "inline";
             var spacing = document.createElement("div");
@@ -2330,6 +2353,19 @@ if (tempvar2 != "[[-6]]"){
 //            var text2 = "Contract: ";
             text2.innerHTML = "Contract: ";
             text3.innerHTML = "Event: ";
+            text4.innerHTML = "Risk: ";
+            text5.innerHTML = "Profit: ";
+            text6.innerHTML = "Betting on true";
+            text7.innerHTML = " or false";
+            text8.innerHTML = " ";
+
+            text7.style.display = 'inline';
+            text8.style.display = 'inline';
+
+
+    //        text6.style.display = 'inline';
+
+
             b1.style.display = "inline";
     //        text3.style.display = "inline";
 
@@ -2338,6 +2374,22 @@ if (tempvar2 != "[[-6]]"){
 
             text2.style.textIndent = "50px";
             text3.style.textIndent = "50px";
+            text4.style.textIndent = "50px";
+            text5.style.textIndent = "50px";
+            text6.style.textIndent = "50px";
+//            text8.style.textIndent = "70px";
+
+
+
+   //         tradingButton.style.textIndent = "50px";
+
+
+
+
+            true1.style.display = 'inline';
+
+            false1.style.display = 'inline';
+
 
             offers.appendChild(br());
 
@@ -2350,9 +2402,26 @@ if (tempvar2 != "[[-6]]"){
 
             offers.appendChild(text3);
             text3.appendChild(b1);
+//            offers.appendChild(br());
+
+            offers.appendChild(text4);
+//            offers.appendChild(br());
+            text4.appendChild(input4);
+
+            offers.appendChild(text5);
+//            offers.appendChild(br());
+            text5.appendChild(input5);
+            offers.appendChild(text6);
+            text6.appendChild(true1);
+            text6.appendChild(text7);
+            text6.appendChild(false1);
+//            offers.appendChild(text8);
+            text6.appendChild(text8)
+            text6.appendChild(tradingButton);
+
+//            offers.appendChild(br());            
+
             offers.appendChild(br());
-        //    offers.appendChild(br());
-       //     offers.appendChild(br());
         globalInputBool = 1;
         }
 
@@ -2397,6 +2466,41 @@ if (tempvar2 != "[[-6]]"){
  //   globalInputBool = 1;
 };
 
+
+    async function createTrade(_risk, _profit, _t2){
+
+
+        let myAmount_ = _risk;
+//        let theirAmount_ = Number(_risk) + Number(_profit);
+
+        let theirAmount_ = Number(_profit);
+
+
+        //check the checkboxes
+        if ((true1.checked == true) && (false1.checked == true)) {
+            console.log("u cant do that");
+        }else{
+
+            if ((true1.checked != true) && (false1.checked != true)){
+           console.log("u cant do that");
+
+            }else{
+                let _type = 0;
+                if (true1.checked == true){
+                    _type = 1;
+                }
+
+                if (false1.checked == true){
+                    _type = 2;
+                }
+
+                await bet_builder2(_t2, myAmount_, theirAmount_, _type);
+
+                }
+
+            }
+
+    }
 
 
     async function display_offers2(orders, l, type, offsetNumber2_, t2_, t3_, d1message, d2message) {
