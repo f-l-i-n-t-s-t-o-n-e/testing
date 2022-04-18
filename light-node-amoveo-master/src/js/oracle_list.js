@@ -1000,6 +1000,8 @@ function getBookMark(){
 
 
 async function loadBookmark(_contract){
+//    hideOdds();
+     myStopFunction();
     console.log("contract is: " + _contract);
 
 
@@ -1016,7 +1018,8 @@ async function loadBookmark(_contract){
 
 async function loadBookmark2(_contract){
     console.log("contract is: " + _contract);
-
+//    hideOdds();
+     myStopFunction();
 
     offersInput.value = _contract;
     await offerInputLoad()
