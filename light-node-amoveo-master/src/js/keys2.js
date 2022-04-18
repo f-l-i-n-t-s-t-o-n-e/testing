@@ -340,8 +340,24 @@ function copy_address(){
             keys_internal = ec.keyFromPrivate(reader.result, "hex");
             update_pubkey();
             update_balance();
+            abcd.getBookMark()
         }
+
         reader.readAsText(file);
+    
+//        headers_object.bookmarkText.innerHTML = "";
+//        headers_object.bookmarkText2.innerHTML = "";
+
+//        headers_object.bookmarkText.style.display = 'none';
+//        headers_object.bookmarkText2.style.display = 'none';
+
+
+        console.log("loading bookmarks");
+     //   setTimeout(, 1000);
+
+//        headers_object.bookmarkText.style.display = 'block';
+//        headers_object.bookmarkText2.style.display = 'block';
+
     }
         function load_keys2() {
       //  var file = (file_selector.files)[0];

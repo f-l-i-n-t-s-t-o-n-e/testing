@@ -545,7 +545,7 @@ function offerInputBookmark(){
     window.localStorage.setItem(keys.pub() + "bookmarknonce", bnonce);
 
   //  setTimeout(getBookMark(), 3000);
-
+    getBookMark()
     }
 }
 
@@ -561,6 +561,7 @@ function getBookMark(){
 
     headers_object.bookmarkText2.innerHTML = "";
 
+    console.log("in getbookmark: " + keys.pub());
 
 
 //    var _nonce = 55;
