@@ -9,6 +9,8 @@ despite functioning it is still a work in progress. there are probably bugs
 under construction:
 
 - provide liquidity. users hit the Go button and the page uses their VEO to automatically offer bets on a wide variety of sports matches slightly undercutting professional odds scraped from a website
+       - this is more or less complete now, just need to add undercutting % control and check time and time zone to make sure odds are not being offered on matches underway or completed 
+       
 
 - load events faster. batching data from the server so everything can be done in one request will solve this
 
