@@ -6,46 +6,17 @@ var localBool;
 
 var globalBool;
 
+
+var intervalVar;
+
 async function runtheloop(){
 
-
-/*
-if (globalBool != true){
-    async function refresh(){
-        console.log("in refresh and ip is: "+ get_ip());
-        var port = "8090";
-        var l = await rpc.apost(["markets"], get_ip(), parseInt(port));
-        console.log("here is l: " + l);
-        l = l.slice(1);
-
-    //    temp_div.innerHTML = "<h3>available markets</h3>";
-        console.log("oracle_list attempt:");
-      console.log(JSON.stringify(l));
-  //      var l = Y.slice(1);
-        abcd.display_oracles(l);
-
-
-}
-
-
- //           var z = await rpc.apost(["read", m[2]], s_ip.value, parseInt(s_port.value));
- //           var orders = z[1][7];
- //           console.log(JSON.stringify(orders));
- //           orders = orders.slice(1);
-
-//rpc.default_explorer(["oracle_list"], function(Y) {
-
-//    });
-
-
-refresh();
-globalBool = true;
-}
-
-*/
 console.log("globalVariable is: " + intervalVar);
+
 if (intervalVar != 1){
+
 console.log("refreshing blocks");
+
 headers_object.more_headers();
 //keys.bal_div.appendChild(title9);
 console.log("refreshing oracle list");
@@ -72,6 +43,8 @@ if (keys.pub().length > 0){
 
 
 }
+
+
 if (globalVariable == 1){
 console.log("aborting header refresh because loading events");
 }
@@ -82,7 +55,7 @@ intervalVar = 0;
 
 
 const myInterval = setInterval(async function(){ runtheloop() }, 1000*10);
-var intervalVar;
+
 
 function myStopFunction() {
  // clearInterval(myInterval);

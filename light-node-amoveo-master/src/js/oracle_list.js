@@ -1006,9 +1006,12 @@ async function loadBookmark(_contract){
      myStopFunction();
     console.log("contract is: " + _contract);
 
-
+//    intervalVar = 1;
     offersInput.value = _contract;
     offerInputLoad()
+
+//    intervalVar = 1;
+
     true1.checked = false;
     false1.checked = false;
 
@@ -1022,7 +1025,7 @@ async function loadBookmark2(_contract){
     console.log("contract is: " + _contract);
 //    hideOdds();
      myStopFunction();
-
+//    intervalVar = 1;
     offersInput.value = _contract;
     offerInputLoad()
     true1.checked = false;
@@ -1043,8 +1046,8 @@ var displayOraclesNumber = 0;
 async function display_oracles(l) {
 
 
-                    console.log("showing h1" + l);
-                    console.log(firstTimeBool);
+      //              console.log("showing h1" + l);
+      //              console.log(firstTimeBool);
 
             if (firstTimeBool != 1){
                                 oracles.innerHTML = "";
@@ -1066,12 +1069,12 @@ async function display_oracles(l) {
 
                     } else {
                         var h = l[0];
-                        console.log("showing h12: " + h[5]);
+     //                   console.log("showing h12: " + h[5]);
                         //console.log("this is h");
                         //console.log(JSON.stringify(h));
-                        console.log("here is h3: "+ h);
+       //                 console.log("here is h3: "+ h);
 
-                        console.log("here is el: "+ JSON.stringify(h));
+      //                  console.log("here is el: "+ JSON.stringify(h));
 
                         async function oraclePull (h){
             //            var Oracle = await rpc.apost(["oracle", h[1]]);
@@ -1425,13 +1428,13 @@ console.log("zee1 is: " + z);
 
 //calculate what you need then execute the function
 async function display_oracles2(l, _placeholder1, _placeholder2) {
-
+            myStopFunction();
 
                     console.log("showing h1" + l);
                     console.log(firstTimeBool);
 
             if (firstTimeBool != 1){
-                                oracles.innerHTML = "";
+                        //        oracles.innerHTML = "";
                                 firstTimeBool = 1;
                             }
 
@@ -1748,7 +1751,7 @@ console.log("through");
 
 
     async function offerInputLoad(){
-
+            myStopFunction();
         // the server stores trades based on market id which is a function of what is being traded for what in the swap offer.
         // so we cover two cases: VEO & Type 1 are being traded and VEO & Type 2 are being traded.
  
@@ -3369,9 +3372,9 @@ focusOracleFilter();
 
 
             cidArray.push(cidHolder_);
-            console.log("cidholder is2: " + cidArray);
-            console.log("cidholder is3: " + cidArray.indexOf("iPguye5rdK5p2p26LUoKmyhiP1fvZFPck16nkklqUDM="));
-            console.log(cidArray.toString());
+ //           console.log("cidholder is2: " + cidArray);
+ //           console.log("cidholder is3: " + cidArray.indexOf("iPguye5rdK5p2p26LUoKmyhiP1fvZFPck16nkklqUDM="));
+ //           console.log(cidArray.toString());
         }
 
         l = l.slice(1);
