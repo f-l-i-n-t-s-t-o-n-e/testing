@@ -618,7 +618,7 @@ var abcd = (function() {
     div.appendChild(title);
 
     var optionPresetButton1 = button_maker2("Crypto Options", function() { return PresetFilter("price is more than Midnight")});
-    var optionPresetButton2 = button_maker2("Competition", function() { return PresetFilter("will defeat in the competition starting on local time")});
+    var optionPresetButton2 = button_maker2("Competition", function() { return PresetFilter("defeat competition")});
     
    // var nbaPresetButton = button_maker2("NBA", function() { return PresetFilter("nba")});
 
