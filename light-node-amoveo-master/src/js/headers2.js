@@ -20,9 +20,9 @@ function headers_main() {
         server_port.value = "8080";
         if (server_ip.value == "") {
 
-//            server_ip.value = "159.89.87.58";
+            server_ip.value = "159.89.87.58";
 
-            server_ip.value = "46.101.185.98";
+//            server_ip.value = "46.101.185.98";
 
         }
     }
@@ -112,7 +112,7 @@ function headers_main() {
         
         var button = button_maker2("sync with network", function() {
             wallet_text.innerHTML = "Downloading blockchain data";
-            
+
             return more_headers();
         });
         document.body.appendChild(button);

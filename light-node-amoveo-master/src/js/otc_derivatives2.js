@@ -106,7 +106,8 @@ function bet_builder2(bet_e, amount_e, them_e, _type){
         //link.innerHTML = "Your trade can be viewed on this page."
         //link.target = "_blank";
         //display.appendChild(link);
-        
+        await abcd.offerInputLoad();
+
     };
 
     doit2();

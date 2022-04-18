@@ -1,6 +1,7 @@
 
-
+var globalCID;
 var globalB1;
+var globalcreatetradenonce;
 
 var globalVariable;
             var fullDate;
@@ -91,25 +92,91 @@ var abcd = (function() {
 
     
         var bettingOdds = await rpc.apost(["test", 1], "46.101.185.98", parseInt("8084"));
-        console.log("odds are: " + bettingOdds);
+        console.log("odds are: " + JSON.stringify(bettingOdds));
+        //sport
+        console.log("odds are: " + atob(bettingOdds[4]));
         console.log("odds are: " + atob(bettingOdds[3]));
+        console.log("odds are: " + atob(bettingOdds[2]));
+        //sport
+        console.log("odds are: " + atob(bettingOdds[1]));
+        console.log("odds are: " + atob(bettingOdds[6]));
+
+//        console.log("odds are: " + atob(JSON.stringify(bettingOdds.slice(1))));
+
+        //this array will hold every trade
+
+        // 1 sportName & Competitor1
+        // 2 sportName & Competitor2
+        // 3 Date
+        // 4 Odds that will be offered in the bet
+
+        // repeat for each event
+        // then it will take these, create the swap offers, then loop through the broadcast
+
+        var sportsArray = new Array;
+
+
+        console.log(JSON.stringify(bettingOdds.slice(1).map(function(x){return(atob(x))})));
+        
+
+
+        var oddsDigest = (bettingOdds.slice(1).map(function(x){return(atob(x))}));
+        console.log(oddsDigest[0]);
+
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[0]);
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[1]);
+
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[1].split(",")[0]);
+
+
+        
+
+        console.log(sportLength);
+
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[2]);
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[3]);
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[6]);
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[9]);
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[12]);
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[15]);
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[18]);
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[21]);
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[24]);
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))}))[27]);
+        console.log((bettingOdds.slice(1).map(function(x){return(atob(x))})).length);
+
+
             //Friday, March 4, 2022
 
-            var date_ = atob(bettingOdds[3]);
-            console.log(date_[2]);
-            var sport = atob(bettingOdds[1]);
-            console.log("sport is: " + sport);
+
+            var date_;
+            var monthDay;
+            var year;
+            var month;
+
+    for (let j = 0; j < oddsDigest.length; j++) {
+
+        if ((j % 3) == 0){
 
 
+
+
+
+            date_ = oddsDigest[Number(j)+Number(2)];
+            console.log(date_);
+
+
+            var wordDate;
         function numberFromWord(){
 
 
             console.log(date_[2]);
-            var monthDay = date_.split(",")[1];
-            var year = date_.split(",")[2];
+            monthDay = date_.split(",")[1];
+            year = date_.split(",")[2];
+            wordDate = monthDay + year;
             console.log("year is " + year);
             console.log("monthday split is " + monthDay.split(" ")[0]);
-            var month;
+     //       var month;
        //     console.log(monthDay.search(" "));
             if (monthDay.split(" ")[1] == "January"){
                 month = "01";
@@ -170,13 +237,153 @@ var abcd = (function() {
 
             fullDate = month + "/" + day + "/" + year;
 
-            console.log("fulldate is" + fullDate);
+            console.log("fulldate is " + fullDate);
+            console.log("wordDate is " + wordDate);
 
 
         }
 
         numberFromWord();
+        wordDate = wordDate.substring(1, wordDate.length - 1);
+        var sportDigest = oddsDigest[Number(j)+Number(1)].split(",");
 
+        var sportLength = oddsDigest[Number(j)+Number(1)].split(",").length;
+
+        var sport = oddsDigest[j];
+   //         var date_2 = oddsDigest[2];
+        console.log("sport is: " + sport);
+
+
+
+        var odds1;
+        var odds2;
+
+        var networkBool = 0;
+        var MLBbool = 0;
+
+        var comp1;
+        var comp2;
+
+            for (let i = 0; i < sportLength; i++) {
+
+                //sport-specific modification
+
+                if (sport == "ATP TENNIS") {
+                    sport = "ATP Tennis";
+                }                
+
+                if (sport == "MLB BASEBALL") {
+                    sport = "MLB Baseball";
+                    networkBool = 1;
+                    MLBbool = 1;
+                    }
+
+                if (sport == "NHL HOCKEY") {
+                    sport = "NHL Hockey";
+                    networkBool = 1;
+                    }
+
+                if (sport == "NBA BASKETBALL") {
+                    sport = "NBA Basketball";
+                    networkBool = 1;
+                    }
+
+                //figure out if the entry is a time or not
+                //am or pm with a ":"
+
+                if ( ((sportDigest[i].search(":") >= 0) && (sportDigest[i].search("a") >= 0)) || ((sportDigest[i].search(":") >= 0) && (sportDigest[i].search("p") >= 0)) ){
+
+                    // 1 sportName & Competitor1
+                    // 2 sportName & Competitor2
+                    // 3 Date
+                    // 4 Odds that will be offered in the bet
+                        sportsArray.push(sport);
+
+                        if (MLBbool == 1){
+                            comp1 = sportDigest[Number(i)+Number(1)].split("-")[0].substring(0, sportDigest[Number(i)+Number(1)].split("-")[0].length - 1);
+                            comp2 = sportDigest[Number(i)+Number(2)].split("-")[0].substring(0, sportDigest[Number(i)+Number(2)].split("-")[0].length - 1);
+
+                            sportsArray.push(comp1);
+                            sportsArray.push(comp2);
+
+                        }else{
+
+                        sportsArray.push(sportDigest[Number(i)+Number(1)]);
+                        sportsArray.push(sportDigest[Number(i)+Number(2)]);
+
+                        }
+
+                        sportsArray.push(wordDate);
+
+                        if (networkBool == 1){
+
+                        odds1 = sportDigest[Number(i)+Number(4)].substring(1,sportDigest[Number(i)+Number(4)].length);
+
+                        }else{
+
+                        odds1 = sportDigest[Number(i)+Number(3)].substring(1,sportDigest[Number(i)+Number(3)].length);
+
+                        }
+
+
+                        sportsArray.push(odds1);
+
+                    // 1 sportName & Competitor2
+                    // 2 sportName & Competitor1
+                    // 3 Date
+                    // 4 Odds that will be offered in the bet. odds that 2 defeats 1
+                        sportsArray.push(sport);
+
+                        if (MLBbool == 1){
+
+                            sportsArray.push(comp2);
+                            sportsArray.push(comp1);
+
+                        }else{
+
+                        sportsArray.push(sportDigest[Number(i)+Number(2)]);
+                        sportsArray.push(sportDigest[Number(i)+Number(1)]);
+                        
+                        }
+
+                        sportsArray.push(wordDate);
+
+                        if (networkBool == 1){
+
+                        odds2 = sportDigest[Number(i)+Number(5)].substring(1,sportDigest[Number(i)+Number(5)].length);
+
+                        }else{
+
+                        odds2 = sportDigest[Number(i)+Number(4)].substring(1,sportDigest[Number(i)+Number(4)].length);
+
+                        }
+
+                        sportsArray.push(odds2);
+
+                //        sportsArray.push(sportDigest[Number(i)+Number(3)]);
+                
+                }        
+            
+            }
+
+
+
+//end of bigger if statement
+}
+//end of bigger for loop
+} 
+
+
+
+//now that sportsArray works, we can start betting
+
+
+
+
+
+            console.log(JSON.stringify(bettingOdds.slice(1).map(function(x){return(atob(x))})));
+
+            console.log(JSON.stringify(sportsArray));
 
 
         var teamOne;
@@ -308,12 +515,12 @@ var abcd = (function() {
 //        dcba.theirAmount.value = theirAmountCalc;
         i = i+1;
 
-        loopTheOdds(bettingOdds_.slice(18));
+     //   loopTheOdds(bettingOdds_.slice(18));
         }
 
 
 
-        setTimeout(eraseSuccess, 3000);
+    //    setTimeout(eraseSuccess, 3000);
 
     }
 
@@ -387,7 +594,9 @@ var abcd = (function() {
     title1.appendChild(hideOddsButton);
     var offers = document.createElement("div");
     
+    var alternateOffers = document.createElement("div");
 
+    offers.appendChild(alternateOffers);
 
     var offersLoad = document.createElement("div");
     var offersInput = document.createElement("INPUT");
@@ -704,6 +913,9 @@ async function loadBookmark(_contract){
 
     offersInput.value = _contract;
     await offerInputLoad()
+    true1.checked = false;
+    false1.checked = false;
+
     hideAccountManagement();
     showTradeExplorer();
 
@@ -1493,6 +1705,9 @@ console.log("through");
     globalInputBool = 0;
        
     offersButton2.style.display = 'inline';
+    
+    globalcreatetradenonce = 0;
+    
     }
 
 }
@@ -2425,6 +2640,8 @@ if (tempvar2 != "[[-6]]"){
         globalInputBool = 1;
         }
 
+
+
        // xyz1 = 0
 
         t.innerHTML = text;
@@ -2493,9 +2710,9 @@ if (tempvar2 != "[[-6]]"){
                 if (false1.checked == true){
                     _type = 2;
                 }
-
+                globalcreatetradenonce = 1;
                 await bet_builder2(_t2, myAmount_, theirAmount_, _type);
-
+//                setTimeout(offerInputLoad(), 3000);
                 }
 
             }
@@ -2941,7 +3158,7 @@ if (tempvar2 != "[[-6]]"){
         });
     };
 
-    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, offersLoad: offersLoad, offersButton2: offersButton2, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark, pullbm: pullbm};
+    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, offersLoad: offersLoad, offersButton2: offersButton2, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark, pullbm: pullbm, true1: true1, false1: false1};
 
 })();
 console.log("trying to display positions");
@@ -3680,6 +3897,13 @@ download(window.localStorage.getItem("positionData"+keys.pub()), "My Position Da
 function hideOdds(){
     console.log("hiding odds");
     abcd.offers.innerHTML = "";
+
+    //only hide odds below if this is the case
+    if (globalcreatetradenonce == 1){
+
+
+    }
+
 //    abcd.offersInput.value = "";
 }
 
@@ -3689,6 +3913,11 @@ function hideOdds2(){
     abcd.offersInput.value = "";
 
         abcd.offersButton2.style.display = 'none';
+
+        abcd.true1.checked = false;
+        abcd.false1.checked = false;
+
+
 }
 
 function returnOracleLanguage(x){
