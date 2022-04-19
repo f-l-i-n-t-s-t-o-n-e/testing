@@ -1273,8 +1273,8 @@ var placeholder;
 
                             if ((oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[0].substring(4, 0) == "W = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") && (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (Competitor W defeated Competitor X in the competition that started on date Z (in local time))") && (oracle_text.split(";")[4] == " return (Competitor W defeated Competitor X in the competition that started on date Z (in local time))")) {
 
-                        console.log("splitting2: " + oracle_text.split(";")[5]);
-                        console.log("splitting22: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
+      //                  console.log("splitting2: " + oracle_text.split(";")[5]);
+      //                  console.log("splitting22: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
 
                                 offsetNumber2 = 1;
                                 var team1 = oracle_text.split(";")[0].substring(4, oracle_text.split(";")[0].length);
@@ -1404,10 +1404,12 @@ var placeholder;
                         //make increment2 1 as well if a cid has already been used.
 //                        cidArray.toString()
     //                    console.log("indexOf check: " + cidArray.length);
-    //                    console.log("indexOf check3: " + cidHolder);
-    //                    console.log("indexOf check2: " + cidArray.indexOf(cidHolder));
+     //                   console.log("indexOf check3: " + cidHolder);
+     //                   console.log("indexOf check2: " + cidArray.indexOf(cidHolder));
+     //                   console.log("indexOf check4")
 
 
+                        /*
                         if (cidArray.indexOf(cidHolder) != "-1"){
 
                             if (foundCidArray.indexOf(cidHolder) != "-1"){
@@ -1421,6 +1423,21 @@ var placeholder;
                             }
 
                         }
+
+                        */
+
+                            if (foundCidArray.indexOf(cidHolder) == "-1") {
+
+                                foundCidArray.push(cidHolder);
+
+                            } else {
+
+                                increment2  = increment2 + 1;
+                            
+                            }
+
+
+                 //       console.log("indexOf check4: " + increment2);
 
 
                         if (increment2 < 1) {
@@ -3385,7 +3402,7 @@ focusOracleFilter();
     }
 
     async function filter(){
-        console.log(abcd.oracle_filter.value);
+  //      console.log(abcd.oracle_filter.value);
         filterText = abcd.oracle_filter.value;
 
         firstTimeBool = 0;
@@ -3408,20 +3425,23 @@ focusOracleFilter();
 //        console.log("xxxx here is l23: " + l.length);
 //        console.log("xxxx here is l234: " + JSON.stringify(l));
 
-
+        l = l.slice(1);
         var actualLength = Number(l.length) - Number(1);
 
-        
-        for (let i = 1; i < l.length; i++) {
+  //      console.log(l[0][1][5]);
+
+
+        /*
+        for (let i = 0; i < l.length / 3; i++) {
 
 
         //xyzwww
-        if (l[i][3] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
-            cidHolder_ = l[i][5];
+        if (l[i][1][3] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
+            cidHolder_ = l[i][1][5];
         }
 
-        if (l[i][5] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
-            cidHolder_ = l[i][3];
+        if (l[i][1][5] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="){
+            cidHolder_ = l[i][1][3];
         }
 
 
@@ -3430,10 +3450,12 @@ focusOracleFilter();
             cidArray.push(cidHolder_);
  //           console.log("cidholder is2: " + cidArray);
  //           console.log("cidholder is3: " + cidArray.indexOf("iPguye5rdK5p2p26LUoKmyhiP1fvZFPck16nkklqUDM="));
- //           console.log(cidArray.toString());
-        }
 
-        l = l.slice(1);
+        }
+    */
+
+      //      console.log(cidArray.toString());
+
 
         myStopFunction();
         abcd.display_oracles(l);
@@ -3488,7 +3510,7 @@ focusOracleFilter();
 
    async function PresetFilter(x){
 
-        console.log(abcd.oracle_filter.value);
+ //       console.log(abcd.oracle_filter.value);
         filterText = x;
         abcd.oracle_filter.value = x;
         filter();
@@ -3681,7 +3703,7 @@ async function showPositions(){
             setTimeout(function(){
               //      setTimeout(console.log("test", 300));
                 return(lb2_(subs.slice(1), callback));
-            }, 21);
+            }, 41);
         };
 
 
