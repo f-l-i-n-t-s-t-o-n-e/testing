@@ -10,8 +10,7 @@ despite functioning it is still a work in progress. there are probably bugs
 
 under construction:
 
-- load events faster. batching data from the server so everything can be done in one request will solve this
-
+- make the trading page more like an order book
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 
