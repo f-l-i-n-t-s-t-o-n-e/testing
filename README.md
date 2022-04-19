@@ -3,6 +3,9 @@
 this is a minimum viable product for a trading interface where you can bet on coin prices or competitions like sports games in a fully non interactive way which means after you make a bet everything is handled behind the scenes and your winnings just show up in your account after the event has concluded
 
 you can also be the house and LP by copying professional odds with one click
+            - all major sports supported
+            - able to customize amount of undercut / vig
+            - offers valid for 1 hour
 
 despite functioning it is still a work in progress. there are probably bugs
 
