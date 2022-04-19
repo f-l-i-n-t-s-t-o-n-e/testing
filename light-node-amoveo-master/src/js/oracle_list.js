@@ -582,6 +582,8 @@ var abcd = (function() {
 
                     if (Number( (currentTime - betTime) / 3600) > parseFloat(-1)) {
                         console.log("tradeCreatedNot");
+
+//                                            await createTrade2(maxRisk, profit_, _oracle, 1);
                     }else{
 
                     await createTrade2(maxRisk, profit_, _oracle, 1);
@@ -746,7 +748,11 @@ var abcd = (function() {
 
     var optionPresetButton1 = button_maker2("Crypto Options", function() { return PresetFilter("price is more than Midnight")});
     var optionPresetButton2 = button_maker2("Competition", function() { return PresetFilter("defeat competition")});
+    var optionPresetButton3 = button_maker2("NBA", function() { return PresetFilter("NBA defeat competition")});
+    var optionPresetButton4 = button_maker2("MLB", function() { return PresetFilter("MLB defeat competition")});
+    var optionPresetButton5 = button_maker2("NHL", function() { return PresetFilter("NHL defeat competition")});
     
+
    // var nbaPresetButton = button_maker2("NBA", function() { return PresetFilter("nba")});
 
 
@@ -786,6 +792,14 @@ var abcd = (function() {
     div2.appendChild(optionPresetButton1);
     div2.appendChild(text(" "));
         div2.appendChild(optionPresetButton2);
+    div2.appendChild(text(" "));
+        div2.appendChild(optionPresetButton3);
+    div2.appendChild(text(" "));
+        div2.appendChild(optionPresetButton4);
+    div2.appendChild(text(" "));
+        div2.appendChild(optionPresetButton5);
+  
+
   //  div2.appendChild(text(" "));
   //  div2.appendChild(nbaPresetButton);
 
@@ -1042,8 +1056,7 @@ var displayOraclesNumber = 0;
 //xxxxxxxx
 
 
-
-async function display_oracles(l) {
+function display_oracles(l) {
 
 
       //              console.log("showing h1" + l);
@@ -1068,7 +1081,24 @@ async function display_oracles(l) {
 
 
                     } else {
-                        var h = l[0];
+//                        var h = l[0];
+                        var h = l[0][1];
+//                        var h = l[1];
+                        
+
+                //        console.log(atob(l[0][2][1]));
+
+                        if (JSON.stringify(l[0][3]) == "[-6]"){
+                        z = atob(l[0][2][1]);
+                        }else{
+                        z = atob(l[0][3][1]);
+
+                        }
+
+       //                 console.log(JSON.stringify(l[1][3]));
+
+
+
      //                   console.log("showing h12: " + h[5]);
                         //console.log("this is h");
                         //console.log(JSON.stringify(h));
@@ -1076,7 +1106,7 @@ async function display_oracles(l) {
 
       //                  console.log("here is el: "+ JSON.stringify(h));
 
-                        async function oraclePull (h){
+                        function oraclePull (h){
             //            var Oracle = await rpc.apost(["oracle", h[1]]);
             
 var placeholder;
@@ -1089,39 +1119,45 @@ var placeholder;
     var offsetNumber2;
 
   //  if h[]
-
-  console.log("placeholder is: " + placeholder);
+//  console.log("placeholder is: " + JSON.stringify(l));
+  //console.log("placeholder is: " + placeholder);
 
 
   //          if (displayOraclesNumber != 1){
-            z = await rpc.apost(["read", 3, placeholder], get_ip(), parseInt("8090"));
-console.log("zee1 is: " + z);
+    //        z = await rpc.apost(["read", 3, placeholder], get_ip(), parseInt("8090"));
+    //        console.log("zee1 is: " + z);
             zHolder = z;
 //            displayOraclesNumber = 1;
     //        }
 
-            console.log("XYXY is ");
+      //      console.log("XYXY is ");
 
-            console.log("zee is: " + atob(zHolder[1]));
+       //     console.log("zee is: " + atob(zHolder[1]));
 
-            Oracle = zHolder;
-            oracle_text = atob(zHolder[1]);
+//            Oracle = zHolder;
+            oracle_text = z;
+            Oracle = oracle_text;
+//            console.log("placeholder is: " + oracle_text);            
 //            }
           //  oraclePull(h);
-            console.log("oracle_text zee is: " + oracle_text);
-            console.log("zee is: " + zHolder);
+//            console.log("oracle_text zee is: " + oracle_text);
+//            console.log("zee is: " + zHolder);
 
 //        await rpc.apost(["oracle", h[1]], async function(Oracle) {
                 //rpc.post(["oracle", h], function(Oracle) {
+
+
+         //           l = l[0];
+
                 if(Oracle == "error") {
-                    console.log("non existant oracle.");
+       //             console.log("non existant oracle.");
                 } else {
-                    console.log(JSON.stringify(Oracle));
+       //             console.log(JSON.stringify(Oracle));
         //            console.log(atob(Oracle[1]));
         //            var oracle_text = atob(Oracle[1]);
                     //determine if it is bitcoin put or call
-                    console.log(oracle_text.search("as reported by Close price as of "));
-                    console.log(oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/"));
+        //            console.log(oracle_text.search("as reported by Close price as of "));
+         //           console.log(oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/"));
 
                     if (( (oracle_text.search("bitcoin price is more than ") == 0) || (oracle_text.search("bitcoin price is less than ") == 0)) && (oracle_text.search("as reported by Close price as of ") >= 33) && (oracle_text.search("as reported by Close price as of ") <= 35) && (oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/") >= 77) && (oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/") <= 79)) {
                         console.log("oracle text success");
@@ -1168,15 +1204,15 @@ console.log("zee1 is: " + z);
           //       console.log("splitting text0 " + oracle_text.split(";")[3].substring(21, oracle_text.split(";")[3].length));
          //        console.log("splitting text1" + (oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ));
                       //      console.log("splitting text " + (oracle_text.split(";")[1].substring(5, oracle_text.split(";")[1].length) ));
-                        console.log("oracletextis " + oracle_text);    
+        //                console.log("oracletextis " + oracle_text);    
             if (oracle_text.search(";") < 0 ){
 
                         t2 = text(oracle_text);
                           t3 = oracle_text;  
                       }else{
 
-                        console.log("splitting0: " + oracle_text.split(";")[5]);
-                        console.log("splitting01: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
+         //               console.log("splitting0: " + oracle_text.split(";")[5]);
+          //              console.log("splitting01: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
                         
                         var offsetNumber;
                         if (" return opposite of previous output" == oracle_text.split(";")[5]){
@@ -1187,7 +1223,7 @@ console.log("zee1 is: " + z);
 
 
                         if ((oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") && (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (price of Y is more than X as of Z as reported by W)") && (oracle_text.split(";")[0] == "W = https://www.coinmarketcap.com historical data daily close price") && (oracle_text.split(";")[4] == " return (price of Y is more than X as of Z as reported by W)")) {
-                                console.log("splitting")
+         //                       console.log("splitting")
                       //        var coinName = oracle_text.split(";")[2].substring(6,3) ;
                                 var coinPrice = oracle_text.split(";")[1].substring(5, oracle_text.split(";")[1].length);
                                 var coinName = oracle_text.split(";")[2].substring(5, oracle_text.split(";")[2].length);
@@ -1199,12 +1235,12 @@ console.log("zee1 is: " + z);
 
                                 n1 = n1.substring(16,4);
 
-                                                              console.log("here is d1: " + n1[Number(n1.length) - Number(1)]);
-                                console.log("here is d1 2" + n1);  
+            //                                                  console.log("here is d1: " + n1[Number(n1.length) - Number(1)]);
+            //                    console.log("here is d1 2" + n1);  
                                 if (n1[n1.length -1] == " "){
                                     n1 = n1.substring(n1.length -1, 0);
                                 }
-                                console.log("this is a date format" + n1);
+         //                       console.log("this is a date format" + n1);
 //flipping for perspective of user
                                 if (offsetNumber == Number(1)){
                                 t2 = text(coinName + " price is more than "+ coinPrice + " at Midnight " + n1 + " GMT ");
@@ -1221,18 +1257,18 @@ console.log("zee1 is: " + z);
                                 t3 =  "The price of " + coinName + " is more than "+ coinPrice + " at Midnight " + n1 + "GMT "; // Jul 15 2020 GMT; 
                                     
                         }else{
-                                console.log("1maturity is" + (oracle_text.split(";")[0].substring(5, 0) == " W = "));
-                                console.log("1maturiy is" + oracle_text.split(";")[0].substring(5, 0));
+              //                  console.log("1maturity is" + (oracle_text.split(";")[0].substring(5, 0) == " W = "));
+             //                   console.log("1maturiy is" + oracle_text.split(";")[0].substring(5, 0));
 
-                                console.log("1maturiy is" + " Z (in MM/DD/YYYY) = ");
+              //                  console.log("1maturiy is" + " Z (in MM/DD/YYYY) = ");
 
-                        console.log("splitting1: " + oracle_text.split(";")[5]);
-                        console.log("splitting11: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
-                        console.log("splitting11 offsetNumber is " + offsetNumber);
-                        console.log("splitting111 is" + (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (Team W defeated Team X in the game that started on date Z (in local time))")  );
-                        console.log("splitting1111 is" + (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber]));
+   //                     console.log("splitting1: " + oracle_text.split(";")[5]);
+   //                     console.log("splitting11: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
+   //                     console.log("splitting11 offsetNumber is " + offsetNumber);
+   //                     console.log("splitting111 is" + (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (Team W defeated Team X in the game that started on date Z (in local time))")  );
+   //                     console.log("splitting1111 is" + (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber]));
 
-                        console.log("splitting14 is" + ( (oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[0].substring(4, 0) == "W = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") ));
+   //                     console.log("splitting14 is" + ( (oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[0].substring(4, 0) == "W = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") ));
 
 
                             if ((oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[0].substring(4, 0) == "W = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") && (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (Competitor W defeated Competitor X in the competition that started on date Z (in local time))") && (oracle_text.split(";")[4] == " return (Competitor W defeated Competitor X in the competition that started on date Z (in local time))")) {
@@ -1251,12 +1287,12 @@ console.log("zee1 is: " + z);
 
                                 n1 = n1.substring(16,4);
 
-                                                              console.log("here is d1: " + n1[Number(n1.length) - Number(1)]);
-                                console.log("here is d1 2" + n1);  
+               //                                               console.log("here is d1: " + n1[Number(n1.length) - Number(1)]);
+                //                console.log("here is d1 2" + n1);  
                                 if (n1[n1.length -1] == " "){
                                     n1 = n1.substring(n1.length -1, 0);
                                 }
-                                console.log("this is a date format" + n1);
+             //                   console.log("this is a date format" + n1);
 
 
 //flipping this so it's from the perspective of the user
@@ -1296,33 +1332,26 @@ console.log("zee1 is: " + z);
 }
                     
 
-                    console.log("xxxy this is t" + t2.outerHTML);
-                    console.log(t2);
-                    console.log((t3.split(" ")));
-                                            console.log((t3.split(" "))[0]);
-                    console.log(t2[0]);
+        //            console.log("xxxy this is t" + t2.outerHTML);
+        //            console.log(t2);
+         //           console.log((t3.split(" ")));
+       //                                     console.log((t3.split(" "))[0]);
+      //              console.log(t2[0]);
 
 
-                    console.log("xyzxyz button2: " + l[0]);
+       //             console.log("xyzxyz button2: " + l[0]);
 
-                    console.log("xyzxyz button: " + l[0][5]);
+       //             console.log("xyzxyz button: " + l[0][5]);
                     
-                    console.log("xxyx first t2 is: " + oracle_text);
+        //            console.log("xxyx first t2 is: " + oracle_text);
 
                     var temp_t2 = t2.outerHTML;
 
-                    var cidHolder;
-
-                    if (l[0][3] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=") {
-                        cidHolder = l[0][5];
-                    }
-
-                    if (l[0][5] == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=") {
-                        cidHolder = l[0][3];
-                    }
+                    let cidHolder = placeholder;
 
 
-                    console.log("xyzxyz button3: " + cidHolder);
+
+          //          console.log("xyzxyz button3: " + cidHolder);
 
 
 
@@ -1335,8 +1364,8 @@ console.log("zee1 is: " + z);
 
 
                     //adding some space
-                    console.log("firstTimeBool: " + firstTimeBool);
-                    console.log(filterText === undefined);
+   //                 console.log("firstTimeBool: " + firstTimeBool);
+   //                 console.log(filterText === undefined);
                     if (filterText === undefined){
 
                     oracles.appendChild(t2);
@@ -1348,14 +1377,14 @@ console.log("zee1 is: " + z);
                     }else{
 
                         //check if strings match
-                        console.log("filter text is: " + filterText);
+           //             console.log("filter text is: " + filterText);
                         //start slicing filterText
                         var increment2;
                         increment2 = 0;
                         var increment;
                         ;
                         var lengthSplit = (filterText.split(" ")).length;
-                        console.log(lengthSplit);
+            //            console.log(lengthSplit);
 
                 //    for (i = 0; i < cars.length; i++) {
                 //    text += cars[i] + "<br>";
@@ -1374,9 +1403,9 @@ console.log("zee1 is: " + z);
 
                         //make increment2 1 as well if a cid has already been used.
 //                        cidArray.toString()
-                        console.log("indexOf check: " + cidArray.length);
-                        console.log("indexOf check3: " + cidHolder);
-                        console.log("indexOf check2: " + cidArray.indexOf(cidHolder));
+    //                    console.log("indexOf check: " + cidArray.length);
+    //                    console.log("indexOf check3: " + cidHolder);
+    //                    console.log("indexOf check2: " + cidArray.indexOf(cidHolder));
 
 
                         if (cidArray.indexOf(cidHolder) != "-1"){
@@ -1963,10 +1992,10 @@ console.log("through");
                var tempBalDB;
 
 
-         console.log("RRRR display_positions21: " + JSON.stringify(balances_db2));
-         console.log("RRRR display_positions211: " + JSON.stringify(balances_db2[1]));
+//         console.log("RRRR display_positions21: " + JSON.stringify(balances_db2));
+//         console.log("RRRR display_positions211: " + JSON.stringify(balances_db2[1]));
 
-         console.log("RRRR display_positions22: " + JSON.stringify(balances_db2_[key]));
+//         console.log("RRRR display_positions22: " + JSON.stringify(balances_db2_[key]));
 
          var wat = balances_db2_[key];
          var bal_ = balances_db2_[key].bal;
@@ -2035,9 +2064,9 @@ console.log("through");
                 firstThing.appendChild(text(type_));
                 
 
-                console.log("balances_db2_ data: " + JSON.stringify(balances_db2_[key]));
+    //            console.log("balances_db2_ data: " + JSON.stringify(balances_db2_[key]));
 
-                console.log("balance db slicing: " +JSON.stringify(balances_db2_) );
+     //           console.log("balance db slicing: " +JSON.stringify(balances_db2_) );
       //          console.log("balance db slicing: " +JSON.stringify(balances_db2.slice(1)));
 
 
@@ -2048,9 +2077,9 @@ console.log("through");
                     for(var i in json_data)
                         result1.push([i, json_data [i]]);
 
-                    console.log("result1 is: " + result1);
+//                    console.log("result1 is: " + result1);
 
-                    console.log(JSON.stringify(json_data[1]));
+//                    console.log(JSON.stringify(json_data[1]));
 
 
                 tempKey = key;
@@ -3333,6 +3362,28 @@ focusOracleFilter();
 
     var cidArray = new Array;
 
+ async function checkrpc(){ 
+
+    console.log(get_ip());
+
+    let oracles_ = await rpc.apost(["markets", 2], get_ip(), "8090");
+//        var oracles_ = await rpc.apost(["oracles", 3], get_ip(), 8091);
+//        var oracles_ = await rpc.apost(["oracle_list"], get_ip(), 8090);
+ //       var oracles_ = await variable_public_get(["oracle_list"]);
+
+        console.log(JSON.stringify(oracles_));
+        console.log(JSON.stringify(oracles_[0]));
+        console.log(JSON.stringify(oracles_[1]));
+        console.log(JSON.stringify(oracles_[1][1]));
+        console.log(JSON.stringify(oracles_[1]));
+
+
+        console.log(JSON.stringify(oracles_[2]));
+        console.log(JSON.stringify(oracles_[3]));
+    
+
+    }
+
     async function filter(){
         console.log(abcd.oracle_filter.value);
         filterText = abcd.oracle_filter.value;
@@ -3340,17 +3391,22 @@ focusOracleFilter();
         firstTimeBool = 0;
 
         var port = "8090";
-        var l = await rpc.apost(["markets"], get_ip(), parseInt(port));
-        console.log("xxxx here is l: " + JSON.stringify(l));
+
+
+//        var l = await rpc.apost(["markets"], get_ip(), parseInt(port));
+        var l = await rpc.apost(["markets", 2], get_ip(), parseInt(port));
+
+
+   //     console.log("xxxx here is l: " + JSON.stringify(l));
 
         
  
         
         var cidHolder_;
 
-        console.log("xxxx here is l2: " + l[1][5]);
-        console.log("xxxx here is l23: " + l.length);
-        console.log("xxxx here is l234: " + JSON.stringify(l));
+//        console.log("xxxx here is l2: " + l[1][5]);
+//        console.log("xxxx here is l23: " + l.length);
+//        console.log("xxxx here is l234: " + JSON.stringify(l));
 
 
         var actualLength = Number(l.length) - Number(1);
@@ -3469,6 +3525,8 @@ async function showPositions(){
         internalNonce = 0;
 
         console.log("KEYSPUB IS: " + keys.pub());
+        console.log("IP IS: " + get_ip2());
+
             const response = await rpc.apost(["account", keys.pub()], get_ip2(), 8091);
             if(response == "error") {
                 //display.innerHTML = "<h3>load a key with funds.</h3>";
@@ -3483,6 +3541,9 @@ async function showPositions(){
             console.log(response[1][3].slice(1));
 
         //    console.log("RRRR sub accs is:" + sub_accs);
+
+
+
 
             contracts_to_subs_(sub_accs, [], function(sub_accs2){
                 load_balances_(
@@ -3617,9 +3678,10 @@ async function showPositions(){
             return(callback());
         };
         async function callback2(){
-        //    setTimeout(function(){
+            setTimeout(function(){
+              //      setTimeout(console.log("test", 300));
                 return(lb2_(subs.slice(1), callback));
-        //    }, 200);
+            }, 21);
         };
 
 
@@ -3645,8 +3707,33 @@ async function showPositions(){
         balances_db2[sk].time = Date.now();
 // */
 
-        console.log("lol3 1");
+                    console.log("lol3 1");
+
+        //xyzw
+
+
+                   function sleep(ms) {
+                      return new Promise(resolve => setTimeout(resolve, ms));
+                   }
+                   async function sleeping() {
+//                  
+             //         for (let i = 1; i <20 ; i++) {        
+                         await sleep(6000);
+//                  
+               //       }
+                   }
+
+
+//        async function rpcTimeout(){
         let sa = await sub_accounts.arpc(sk);
+//        }
+     
+        
+//        setTimeout(rpcTimeout(), 300);
+
+
+//                   sleeping();   
+
         console.log("lol3sa " + sa);
 
         var balance = 0;
@@ -3771,10 +3858,14 @@ async function showPositions(){
  //       console.log("RRRR BALANCES DB2 IS: " + JSON.stringify(balances_db2));
 
         console.log("lol4");
-        show_balances_();
+        
+        setTimeout(console.log("test", 300));
+
+  //      show_balances_();
 
         //}, get_ip(), 8090);
         //};
+
         return(callback2());
         
     };
