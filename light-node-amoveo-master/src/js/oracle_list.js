@@ -67,19 +67,47 @@ var abcd = (function() {
     newDiv.style.fontWeight = "normal";
     newDiv.innerHTML = "Max risk per bet (VEO): "
     newDiv.style.fontSize = "16px";
+
+    var newDiv2 = document.createElement("p");
+    newDiv2.style.fontWeight = "normal";
+    newDiv2.innerHTML = "Oddsmaker undercut (i.e. 0.025 for 2.5%): "
+    newDiv2.style.fontSize = "16px";
+
+
     title3.appendChild(newDiv);
+
+
  //   var words = text("Max loss per bet: ");
- //       title3.appendChild(text("Max loss per bet: "));
+//        title3.appendChild(text("Max loss per bet: "));
 
     var LPinput = document.createElement("INPUT");
     LPinput.style.display = "inline";
     var text10 = text(" ");
     text10.style.display = "inline";
+
+
     newDiv.appendChild(text10);
     newDiv.appendChild(LPinput);
 
+    var LPundercutinput = document.createElement("INPUT");
+    LPundercutinput.style.display = "inline";
+    LPundercutinput.value = "0.025";
+
+//    text10.style.display = "inline";
+
+    newDiv.appendChild(newDiv2);
+    newDiv2.appendChild(text(" "));
+    newDiv2.appendChild(LPundercutinput);
+
+
+
+
+
+
     var LPGoButton = button_maker2("Go", function() { return liquidityProvision()});
     title3.appendChild(LPGoButton);
+
+
 
     title3.style.display = 'none';
     title3.appendChild(br());
@@ -93,17 +121,24 @@ var abcd = (function() {
         successVar.innerHTML = "<font color=\"green\">LP bot started</font>";
 
     //    need to pull them from zacks server
+    //
 
-    
-        var bettingOdds = await rpc.apost(["test", 1], "46.101.185.98", parseInt("8084"));
+    console.log("odds pulling");
+
+
+//159.203.14.139
+//        var bettingOdds = await rpc.apost(["test", 1], "46.101.185.98", parseInt("8084"));
+        var bettingOdds = await rpc.apost(["test", 1], "159.203.14.139", parseInt("8084"));
+
+
         console.log("odds are: " + JSON.stringify(bettingOdds));
         //sport
-        console.log("odds are: " + atob(bettingOdds[4]));
-        console.log("odds are: " + atob(bettingOdds[3]));
-        console.log("odds are: " + atob(bettingOdds[2]));
+//        console.log("odds are: " + atob(bettingOdds[4]));
+//        console.log("odds are: " + atob(bettingOdds[3]));
+//        console.log("odds are: " + atob(bettingOdds[2]));
         //sport
-        console.log("odds are: " + atob(bettingOdds[1]));
-        console.log("odds are: " + atob(bettingOdds[6]));
+//        console.log("odds are: " + atob(bettingOdds[1]));
+//        console.log("odds are: " + atob(bettingOdds[6]));
 
 //        console.log("odds are: " + atob(JSON.stringify(bettingOdds.slice(1))));
 
@@ -125,6 +160,8 @@ var abcd = (function() {
 
 
         var oddsDigest = (bettingOdds.slice(1).map(function(x){return(atob(x))}));
+        console.log("oddsDigest is: " + oddsDigest);
+
 
 /*
         console.log(oddsDigest[0]);
@@ -258,6 +295,7 @@ var abcd = (function() {
         var sportLength = oddsDigest[Number(j)+Number(1)].split(",").length;
 
         var sport = oddsDigest[j];
+
    //         var date_2 = oddsDigest[2];
         console.log("sport is: " + sport);
 
@@ -303,12 +341,56 @@ var abcd = (function() {
                 //figure out if the entry is a time or not
                 //am or pm with a ":"
 
+
+ //                sportDigest = (JSON.stringify(sportDigest).replace(";", ",")).split(",");
+ //               console.log("sportDigest is xxx : " + sportDigest);
+ //               console.log("sportDigest is xxx : " + sportDigest[0]);
+
+ //               console.log((sportDigest.toString()).replace(/["]/g, ""));
+
+ //               sportDigest = (sportDigest.toString()).replace(/["]/g, "").split(",");
+
+                console.log(sportDigest[0]);
+
                 if ( ((sportDigest[i].search(":") >= 0) && (sportDigest[i].search("a") >= 0)) || ((sportDigest[i].search(":") >= 0) && (sportDigest[i].search("p") >= 0)) ){
+
 
                     // 1 sportName & Competitor1
                     // 2 sportName & Competitor2
                     // 3 Date
                     // 4 Odds that will be offered in the bet
+
+                    // we need to find the right odds index though
+                    //it should start within 6 or 7 from the time
+
+                    var oddsIndex;
+
+                    console.log(JSON.stringify(sportDigest));
+                    console.log(sportDigest[3]);
+                    console.log(i);
+
+
+                    let stopVar = 0;
+                    
+                    for (let q = 1; q < Number(10) ; q++) {
+                    
+                        if ((sportDigest.length - i) > Number(9)){
+
+                        if (((sportDigest[Number(i)+Number(q)][1] == "+") || (sportDigest[Number(i)+Number(q)][1] == "-")) && (stopVar == 0)) {
+                            oddsIndex = q;
+                            stopVar = 1;
+                            console.log("stopvar 1");
+
+                        }
+
+                    }
+                    
+
+                    }
+
+                    console.log("oddsindex is " + oddsIndex);
+
+
                         sportsArray.push(sport);
 
                         if (MLBbool == 1){
@@ -327,20 +409,42 @@ var abcd = (function() {
 
                         sportsArray.push(wordDate);
 
-                        if (networkBool == 1){
+//                        if (networkBool == 1){
+                        if (1 == 1){
 
-                        odds1 = sportDigest[Number(i)+Number(4)].substring(1,sportDigest[Number(i)+Number(4)].length);
+
+
+//                        odds1 = sportDigest[Number(i)+Number(4)].substring(1,sportDigest[Number(i)+Number(4)].length);
+                        odds1 = sportDigest[Number(i)+Number(oddsIndex)].substring(1,sportDigest[Number(i)+Number(oddsIndex)].length);
+
 
                         }else{
 
-                        odds1 = sportDigest[Number(i)+Number(3)].substring(1,sportDigest[Number(i)+Number(3)].length);
+                        odds1 = sportDigest[Number(i)+Number(oddsIndex)].substring(1,sportDigest[Number(i)+Number(oddsIndex)].length);
+
+//                        odds1 = sportDigest[Number(i)+Number(3)].substring(1,sportDigest[Number(i)+Number(3)].length);
 
                         }
 
 
                         sportsArray.push(odds1);
+                        var _time;
+                        if(sportDigest[Number(i)+Number(0)].search(";") > Number(-1)) {
 
-                        sportsArray.push(sportDigest[Number(i)+Number(0)])
+                            _time = sportDigest[Number(i)+Number(0)].split(";")[1];
+                        
+                        }else{
+                            _time = sportDigest[Number(i)+Number(0)];
+                        }
+                        
+                        console.log("time is: " + _time);
+ 
+             //           console.log("time is: " + sportDigest[Number(i)+Number(0)]);
+              //          console.log("time is: " + _time);
+
+
+
+                        sportsArray.push(_time);
 
                     // 1 sportName & Competitor2
                     // 2 sportName & Competitor1
@@ -362,18 +466,24 @@ var abcd = (function() {
 
                         sportsArray.push(wordDate);
 
-                        if (networkBool == 1){
+                        if (1 == 1){
 
-                        odds2 = sportDigest[Number(i)+Number(5)].substring(1,sportDigest[Number(i)+Number(5)].length);
+       //                 odds2 = sportDigest[Number(i)+Number(5)].substring(1,sportDigest[Number(i)+Number(5)].length);
+
+                        odds2 = sportDigest[Number(i)+Number(oddsIndex)+Number(1)].substring(1,sportDigest[Number(i)+Number(oddsIndex)+Number(1)].length);
+
 
                         }else{
 
-                        odds2 = sportDigest[Number(i)+Number(4)].substring(1,sportDigest[Number(i)+Number(4)].length);
+//                        odds2 = sportDigest[Number(i)+Number(4)].substring(1,sportDigest[Number(i)+Number(4)].length);
+
+                        odds2 = sportDigest[Number(i)+Number(oddsIndex)+Number(1)].substring(1,sportDigest[Number(i)+Number(oddsIndex)+Number(1)].length);
+
 
                         }
 
                         sportsArray.push(odds2);
-                        sportsArray.push(sportDigest[Number(i)+Number(0)])
+                        sportsArray.push(_time)
 
 
                 //        sportsArray.push(sportDigest[Number(i)+Number(3)]);
@@ -396,7 +506,7 @@ var abcd = (function() {
 
 //create oracle text
     console.log(sportsArray.length);
-    console.log(JSON.stringify(sportsArray));
+    console.log("sportsarray is: " + JSON.stringify(sportsArray));
 
             for (let i = 0; i < sportsArray.length; i++) {
 
@@ -432,10 +542,30 @@ var abcd = (function() {
                     //now we need the odds to tell us how much they bet
             //        console.log("odds is: " + _odds[0]);
 
+                //LPundercutinput
+
+                // we need to modify the odds when there is undercutting
+                // vigorish can be pretty complicated but for now we will keep it simple and add the undercut to + and take it from -
+
                     if (_odds[0] == "+"){
-                    
-                    _odds = _odds.substring(1, _odds.length);
+
+                    console.log("odds undercut: " + _odds);
+
+                        _odds = _odds.substring(1, _odds.length);
            //         console.log("odds substring is: " + _odds);
+
+                        let undercut_ = LPundercutinput.value;
+
+                            if (undercut_[0] == "."){
+                                undercut_ = "0" + undercut_.toString();
+                            }                    
+
+                            if (Number(undercut_) > Number(0)) {
+                                _odds = Number(_odds)*(Number(1) + Number(undercut_));
+                            }
+                    
+                    console.log("odds undercut: " + _odds);   
+                    
                     let convertedPlus1 = Number(100) / (Number(_odds) + Number(100));
            //         console.log("convertedPlus1 is: " + convertedPlus1);
            //         console.log("maxRisk is: " + maxRisk);
@@ -447,13 +577,32 @@ var abcd = (function() {
 
                     if (_odds[0] == "-"){
                     
+                    console.log("odds undercut: " + _odds);        
+                    
                     _odds = _odds.substring(1, _odds.length);
-          //          console.log("odds substring is minus : " + _odds);
+
+
+
+                        let undercut_ = LPundercutinput.value;
+
+                            if (undercut_[0] == "."){
+                                undercut_ = "0" + undercut_.toString();
+                            }                    
+
+                            if (Number(undercut_) > Number(0)) {
+                                _odds = Number(_odds)*(Number(1) - Number(undercut_));
+                            }
+
+                    console.log("odds undercut: " + _odds);        
+
                     let convertedMinus1 = Number(_odds) / (Number(_odds) + Number(100));
 
                     profit_ = maxRisk * (Number(convertedMinus1) / (Number(1) - Number(convertedMinus1)));
           //          console.log("minus profit is: " + profit_);
                     }
+
+                    console.log(_oracle, maxRisk, profit_);
+
 
                     if (0 == 0){
 
@@ -470,8 +619,6 @@ var abcd = (function() {
                     // LALIGA SOCCER
                     // USA SOCCER
 
-
-                    //SO IF NOT SOCCER
                     if ( (_sport == "ATP Tennis") || (_sport == "WTA Tennis") || (_sport == "MLB Baseball") || (_sport == "NHL Hockey") || (_sport == "NBA Basketball") ) {
 
                     // also need to check if the time is OK
@@ -523,9 +670,9 @@ var abcd = (function() {
 
                     timeCheck = timeCheck.replace(" ", "");
 
-                    console.log("timecheck is: " + timeCheck);
+    //                console.log("timecheck is: " + timeCheck);
 
-                    console.log("timecheck is: " + timeCheck[timeCheck.length - 1]);
+     //               console.log("timecheck is: " + timeCheck[timeCheck.length - 1]);
 
 
                     let pmBool = 0
@@ -547,14 +694,14 @@ var abcd = (function() {
 
              
 
-                        console.log("current time is: " + mydate);
+       //                 console.log("current time is: " + mydate);
                         mydate.setHours(timeCheck1);
                         mydate.setMinutes(timeCheck2);
 
     //                console.log(new Date().getTime([], { hour: '2-digit', minute: "2-digit" }));
 
 
-                            console.log("current time is: " + mydate);
+      //                      console.log("current time is: " + mydate);
                            console.log(mydate.getTime() / 1000);
                             var offset = new Date().getTimezoneOffset();// getting offset to make time in gmt+0 zone (UTC) (for gmt+5 offset comes as -300 minutes)
                             var date = new Date();
@@ -571,10 +718,10 @@ var abcd = (function() {
                             let betTime = mydate.getTime() / 1000;
 
 
-                            console.log("timeTesting is: " + ((betTime - currentTime) / 3600));
+           //                 console.log("timeTesting is: " + ((betTime - currentTime) / 3600));
 
 
-                            console.log("timeTesting is: " + _oracle);
+       //                     console.log("timeTesting is: " + _oracle);
 
 
 //                    console.log("DST in effect?:" + isDaylightSavingsInEffect(Date(currentTimeEastern)));
@@ -586,9 +733,11 @@ var abcd = (function() {
 //                                            await createTrade2(maxRisk, profit_, _oracle, 1);
                     }else{
 
-                    await createTrade2(maxRisk, profit_, _oracle, 1);
+                        let profit2 = profit_;
+
+                    await createTrade2(maxRisk, profit2, _oracle, 1);
                     
-                    console.log("tradeCreated");
+                    console.log("tradeCreated" + maxRisk + " / " + profit2 + "/" + _oracle);
                         
                         }
 
@@ -1525,28 +1674,28 @@ var placeholder;
 //            displayOraclesNumber = 1;
     //        }
 
-            console.log("XYXY is ");
+    //        console.log("XYXY is ");
 
-            console.log("zee is: " + atob(zHolder[1]));
+     //       console.log("zee is: " + atob(zHolder[1]));
 
             Oracle = zHolder;
             oracle_text = atob(zHolder[1]);
 //            }
           //  oraclePull(h);
-            console.log("oracle_text zee is: " + oracle_text);
-            console.log("zee is: " + zHolder);
+    //        console.log("oracle_text zee is: " + oracle_text);
+    //        console.log("zee is: " + zHolder);
 
 //        await rpc.apost(["oracle", h[1]], async function(Oracle) {
                 //rpc.post(["oracle", h], function(Oracle) {
                 if(Oracle == "error") {
                     console.log("non existant oracle.");
                 } else {
-                    console.log(JSON.stringify(Oracle));
+    //                console.log(JSON.stringify(Oracle));
         //            console.log(atob(Oracle[1]));
         //            var oracle_text = atob(Oracle[1]);
                     //determine if it is bitcoin put or call
-                    console.log(oracle_text.search("as reported by Close price as of "));
-                    console.log(oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/"));
+    //                console.log(oracle_text.search("as reported by Close price as of "));
+    //                console.log(oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/"));
 
                     if (( (oracle_text.search("bitcoin price is more than ") == 0) || (oracle_text.search("bitcoin price is less than ") == 0)) && (oracle_text.search("as reported by Close price as of ") >= 33) && (oracle_text.search("as reported by Close price as of ") <= 35) && (oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/") >= 77) && (oracle_text.search(" on https://coinmarketcap.com/currencies/bitcoin/historical-data/") <= 79)) {
                         console.log("oracle text success");
@@ -1794,7 +1943,8 @@ console.log("through");
 
 
 
-
+    var trueArray_ = new Array;
+    var falseArray_ = new Array;
 
     async function offerInputLoad(){
             myStopFunction();
@@ -1804,6 +1954,13 @@ console.log("through");
         if (offersInput.value == ''){
 
         }else{
+
+        /*
+        let oracles2_ = await rpc.apost(["markets", 2], get_ip(), "8090");
+        console.log("xxx oraclepull: " + JSON.stringify(oracles2_[1]));
+        console.log("xxx oraclepull: " + JSON.stringify(oracles2_[1][1]));
+        */
+
 
         hideOdds();
         var mid1_;
@@ -1815,8 +1972,15 @@ console.log("through");
         mid1_ = new_market.mid(offersInput.value, veoCID, 1, 0);
         mid2_ = new_market.mid(offersInput.value, veoCID, 2, 0);
 
+
+//        let oracles3_ = await rpc.apost(["read", mid1_], get_ip(), "8090");
+
+//        console.log("xxx oraclepull2: " + oracles3_);
+
         console.log("offersInput value is: " + offersInput.value);
         console.log("mids are: " + mid1_ + " " + mid2_);
+
+
 
 
 //now we need to construct l then start calling display oracles
@@ -2396,15 +2560,15 @@ if (tempvar2 != "[[-6]]"){
         l = JSON.parse(l);
             var m = l;
             var z = await rpc.apost(["read", l[1]], get_ip(), parseInt("8090"));
-            console.log("Z ORDERS 0.5 ARE: " + JSON.stringify(z[1][7]));
+//            console.log("Z ORDERS 0.5 ARE: " + JSON.stringify(z[1][7]));
             console.log("Z ORDERS ARE: " + JSON.stringify(z));
             var orders = z[1][7];
-            console.log("Z ORDERS 2 ARE: " + orders);
+  //          console.log("Z ORDERS 2 ARE: " + orders);
   //          console.log("Z ORDERS 2.5 ARE: " + z[1][7].slice(1));
             orders = orders.slice(1);
-            console.log("Z ORDERS 3 ARE: " + JSON.stringify(orders));
+   //         console.log("Z ORDERS 3 ARE: " + JSON.stringify(orders));
             var orders2 = orders.slice(1);
-            console.log("Z ORDERS 4 ARE: " + JSON.stringify(orders2));
+   //         console.log("Z ORDERS 4 ARE: " + JSON.stringify(orders2));
         if (JSON.stringify(l) == "[]") {
             return 0;
         } else {
@@ -2438,8 +2602,8 @@ if (tempvar2 != "[[-6]]"){
             }  */
 
              else {
-                console.log(h[9]);
-                console.log("contract type not supported.");
+   //             console.log(h[9]);
+   //             console.log("contract type not supported.");
             }
         }
     };
@@ -2464,15 +2628,15 @@ if (tempvar2 != "[[-6]]"){
         var direction;
             var t = document.createElement("div");
         var m = l;
-        console.log("mdisplayoffers2 is: " + (m[5] == 0));
-        console.log("mdisplayoffers2 is: " + JSON.stringify(m));
+   //     console.log("mdisplayoffers2 is: " + (m[5] == 0));
+  //      console.log("mdisplayoffers2 is: " + JSON.stringify(m));
 
 
 
 
     //    console.log()
-        console.log("mdisplayoffers3 is type 1: " + type1 +" type2: " + type2);
-        console.log("order1 is: " + t2_);
+  //      console.log("mdisplayoffers3 is type 1: " + type1 +" type2: " + type2);
+  //      console.log("order1 is: " + t2_);
 
         var order = orders[0];
         var Maximum = 4294967295;
@@ -2481,15 +2645,17 @@ if (tempvar2 != "[[-6]]"){
         var tid = order[3];
         swapOffer = await trade_details2(tid);
         var swapOffer2 = swapOffer;
-        console.log("THIS IS T4: " + swapOffer[1][5]);
-        console.log("SWAPOFFER IS: " + swapOffer);
-        console.log("SWAPOFFER IS 2: " +swapOffer[1][8])
-        console.log("tid is: " + tid);
+  //      console.log("THIS IS T4: " + swapOffer[1][5]);
+  //      console.log("SWAPOFFER IS: " + swapOffer);
+  //      console.log("SWAPOFFER IS 2: " +swapOffer[1][8])
+  //      console.log("tid is: " + tid);
 
         var type1 = swapOffer[1][5];
         var type2 = swapOffer[1][8];
 
         //type1 is what you gain if you accept, type2 is what you lose if you accept
+        console.log("swapOffer is: " + swapOffer2);
+
 
         var newDirection;
         if ((type1 == 1) && (type2 == 0)){
@@ -2523,9 +2689,9 @@ if (tempvar2 != "[[-6]]"){
 
         }
 // if not 0, then it means sell veo and buy subcurrency
-        console.log("xxxx: " + offsetNumber2_);
-        console.log("xxxx swap bool: " + amountSwapped2);
-        console.log("xxxx t2 is :" + (t2_.search("competition") != "-1"));
+  //      console.log("xxxx: " + offsetNumber2_);
+  //      console.log("xxxx swap bool: " + amountSwapped2);
+  //      console.log("xxxx t2 is :" + (t2_.search("competition") != "-1"));
 
 
             //offsetnumber2 being 1 means it is a preformatted question
@@ -2563,8 +2729,8 @@ if (tempvar2 != "[[-6]]"){
 
           offers.style.display = "inline";
           
-          console.log("amount1Gain is " + s2c(amountGain));
-          console.log("amount1Lose is " + s2c(amountLose));
+  //        console.log("amount1Gain is " + s2c(amountGain));
+   //       console.log("amount1Lose is " + s2c(amountLose));
 
 
           var probLanguage = " | Implied Probability: ";
@@ -2579,7 +2745,7 @@ if (tempvar2 != "[[-6]]"){
 
 
 
-          console.log("bbbb " + implProb);
+    //      console.log("bbbb " + implProb);
             }else{
 
             var implProb = (100*((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain)))).toPrecision(3) + "%";
@@ -2593,10 +2759,10 @@ if (tempvar2 != "[[-6]]"){
             if (t2_.search("competition") != "-1") {
                 if((s2c(amountGain) - s2c(amountLose)) > s2c(amountLose)){
                  
-                 console.log("ZZZZ")   
+      //           console.log("ZZZZ")   
                  var percentage = ((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain)));
                  var x = Number(-100) + Number(10000)/(Number(100)*(Number(1)-percentage));
-                 console.log("ZZZZ: " + "-"+x.toPrecision(3)); 
+    //             console.log("ZZZZ: " + "-"+x.toPrecision(3)); 
                  var probLanguage = " | Betting odds: ";
                 implProb = "-"+x.toPrecision(4);
 
@@ -2607,7 +2773,7 @@ if (tempvar2 != "[[-6]]"){
 
                  var percentage = ((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain)));
                  var x = (Number(100)*(Number(1)/percentage)) - Number(100);
-                 console.log("GGGG" + "+"+x.toPrecision(3));
+       //          console.log("GGGG" + "+"+x.toPrecision(3));
                  var probLanguage = " | Betting odds: ";
                  implProb = "+"+x.toPrecision(4);
 
@@ -2629,10 +2795,10 @@ if (tempvar2 != "[[-6]]"){
                 
                 if( (s2c(amountLose) > (s2c(amountGain) - s2c(amountLose)) ) ){
                  
-                 console.log("ZZZZ")   
+          //       console.log("ZZZZ")   
                  var percentage = (s2c(amountLose) / (s2c(amountGain)));
                  var x = Number(-100) + Number(10000)/(Number(100)*(Number(1)-percentage));
-                 console.log("ZZZZ: " + "-"+x.toPrecision(3)); 
+           //      console.log("ZZZZ: " + "-"+x.toPrecision(3)); 
                  var probLanguage = " | Betting odds: ";
                 implProb = "-"+x.toPrecision(4);
 
@@ -2643,7 +2809,7 @@ if (tempvar2 != "[[-6]]"){
 
                  var percentage = (s2c(amountLose) / (s2c(amountGain)));
                  var x = (Number(100)*(Number(1)/percentage)) - Number(100);
-                 console.log("GGGG" + "+"+x.toPrecision(3));
+         //        console.log("GGGG" + "+"+x.toPrecision(3));
                  var probLanguage = " | Betting odds: ";
                  implProb = "+"+x.toPrecision(4);
 
@@ -2669,22 +2835,46 @@ if (tempvar2 != "[[-6]]"){
 //        var idStuff = "type: "+type1 + "/" + type2 + " | amounts: " + swapOffer[1][6] + "/" + swapOffer[1][9] ;
 
         var idStuff = "";
-
+        let _risk_ = 0;
+        let _profit_ = 0;
 
         if (amountSwapped2 != true){
+        
         var text = "You win if "+direction+ probLanguage.concat(implProb).concat(" | Risk: ").concat(Number((s2c(amountGain) - s2c(amountLose)).toPrecision(3))).concat(" ")+"| Profit: ".concat(Number(s2c(amountLose).toPrecision(3))).concat(" | ").concat(idStuff);
+        
+        _risk_ = Number((s2c(amountGain) - s2c(amountLose)).toPrecision(3));
+        _profit_ = Number(s2c(amountLose).toPrecision(3));
+        
         } else {
        
         var text = "You win if "+direction+ probLanguage.concat(implProb).concat(" | Risk: ").concat(Number((s2c(amountLose)).toPrecision(3))).concat(" ")+"| Profit: ".concat(Number((s2c(amountGain) - s2c(amountLose)).toPrecision(3))).concat(" | ").concat(idStuff);
         
+        _risk_ = Number((s2c(amountLose)).toPrecision(3));
+        _profit_ = Number((s2c(amountGain) - s2c(amountLose)).toPrecision(3));
+
         }
 
   //      var text.appendChild("asdfs");
 
+        var trueArray = new Array();
+        var falseArray = new Array();
+
+        console.log("orders are:" + orders);
+        console.log("orders are:" + JSON.stringify(l));
 
         console.log("xyz2 is " + xyz2);
         if (globalInputBool != 1 && xyz2 != 0){
        //     var cid_1 = m[2];
+
+        //first time running we need to calculate two arrays, true and false
+        //xyzw
+
+
+
+
+
+
+
 
         var cid_1;
    //         var xyz1;
@@ -2826,8 +3016,8 @@ if (tempvar2 != "[[-6]]"){
 
 
         offers.appendChild(t);
-        console.log("PPPP button h: " + swapOffer);
-        console.log("PPPP button type: " + type);
+    //    console.log("PPPP button h: " + swapOffer);
+    //    console.log("PPPP button type: " + type);
 
         var button = button_maker2("Accept trade", function() { viewTrading(swapOffer2) });
 //        var button = button_maker2("Accept trade", function() { swap_viewer3.view(swapOffer2) });
@@ -2914,8 +3104,8 @@ if (tempvar2 != "[[-6]]"){
         var direction;
             var t = document.createElement("div");
         var m = l;
-        console.log("mdisplayoffers2 is: " + m[2]);
-        console.log("mdisplayoffers2 is: " + m);
+  //      console.log("mdisplayoffers2 is: " + m[2]);
+  //      console.log("mdisplayoffers2 is: " + m);
         var type1 = m[4];
         var type2 = m[6];
 
@@ -2940,7 +3130,7 @@ if (tempvar2 != "[[-6]]"){
 
 
     //    console.log()
-        console.log("mdisplayoffers3 is type 1: " + type1 +" type2: " + type2);
+   //     console.log("mdisplayoffers3 is type 1: " + type1 +" type2: " + type2);
 
 
         var order = orders[0];
@@ -3221,9 +3411,9 @@ if (tempvar2 != "[[-6]]"){
         async function trade_details2(tid){
         //if it is your own swap offer, then make a cancel offer button. todo.
         var t = await rpc.apost(["read", 2, tid], get_ip(), parseInt("8090"));
-        console.log("THIS IS T: " + JSON.stringify(t));
-        console.log("THIS IS T2: " + t[1][6]);
-        console.log("THIS IS T3: " + t[1][9]);
+  //      console.log("THIS IS T: " + JSON.stringify(t));
+ //       console.log("THIS IS T2: " + t[1][6]);
+  //      console.log("THIS IS T3: " + t[1][9]);
 
         return(t);
 //        swap_viewer.offer(JSON.stringify(t));
@@ -3468,8 +3658,8 @@ focusOracleFilter();
 //    filter();
 
    async function resetFilter(){
-                console.log(abcd.oracle_filter.value);
-        filterText = undefined;
+    //            console.log(abcd.oracle_filter.value);
+    //    filterText = undefined;
 
 
         abcd.oracle_filter.value = "";

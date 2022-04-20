@@ -71,8 +71,8 @@ function get_ip2() {
         s = default_ip2();
     };
     */
-    s = default_ip2();
-//      s = "159.89.87.58";
-        
+ //   s = default_ip2();
+      s = "159.89.87.58";
+  //      "159.203.14.139"
     return s;
 }
