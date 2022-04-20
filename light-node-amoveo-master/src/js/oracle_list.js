@@ -104,8 +104,16 @@ var abcd = (function() {
 
 
 
-    var LPGoButton = button_maker2("Go", function() { return liquidityProvision()});
+    var LPGoButton = button_maker2("Go", function() { return liquidityProvision(0)});
+    
+    var LPGoButton2 = button_maker2("Preview", function() { return liquidityProvision(1)});
+
+
+
     title3.appendChild(LPGoButton);
+    title3.appendChild(text(" "));
+    title3.appendChild(LPGoButton2);
+
 
 
 
@@ -115,11 +123,13 @@ var abcd = (function() {
     var successVar = document.createElement("div");
     title3.appendChild(successVar);
 
-    async function liquidityProvision(){
+    async function liquidityProvision(_number){
         globalLPBool = 1;
         var maxRisk = Number(LPinput.value);  // * 100000000; lol
-        successVar.innerHTML = "<font color=\"green\">LP bot started</font>";
 
+        if (_number == 0){
+        successVar.innerHTML = "<font color=\"green\">LP bot started</font>";
+        }
     //    need to pull them from zacks server
     //
 
@@ -529,7 +539,21 @@ var abcd = (function() {
                     let _odds = JSON.stringify(sportsArray).split(",")[Number(4)+Number(i)].toString();
                     _odds = _odds.replace(/"/g, "");
                     _odds = _odds.replace(" ", "");
+
                     let _oracle = _comp1 + " will defeat" + _comp2 + " in the " + _sport + " competition starting on " + _day + " (Eastern time) ";
+
+                    console.log("compxxx: " + (_comp1 == ""));
+                    console.log("compxxx: " + _comp1);
+
+                    console.log("compxxx: " + _comp2);
+
+                    let skip2 = 0;
+
+                    if ( (_comp1 == "") || (_comp2 == "") ) {
+                        skip2 = 1;
+                    }
+
+                    let _day2 = _day;
           //          console.log("xxxx oracle is: " + _oracle);
 
                     //now that we have oracle, we can create the bet
@@ -546,6 +570,8 @@ var abcd = (function() {
 
                 // we need to modify the odds when there is undercutting
                 // vigorish can be pretty complicated but for now we will keep it simple and add the undercut to + and take it from -
+
+                    let odds2 = _odds;
 
                     if (_odds[0] == "+"){
 
@@ -599,6 +625,12 @@ var abcd = (function() {
 
                     profit_ = maxRisk * (Number(convertedMinus1) / (Number(1) - Number(convertedMinus1)));
           //          console.log("minus profit is: " + profit_);
+                    }
+
+                    let _skip = 0;
+
+                    if( (odds2[0] != "-") && (odds2[0] != "+") ){
+                        _skip = 1;
                     }
 
                     console.log(_oracle, maxRisk, profit_);
@@ -735,11 +767,59 @@ var abcd = (function() {
 
                         let profit2 = profit_;
 
-                    await createTrade2(maxRisk, profit2, _oracle, 1);
-                    
-                    console.log("tradeCreated" + maxRisk + " / " + profit2 + "/" + _oracle);
-                        
+                        if ( (_skip == 1) || (skip2 == 1) ){
+
+
+                        }else{
+
+
+
+                        if (_number == 0){
+
+                            await createTrade2(maxRisk, profit2, _oracle, 1);
+                            console.log("tradeCreated" + maxRisk + " / " + profit2 + "/" + _oracle);          
                         }
+
+                        if (_number == 1){
+
+
+                                let oracle2 = _oracle;
+                                console.log("oracle 2 is xxx: " + oracle2);
+                                let previewVar = document.createElement("div");
+
+                                let _oracle5 = _sport + ": " + _comp1 + " defeats " + _comp2 + ", " + _day2 + " (ET) ";
+
+                                previewVar.innerHTML = _oracle5;
+
+                                previewVar.style.fontWeight = 'normal';
+
+                                previewVar.style.fontSize = "16px";
+
+                                title3.appendChild(previewVar);
+
+                                previewVar.appendChild(text(" | "));
+
+                                let previewVar2 = document.createElement("div");
+
+                                previewVar2.style.fontWeight = 'bold';
+                                previewVar2.style.display = 'inline';
+                                
+                                previewVar2.style.fontSize = "16px";
+                                
+                                previewVar2.innerHTML = odds2;
+                                previewVar.appendChild(previewVar2);
+
+                    //            title3.appendChild(br());
+
+
+                        }
+
+                        
+                    
+
+                    }
+
+                    }
 
                     
                     console.log("making trade with oracle: " + _oracle);
