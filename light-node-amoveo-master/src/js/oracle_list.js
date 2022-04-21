@@ -5,6 +5,8 @@ var globalcreatetradenonce;
 
 var globalTradeNonce;
 
+//var secondTimeTrades;
+
 var globalLPBool;
 
 var globalCID_;
@@ -424,6 +426,8 @@ var abcd = (function() {
 
                         }
 
+                    }else{
+                        oddsIndex = 0;
                     }
                     
 
@@ -511,12 +515,29 @@ var abcd = (function() {
 
        //                 odds2 = sportDigest[Number(i)+Number(5)].substring(1,sportDigest[Number(i)+Number(5)].length);
 
+                        console.log(JSON.stringify(sportDigest));
+
+            //            console.log(JSON.stringify(sportDigest[131]));
+          //              console.log(sportDigest[132].length);
+
+   //                     console.log(JSON.stringify(sportDigest[132]).length);
+
+                        console.log(sportDigest.length);
+                        console.log("i is: " + i);
+                        console.log("oddsindex is: " + oddsIndex);
+
+
+
                         odds2 = sportDigest[Number(i)+Number(oddsIndex)+Number(1)].substring(1,sportDigest[Number(i)+Number(oddsIndex)+Number(1)].length);
+
+
 
 
                         }else{
 
 //                        odds2 = sportDigest[Number(i)+Number(4)].substring(1,sportDigest[Number(i)+Number(4)].length);
+
+
 
                         odds2 = sportDigest[Number(i)+Number(oddsIndex)+Number(1)].substring(1,sportDigest[Number(i)+Number(oddsIndex)+Number(1)].length);
 
@@ -807,7 +828,7 @@ var abcd = (function() {
 
                         if (_number == 0){
 
-                            await createTrade2(maxRisk, profit2, _oracle, 1);
+                            await createTrade2(maxRisk, profit2, _oracle, 2);
                             console.log("tradeCreated" + maxRisk + " / " + profit2 + "/" + _oracle);          
                         }
 
@@ -1779,7 +1800,10 @@ var placeholder;
 
 
 //calculate what you need then execute the function
-async function display_oracles2(l, _placeholder1, _placeholder2) {
+async function display_oracles2(l, _placeholder1, _placeholder2, _placeholder3) {
+            
+        console.log("placeholder is: " + _placeholder3);
+
             myStopFunction();
 
                     console.log("showing h1" + l);
@@ -1807,7 +1831,7 @@ async function display_oracles2(l, _placeholder1, _placeholder2) {
 
                         console.log("here is el: "+ JSON.stringify(l));
 
-                        async function oraclePull (h, _placeholder1, _placeholder2){
+                        async function oraclePull (h, _placeholder1, _placeholder2, _placeholder3){
             //            var Oracle = await rpc.apost(["oracle", h[1]]);
             
 var placeholder;
@@ -2037,7 +2061,11 @@ var placeholder;
 
                     var temp_t2 = t2.outerHTML;
 //                    var button = button_maker2("See Odds", function() { return hideBeforeDisplay(l, offsetNumber2, oracle_text, temp_t2) });
-                 return hideBeforeDisplay3(l, offsetNumber2, oracle_text, temp_t2);
+
+                    let placeholderTemp = _placeholder3;
+                    console.log("placeholder is: " + placeholderTemp);
+
+                 return hideBeforeDisplay3(l, offsetNumber2, oracle_text, temp_t2, placeholderTemp);
 
                  console.log("testing123: " + l);
 
@@ -2091,9 +2119,11 @@ var placeholder;
 //                display_oracles(l.slice(1));
                 displayOraclesNumber = 1;
    console.log("through");     
+        
+
         };
 
-    oraclePull(h, _placeholder1, _placeholder2);
+    oraclePull(h, _placeholder1, _placeholder2, _placeholder3);
 console.log("through");
     }
     };
@@ -2135,6 +2165,7 @@ console.log("through");
 
         mid1_ = new_market.mid(offersInput.value, veoCID, 1, 0);
         mid2_ = new_market.mid(offersInput.value, veoCID, 2, 0);
+        var mid3_ = new_market.mid(veoCID, offersInput.value , 0, 2);
 
 
 //        let oracles3_ = await rpc.apost(["read", mid1_], get_ip(), "8090");
@@ -2142,7 +2173,8 @@ console.log("through");
 //        console.log("xxx oraclepull2: " + oracles3_);
 
         console.log("offersInput value is: " + offersInput.value);
-        console.log("mids are: " + mid1_ + " " + mid2_);
+        console.log("mids are: " + mid1_ + " " + mid2_ + " " + mid3_);
+        console.log("mids are2: " + mid1_ + " " + mid2_);
 
 
 
@@ -2170,7 +2202,7 @@ console.log("through");
 
 
 // ["market",1,"pqxNEAbT+KNRmZ3GSeJcUJW1AEefv0pt+LIf2EwGWXs=","0hXzpa20rOZpJzDq8UvCvFCQkqjPjdkWRGl3cRPvO2c=",1,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",0,0]
-    await display_oracles2(JSON.stringify(newJSON1), subCID, veoCID);
+    await display_oracles2(JSON.stringify(newJSON1), subCID, veoCID, 1);
 
     var input2 = new Array;
     input2.push("market");
@@ -2188,7 +2220,10 @@ console.log("through");
 
 //    console.log(JSON.stringify(input2));
 
-    await display_oracles2(JSON.stringify(newJSON2), subCID, veoCID);
+    await display_oracles2(JSON.stringify(newJSON2), subCID, veoCID, 2);
+
+//    betterTrades();
+
 
     globalInputBool = 0;
        
@@ -2202,17 +2237,20 @@ console.log("through");
 
     globalTradeNonce = 0;
 
+
+
     }
 
 }
 
 
 
-    async function hideBeforeDisplay3(h, offsetNumber2_, t2_, t3_){
+    async function hideBeforeDisplay3(h, offsetNumber2_, t2_, t3_, _placeholder3){
     //    hideOdds();
         console.log("through2");
+        console.log("placeholder is: " + _placeholder3);
 
-       display_oracle_2(h, offsetNumber2_, t2_, t3_);
+       display_oracle_2(h, offsetNumber2_, t2_, t3_, _placeholder3);
     
     }
 
@@ -2278,7 +2316,7 @@ console.log("through");
     };
 
 
-    async function display_oracle_2(h, offsetNumber2_, t2_, t3_) {
+    async function display_oracle_2(h, offsetNumber2_, t2_, t3_, _placeholder3) {
     //    console.log(JSON.stringify([Buys, Sells]));
     //    var l = Buys.concat(Sells.slice(1));
     //    console.log("this is l:");
@@ -2304,7 +2342,7 @@ console.log("through");
  //           console.log("xyzxyz: " + l[0]);
   //          console.log("L is display oracle" + bigL);
         //    firstTimeBool2 = 0;
-            return display_offersLoad(m, offsetNumber2_, t2_, t3_);
+            return display_offersLoad(m, offsetNumber2_, t2_, t3_, _placeholder3);
     //        display_oracle(h.slice(1));
 
   //      });
@@ -2716,11 +2754,12 @@ if (tempvar2 != "[[-6]]"){
         }
     };
 
- async function display_offersLoad(l, offsetNumber2_, t2_, t3_) {
+ async function display_offersLoad(l, offsetNumber2_, t2_, t3_, _placeholder3) {
 
 
+        console.log("placeholder is: " + _placeholder3);
 
-
+ 
         console.log("TESTING" + l);
      //   bigL = l;
     //    console.log("L is "+ bigL);
@@ -2747,7 +2786,7 @@ if (tempvar2 != "[[-6]]"){
             if (1 == 1) {
                 type = "binary";
             //    price = h[3];
-                return display_offers2Load(orders, l, type, offsetNumber2_, t2_, t3_, " or ", "");
+                return display_offers2Load(orders, l, type, offsetNumber2_, t2_, t3_, " or ", "", _placeholder3);
             }
 
          /*   else if (h[9] == 2) {
@@ -2803,14 +2842,22 @@ if (tempvar2 != "[[-6]]"){
 //        holderDiv.innerHTML = "";
 
         console.log("betterTradesCount");
+        console.log("globalTradeNonce is: " + globalTradeNonce);
+            console.log(JSON.stringify(trueArray));
+
+            console.log(JSON.stringify(falseArray));
 
 
-        if (globalTradeNonce != 1){
+//        if (globalTradeNonce != 1){
 
 
         offers.appendChild(holderDiv);
+        holderDiv.innerHTML = "";
+
         console.log("firstTimeTrades is: " + firstTimeTrades);
-        if (firstTimeTrades == 0){
+
+
+   //     if (firstTimeTrades == 0){
 
             firstTimeTrades = 1;
 
@@ -2820,10 +2867,10 @@ if (tempvar2 != "[[-6]]"){
 
             holderDiv.appendChild(firstLine);
             holderDiv.appendChild(br());
+    //        secondTimeTrades = 0;
+//        }
 
-        }
-
-                if (firstTimeTrades == 1){
+                if (firstTimeTrades != 7){
                 console.log("here we are");
      //       firstLine2.appendChild(br());
 
@@ -2857,6 +2904,8 @@ if (tempvar2 != "[[-6]]"){
             let swapOfferTrue = 0;
             let swapOfferFalse = 0;
 
+
+                if (sortedArray.length > 0){
                 for(let i = 0; i < sortedArray.length; i++){
 
                     console.log("in truvdiv")
@@ -2878,9 +2927,10 @@ if (tempvar2 != "[[-6]]"){
 
                 
                 holderDiv.appendChild(br());
-                }
 
-                let secondTimeTrades = 0;
+                }
+            }
+
 
 
         if (sortedArray2.length == 0){
@@ -2905,7 +2955,7 @@ if (tempvar2 != "[[-6]]"){
 
         if (secondTimeTrades == 0){
 
-                        secondTimeTrades = 1;
+            secondTimeTrades = 1;
 
             firstLine2.innerHTML = "Bet on false:";
 
@@ -2918,7 +2968,7 @@ if (tempvar2 != "[[-6]]"){
 
 
 
-                }else{
+                }
 //                if (i < sortedArray.length){
 
                     console.log("in falsediv")
@@ -2942,33 +2992,34 @@ if (tempvar2 != "[[-6]]"){
             
                 holderDiv.appendChild(br());
 
-                    }
+                    
 
                 }
 
 }
 
-            firstTimeTrades = 0;
-                trueArray.length = 0;
-            falseArray.length = 0;
+      //      firstTimeTrades = 0;
+
             secondTimeTrades= 0;
 
             }
 
 
     }
-    globalTradeNonce = 1;
-}
+//    globalTradeNonce = 1;
+
 
     var z_ = 0;
-    async function display_offers2Load(orders, l, type, offsetNumber2_, t2_, t3_, d1message, d2message) {
+    async function display_offers2Load(orders, l, type, offsetNumber2_, t2_, t3_, d1message, d2message, _placeholder3) {
+
+        console.log("placeholder is: " + _placeholder3);
 
         if (JSON.stringify(orders) == "[]") {
             xyz2 = 1;
-
-
+     //       console.log("placeholder is: " + _placeholder3);
+     //       if (_placeholder3 == "1"){
             betterTrades()
-            
+     //       }
             return 0;
         }else{
 
@@ -3409,6 +3460,9 @@ if (tempvar2 != "[[-6]]"){
             let _price2 = Number(_profit_)/(Number(_risk_) + Number(_profit_));
  //           let tradeList2 = [implProb, swapOffer2, _risk_, _profit_]
             falseArray.push([_price2, implProb, swapOffer2, _risk_, _profit_]);
+
+            console.log("zxcv: " + JSON.stringify(falseArray));
+
        //     tradeList2 = [];
         }
 
@@ -3427,7 +3481,7 @@ if (tempvar2 != "[[-6]]"){
 
    //   IMPORTANT
     }
-        display_offers2Load(orders.slice(1), l, type, offsetNumber2_, t2_, d1message, d2message);
+        display_offers2Load(orders.slice(1), l, type, offsetNumber2_, t2_, d1message, d2message, _placeholder3);
 
 
     }
@@ -4136,7 +4190,7 @@ async function showPositions(){
         console.log("KEYSPUB IS: " + keys.pub());
         console.log("IP IS: " + get_ip2());
 
-            const response = await rpc.apost(["account", keys.pub()], get_ip2(), 8091);
+            const response = await rpc.apost(["account", keys.pub()], get_ip(), 8091);
             if(response == "error") {
                 //display.innerHTML = "<h3>load a key with funds.</h3>";
             } else {

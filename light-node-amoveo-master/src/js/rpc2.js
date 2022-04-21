@@ -7,9 +7,9 @@ var rpc = (function() {
         return talk(cmd, u, callback, 10000);
     };
     function default_explorer(cmd, callback) {
- //       var u = "http://159.89.87.58:8090/";
+        var u = "http://159.89.87.58:8090/";
 //    return("159.203.14.139");
-        var u = "http://159.203.14.139:8090/";
+//        var u = "http://159.203.14.139:8090/";
 
 //        var u = "http://46.101.185.98:8090/";
 
@@ -18,8 +18,8 @@ var rpc = (function() {
 
 
     function default_explorer2(cmd, callback) {
-//        var u = "http://159.89.87.58:8090/";
-        var u = "http://159.203.14.139:8090/";
+        var u = "http://159.89.87.58:8090/";
+//        var u = "http://159.203.14.139:8090/";
 
 //        var u = "http://46.101.185.98:8090/";
 
