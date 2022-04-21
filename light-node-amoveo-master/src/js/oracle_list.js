@@ -1,4 +1,7 @@
 
+console.log = function () { };
+
+
 var globalCID;
 var globalB1;
 var globalcreatetradenonce;
@@ -1041,6 +1044,14 @@ var abcd = (function() {
 
     var optionPresetButton1 = button_maker2("Crypto Options", function() { return PresetFilter("price is more than Midnight")});
     var optionPresetButton2 = button_maker2("Competition", function() { return PresetFilter("competition")});
+
+            var optionPresetButton2_ = document.createElement("INPUT");
+            optionPresetButton2_.type = 'checkbox';
+            optionPresetButton2_.style= "width:15px;height:15px;"
+//            optionPresetButton2_.style.display= 'flex';
+//            optionPresetButton2_.style.textAlign = 'center';
+
+
     var optionPresetButton3 = button_maker2("NBA", function() { return PresetFilter("NBA")});
     var optionPresetButton4 = button_maker2("MLB", function() { return PresetFilter("MLB")});
     var optionPresetButton5 = button_maker2("NHL", function() { return PresetFilter("NHL")});
@@ -1091,7 +1102,11 @@ var abcd = (function() {
     div2.appendChild(optionPresetButton1);
     div2.appendChild(text(" "));
         div2.appendChild(optionPresetButton2);
-    div2.appendChild(text(" "));
+    div2.appendChild(text(" Today:"));
+
+        div2.appendChild(optionPresetButton2_);
+
+
     div2.appendChild(br());
     div2.appendChild(br());
 
@@ -2063,15 +2078,15 @@ var placeholder;
 //                    var button = button_maker2("See Odds", function() { return hideBeforeDisplay(l, offsetNumber2, oracle_text, temp_t2) });
 
                     let placeholderTemp = _placeholder3;
-                    console.log("placeholder is: " + placeholderTemp);
+       //             console.log("placeholder is: " + placeholderTemp);
 
                  return hideBeforeDisplay3(l, offsetNumber2, oracle_text, temp_t2, placeholderTemp);
 
-                 console.log("testing123: " + l);
+     //            console.log("testing123: " + l);
 
                     //adding some space
-                    console.log("firstTimeBool: " + firstTimeBool);
-                    console.log(filterText === undefined);
+     //               console.log("firstTimeBool: " + firstTimeBool);
+       //             console.log(filterText === undefined);
                     if (filterText === undefined){
 
 //                    oracles.appendChild(t2);
@@ -2083,7 +2098,7 @@ var placeholder;
                     }else{
 
                         //check if strings match
-                        console.log("filter text is: " + filterText);
+            //            console.log("filter text is: " + filterText);
                         //start slicing filterText
                         var increment2;
                         increment2 = 0;
@@ -2768,7 +2783,7 @@ if (tempvar2 != "[[-6]]"){
             var m = l;
             var z = await rpc.apost(["read", l[1]], get_ip(), parseInt("8090"));
 //            console.log("Z ORDERS 0.5 ARE: " + JSON.stringify(z[1][7]));
-            console.log("Z ORDERS ARE: " + JSON.stringify(z));
+      //      console.log("Z ORDERS ARE: " + JSON.stringify(z));
             var orders = z[1][7];
   //          console.log("Z ORDERS 2 ARE: " + orders);
   //          console.log("Z ORDERS 2.5 ARE: " + z[1][7].slice(1));
@@ -2841,11 +2856,11 @@ if (tempvar2 != "[[-6]]"){
     function betterTrades(){
 //        holderDiv.innerHTML = "";
 
-        console.log("betterTradesCount");
-        console.log("globalTradeNonce is: " + globalTradeNonce);
-            console.log(JSON.stringify(trueArray));
+  //      console.log("betterTradesCount");
+   //     console.log("globalTradeNonce is: " + globalTradeNonce);
+     //       console.log(JSON.stringify(trueArray));
 
-            console.log(JSON.stringify(falseArray));
+      //      console.log(JSON.stringify(falseArray));
 
 
 //        if (globalTradeNonce != 1){
@@ -2854,7 +2869,7 @@ if (tempvar2 != "[[-6]]"){
         offers.appendChild(holderDiv);
         holderDiv.innerHTML = "";
 
-        console.log("firstTimeTrades is: " + firstTimeTrades);
+   //     console.log("firstTimeTrades is: " + firstTimeTrades);
 
 
    //     if (firstTimeTrades == 0){
@@ -2871,31 +2886,31 @@ if (tempvar2 != "[[-6]]"){
 //        }
 
                 if (firstTimeTrades != 7){
-                console.log("here we are");
+        //        console.log("here we are");
      //       firstLine2.appendChild(br());
 
             //sort the arrays
 
-            console.log(JSON.stringify(trueArray));
+     //       console.log(JSON.stringify(trueArray));
 
-            console.log(JSON.stringify(falseArray));
+   //         console.log(JSON.stringify(falseArray));
 
             let sortedArray = trueArray.sort(([a, b], [c, d]) => c - a || b - d);
 
-            console.log(JSON.stringify(sortedArray));
+   //         console.log(JSON.stringify(sortedArray));
 
 
 
 
             let sortedArray2 = falseArray.sort(([a, b], [c, d]) => c - a || b - d);
 
-            console.log(JSON.stringify(sortedArray2));
+    //        console.log(JSON.stringify(sortedArray2));
 
             let lengthVar = Math.max(sortedArray2.length, sortedArray.length);
 
-            console.log("lengthVar is:" + lengthVar);
-            console.log("lengthVar is:" + sortedArray.length);
-            console.log("lengthVar is:" + sortedArray2.length);
+    //        console.log("lengthVar is:" + lengthVar);
+   //         console.log("lengthVar is:" + sortedArray.length);
+   //         console.log("lengthVar is:" + sortedArray2.length);
 
             let trueDiv = document.createElement("div");
             let falseDiv = document.createElement("div");
@@ -2908,7 +2923,7 @@ if (tempvar2 != "[[-6]]"){
                 if (sortedArray.length > 0){
                 for(let i = 0; i < sortedArray.length; i++){
 
-                    console.log("in truvdiv")
+    //                console.log("in truvdiv")
 
                     trueDiv.innerHTML = "Odds: " + sortedArray[i][1] + " | Risk: " + sortedArray[i][3] + " | Profit: " + sortedArray[i][4] ;
 
@@ -2971,7 +2986,7 @@ if (tempvar2 != "[[-6]]"){
                 }
 //                if (i < sortedArray.length){
 
-                    console.log("in falsediv")
+     //               console.log("in falsediv")
 
                     falseDiv.innerHTML = "Odds: " + sortedArray2[i][1] + " | Risk: " + sortedArray2[i][3] + " | Profit: " + sortedArray2[i][4] ;
 
@@ -3012,7 +3027,7 @@ if (tempvar2 != "[[-6]]"){
     var z_ = 0;
     async function display_offers2Load(orders, l, type, offsetNumber2_, t2_, t3_, d1message, d2message, _placeholder3) {
 
-        console.log("placeholder is: " + _placeholder3);
+    //    console.log("placeholder is: " + _placeholder3);
 
         if (JSON.stringify(orders) == "[]") {
             xyz2 = 1;
@@ -3053,7 +3068,7 @@ if (tempvar2 != "[[-6]]"){
         var type2 = swapOffer[1][8];
 
         //type1 is what you gain if you accept, type2 is what you lose if you accept
-        console.log("swapOffer is: " + swapOffer2);
+     //   console.log("swapOffer is: " + swapOffer2);
 
 
         var newDirection;
@@ -3167,7 +3182,7 @@ if (tempvar2 != "[[-6]]"){
     //             console.log("ZZZZ: " + "-"+x.toPrecision(3)); 
                  var probLanguage = " | Betting odds: ";
                 implProb = "-"+x.toPrecision(4);
-                    console.log("xyz is: " + xyz_);
+        //            console.log("xyz is: " + xyz_);
 
 
                 }
@@ -3181,7 +3196,7 @@ if (tempvar2 != "[[-6]]"){
        //          console.log("GGGG" + "+"+x.toPrecision(3));
                  var probLanguage = " | Betting odds: ";
                  implProb = "+"+x.toPrecision(4);
-                    console.log("xyz is: " + xyz_);
+       //             console.log("xyz is: " + xyz_);
 
             }
             
@@ -3204,7 +3219,7 @@ if (tempvar2 != "[[-6]]"){
           //       console.log("ZZZZ")   
                  var percentage = (s2c(amountLose) / (s2c(amountGain)));
                     xyz_ = percentage;
-                    console.log("xyz is: " + xyz_);
+    //                console.log("xyz is: " + xyz_);
 
                  var x = Number(-100) + Number(10000)/(Number(100)*(Number(1)-percentage));
            //      console.log("ZZZZ: " + "-"+x.toPrecision(3)); 
@@ -3219,7 +3234,7 @@ if (tempvar2 != "[[-6]]"){
                  var percentage = (s2c(amountLose) / (s2c(amountGain)));
                     xyz_ = percentage;                 
                  var x = (Number(100)*(Number(1)/percentage)) - Number(100);
-                    console.log("xyz is: " + xyz_);
+    //                console.log("xyz is: " + xyz_);
 
 
          //        console.log("GGGG" + "+"+x.toPrecision(3));
@@ -3251,7 +3266,7 @@ if (tempvar2 != "[[-6]]"){
         let _risk_ = 0;
         let _profit_ = 0;
         let _percent = xyz_;
-        console.log("percentage is: " + xyz_);
+  //      console.log("percentage is: " + xyz_);
 
         if (amountSwapped2 != true){
         
@@ -3273,10 +3288,10 @@ if (tempvar2 != "[[-6]]"){
 
 
 
-        console.log("orders are:" + orders);
-        console.log("orders are:" + JSON.stringify(l));
+    //    console.log("orders are:" + orders);
+    //    console.log("orders are:" + JSON.stringify(l));
 
-        console.log("xyz2 is " + xyz2);
+    //    console.log("xyz2 is " + xyz2);
         if (globalInputBool != 1 && xyz2 != 0){
        //     var cid_1 = m[2];
 
@@ -3438,10 +3453,10 @@ if (tempvar2 != "[[-6]]"){
 
         var button = button_maker2("Accept trade", function() { viewTrading(swapOffer2) });
 //        var button = button_maker2("Accept trade", function() { swap_viewer3.view(swapOffer2) });
-        console.log("building arrays: " + swapOffer2);
-        console.log("building arrays: " + direction);
-        console.log("building arrays: " + _risk_);
-        console.log("building arrays: " + _profit_);
+  //      console.log("building arrays: " + swapOffer2);
+  //      console.log("building arrays: " + direction);
+  //      console.log("building arrays: " + _risk_);
+  //      console.log("building arrays: " + _profit_);
 
         let direction2 = direction;
 
@@ -3453,7 +3468,7 @@ if (tempvar2 != "[[-6]]"){
             let _price = Number(_profit_)/(Number(_risk_) + Number(_profit_));
 
             trueArray.push([_price, implProb, swapOffer2, _risk_, _profit_]);
-            console.log("zxcv: " + JSON.stringify(trueArray));
+  //          console.log("zxcv: " + JSON.stringify(trueArray));
         }
 
         if (direction2 == "the result is false"){
@@ -3461,13 +3476,13 @@ if (tempvar2 != "[[-6]]"){
  //           let tradeList2 = [implProb, swapOffer2, _risk_, _profit_]
             falseArray.push([_price2, implProb, swapOffer2, _risk_, _profit_]);
 
-            console.log("zxcv: " + JSON.stringify(falseArray));
+  //          console.log("zxcv: " + JSON.stringify(falseArray));
 
        //     tradeList2 = [];
         }
 
-        console.log(JSON.stringify(trueArray));
-        console.log(JSON.stringify(falseArray));
+   //     console.log(JSON.stringify(trueArray));
+   //     console.log(JSON.stringify(falseArray));
 
         t2_.search("competition") != "-1"
 
@@ -3982,7 +3997,7 @@ if (tempvar2 != "[[-6]]"){
         });
     };
 
-    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, newDiv2: newDiv2, offersLoad: offersLoad, offersButton2: offersButton2, offersButton4_: offersButton4_, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark, pullbm: pullbm, true1: true1, false1: false1};
+    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, newDiv2: newDiv2, offersLoad: offersLoad, offersButton2: offersButton2, offersButton4_: offersButton4_, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark, pullbm: pullbm, true1: true1, false1: false1, optionPresetButton2_: optionPresetButton2_};
 
 })();
 console.log("trying to display positions");
@@ -4043,8 +4058,34 @@ focusOracleFilter();
     }
 
     async function filter(){
-  //      console.log(abcd.oracle_filter.value);
+
         filterText = abcd.oracle_filter.value;
+
+        if (abcd.optionPresetButton2_.checked == true){
+
+            //figure out what day it is then add it to the filter
+
+            // use eastern time because thats what most of the bets are
+
+                let offset_ = new Date().getTimezoneOffset();// getting offset to make time in gmt+0 zone (UTC) (for gmt+5 offset comes as -300 minutes)
+
+                let date_ = new Date();
+
+                date_.setMinutes ( date_.getMinutes() + offset_);// date now in UTC time
+                            
+                let easternTimeOffset_ = -240; //for dayLight saving, Eastern time become 4 hours behind UTC thats why its offset is -4x60 = -240 minutes. So when Day light is not active the offset will be -300
+
+                date_.setMinutes ( date_.getMinutes() + easternTimeOffset_);
+
+                console.log("date is: " + date_.toString().split(" ")[2]);
+
+                date_ = date_.toString();
+
+                abcd.oracle_filter.value = filterText + " " + date_.split(" ")[1] + " " + date_.split(" ")[2];
+
+                filterText = filterText + " " + date_.split(" ")[1] + " " + date_.split(" ")[2];
+
+        }
 
         firstTimeBool = 0;
 
@@ -4114,7 +4155,10 @@ focusOracleFilter();
 
 
         abcd.oracle_filter.value = "";
-        filter();
+
+        abcd.oracles.innerHTML = "";
+
+//        filter();
         
         /*
         firstTimeBool = 0;
@@ -4888,7 +4932,7 @@ function showTradeExplorer(){
     keys.file_selector.style.display = 'none';
 
     abcd.offersLoad.style.display = 'inline';
-    abcd.offersButton4_.style.display = 'none';
+//    abcd.offersButton4_.style.display = 'inline';
 
 }
 
