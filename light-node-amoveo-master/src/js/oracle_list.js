@@ -3,6 +3,8 @@ var globalCID;
 var globalB1;
 var globalcreatetradenonce;
 
+var globalTradeNonce;
+
 var globalLPBool;
 
 var globalCID_;
@@ -57,7 +59,7 @@ var abcd = (function() {
 
 
     var title3 = document.createElement("h3");
-    title3.innerHTML = "Provide liquidity across daily NBA, NHL, MLB and Tennis matches";
+    title3.innerHTML = "Provide liquidity across daily NBA, NHL, MLB, Premier League, LaLiga and Tennis matches";
 
     div.appendChild(title3);
 
@@ -123,13 +125,28 @@ var abcd = (function() {
     var successVar = document.createElement("div");
     title3.appendChild(successVar);
 
+    var title4_ = document.createElement("div");
+    title3.appendChild(title4_);
+
+
     async function liquidityProvision(_number){
         globalLPBool = 1;
         var maxRisk = Number(LPinput.value);  // * 100000000; lol
 
         if (_number == 0){
-        successVar.innerHTML = "<font color=\"green\">LP bot started</font>";
+        
+            successVar.innerHTML = "<font color=\"green\">LP bot started</font>";
+        
         }
+
+        if (_number == 1){
+
+            title4_.innerHTML = "";
+
+//            successVar.innerHTML = "<font color=\"green\">LP bot started</font>";
+        
+        }
+
     //    need to pull them from zacks server
     //
 
@@ -347,6 +364,20 @@ var abcd = (function() {
                     sport = "NBA Basketball";
                     networkBool = 1;
                     }
+
+                if (sport == "LALIGA SOCCER") {
+                    sport = "LaLiga";
+                    networkBool = 1;
+                    }
+
+         //       PREM SOCCER
+                
+                if (sport == "PREM SOCCER") {
+                    sport = "Premier League";
+                    networkBool = 1;
+                    }                    
+
+
 
                 //figure out if the entry is a time or not
                 //am or pm with a ":"
@@ -651,7 +682,7 @@ var abcd = (function() {
                     // LALIGA SOCCER
                     // USA SOCCER
 
-                    if ( (_sport == "ATP Tennis") || (_sport == "WTA Tennis") || (_sport == "MLB Baseball") || (_sport == "NHL Hockey") || (_sport == "NBA Basketball") ) {
+                    if ( (_sport == "ATP Tennis") || (_sport == "WTA Tennis") || (_sport == "MLB Baseball") || (_sport == "NHL Hockey") || (_sport == "NBA Basketball") || (_sport == "Premier League") || (_sport == "LaLiga") ) {
 
                     // also need to check if the time is OK
                     let timeCheck = JSON.stringify(sportsArray).split(",")[Number(5)+Number(i)].toString();
@@ -795,7 +826,7 @@ var abcd = (function() {
 
                                 previewVar.style.fontSize = "16px";
 
-                                title3.appendChild(previewVar);
+                                title4_.appendChild(previewVar);
 
                                 previewVar.appendChild(text(" | "));
 
@@ -928,6 +959,15 @@ var abcd = (function() {
     var offersButton = button_maker2("Load", function() { return offerInputLoad()});
 
     var offersButton2 = button_maker2("Bookmark", function() { return offerInputBookmark()});
+
+    var offersButton4_ = button_maker2("Copy", function() { return copy_contract_button()});
+
+
+    function copy_contract_button(){
+
+        copyToClipboard(offersInput.value);
+    }
+
     var offersButton3 = button_maker2("Testing", function() { return getBookMark()});
 
 //    headers_object.bookmarkText;
@@ -958,7 +998,8 @@ var abcd = (function() {
 
     offersLoad.appendChild(offersButton2);
 //    offersLoad.appendChild(offersButton3);
-
+    offersLoad.appendChild(text(" "));
+    offersLoad.appendChild(offersButton4_);
 //    div.appendChild(br());
 //    div.appendChild(br());
 
@@ -967,8 +1008,10 @@ var abcd = (function() {
     var oracleDoc = document.createElement("h8");
     var t2 = document.createElement("h8");
     var t3;
-    var filterbutton = button_maker2("Go", function() { return filter()});
-    var resetfilterbutton = button_maker2("Reset", function() { return resetFilter()});
+
+    var filterbutton = button_maker2("Load", function() { return filter()});
+
+    var resetfilterbutton = button_maker2("Clear", function() { return resetFilter()});
     var loadEventsbutton = button_maker2("Load events", function() { return filter()});
 
     var title = document.createElement("h3");
@@ -976,10 +1019,16 @@ var abcd = (function() {
     div.appendChild(title);
 
     var optionPresetButton1 = button_maker2("Crypto Options", function() { return PresetFilter("price is more than Midnight")});
-    var optionPresetButton2 = button_maker2("Competition", function() { return PresetFilter("defeat competition")});
-    var optionPresetButton3 = button_maker2("NBA", function() { return PresetFilter("NBA defeat competition")});
-    var optionPresetButton4 = button_maker2("MLB", function() { return PresetFilter("MLB defeat competition")});
-    var optionPresetButton5 = button_maker2("NHL", function() { return PresetFilter("NHL defeat competition")});
+    var optionPresetButton2 = button_maker2("Competition", function() { return PresetFilter("competition")});
+    var optionPresetButton3 = button_maker2("NBA", function() { return PresetFilter("NBA")});
+    var optionPresetButton4 = button_maker2("MLB", function() { return PresetFilter("MLB")});
+    var optionPresetButton5 = button_maker2("NHL", function() { return PresetFilter("NHL")});
+    var optionPresetButton6 = button_maker2("LaLiga", function() { return PresetFilter("LaLiga")});
+    var optionPresetButton7 = button_maker2("Premier League", function() { return PresetFilter("Premier League")});
+    var optionPresetButton8 = button_maker2("Tennis", function() { return PresetFilter("Tennis")});
+
+    var optionPresetButton9 = button_maker2("BTC $69k", function() { return PresetFilter("BTC 69000")});
+
     
 
    // var nbaPresetButton = button_maker2("NBA", function() { return PresetFilter("nba")});
@@ -1010,23 +1059,41 @@ var abcd = (function() {
     div2.appendChild(filterbutton);
     div2.appendChild(text(" "));
     div2.appendChild(resetfilterbutton);
-    div2.appendChild(text(" "));
-    div2.appendChild(loadEventsbutton);
+//    div2.appendChild(text(" "));
+//    div2.appendChild(loadEventsbutton);
 
         div2.appendChild(text(" "));
             div2.appendChild(br());
                         div2.appendChild(br());
-    div2.appendChild(text("Presets: "));
+    div2.appendChild(text("General presets: "));
 
     div2.appendChild(optionPresetButton1);
     div2.appendChild(text(" "));
         div2.appendChild(optionPresetButton2);
     div2.appendChild(text(" "));
+    div2.appendChild(br());
+    div2.appendChild(br());
+
+    div2.appendChild(text("Specific presets: "));
+
+        div2.appendChild(optionPresetButton9);
+    div2.appendChild(text(" "));
+
         div2.appendChild(optionPresetButton3);
     div2.appendChild(text(" "));
         div2.appendChild(optionPresetButton4);
     div2.appendChild(text(" "));
+
+
         div2.appendChild(optionPresetButton5);
+    div2.appendChild(text(" "));
+
+        div2.appendChild(optionPresetButton8);
+    div2.appendChild(text(" "));
+
+        div2.appendChild(optionPresetButton6);
+    div2.appendChild(text(" "));
+        div2.appendChild(optionPresetButton7);
   
 
   //  div2.appendChild(text(" "));
@@ -1250,6 +1317,12 @@ async function loadBookmark(_contract){
     console.log("contract is: " + _contract);
 
 //    intervalVar = 1;
+    trueArray.length = 0;
+    falseArray.length = 0;
+    console.log("arraysare: " + JSON.stringify(trueArray));
+    console.log("arraysare: " + JSON.stringify(falseArray));
+
+
     offersInput.value = _contract;
     offerInputLoad()
 
@@ -1269,6 +1342,10 @@ async function loadBookmark2(_contract){
 //    hideOdds();
      myStopFunction();
 //    intervalVar = 1;
+
+    trueArray.length = 0;
+    falseArray.length = 0;
+
     offersInput.value = _contract;
     offerInputLoad()
     true1.checked = false;
@@ -1950,18 +2027,19 @@ var placeholder;
 }
                     
 
-                    console.log("xxxy this is t" + t2.outerHTML);
-                    console.log(t2);
-                    console.log((t3.split(" ")));
-                                            console.log((t3.split(" "))[0]);
-                    console.log(t2[0]);
-                    console.log("xyzxyz button: " + h);
-                    console.log("xxyx first t2 is: " + oracle_text);
+     //               console.log("xxxy this is t" + t2.outerHTML);
+     //               console.log(t2);
+     //               console.log((t3.split(" ")));
+       //                                     console.log((t3.split(" "))[0]);
+     //               console.log(t2[0]);
+      //              console.log("xyzxyz button: " + h);
+      //              console.log("xxyx first t2 is: " + oracle_text);
 
                     var temp_t2 = t2.outerHTML;
 //                    var button = button_maker2("See Odds", function() { return hideBeforeDisplay(l, offsetNumber2, oracle_text, temp_t2) });
                  return hideBeforeDisplay3(l, offsetNumber2, oracle_text, temp_t2);
 
+                 console.log("testing123: " + l);
 
                     //adding some space
                     console.log("firstTimeBool: " + firstTimeBool);
@@ -2027,6 +2105,12 @@ console.log("through");
     var falseArray_ = new Array;
 
     async function offerInputLoad(){
+
+                holderDiv.innerHTML = "";
+
+    trueArray.length = 0;
+    falseArray.length = 0;
+
             myStopFunction();
         // the server stores trades based on market id which is a function of what is being traded for what in the swap offer.
         // so we cover two cases: VEO & Type 1 are being traded and VEO & Type 2 are being traded.
@@ -2109,10 +2193,14 @@ console.log("through");
     globalInputBool = 0;
        
     offersButton2.style.display = 'inline';
+    offersButton4_.style.display = 'inline';
     
+
     globalcreatetradenonce = 0;
     
     globalLPBool = 0;
+
+    globalTradeNonce = 0;
 
     }
 
@@ -2697,10 +2785,190 @@ if (tempvar2 != "[[-6]]"){
             false1.type = 'checkbox';
             false1.style="width:15px;height:15px;"
 
+        var trueArray = new Array();
+        var falseArray = new Array();
+
+                var xyz_;
+
+                var firstTimeTrades = 0;
+                var secondTimeTrades = 0;
+
+            var firstLine = document.createElement("div");
+            var firstLine2 = document.createElement("div");
+
+            var holderDiv = document.createElement("div");
+
+
+    function betterTrades(){
+//        holderDiv.innerHTML = "";
+
+        console.log("betterTradesCount");
+
+
+        if (globalTradeNonce != 1){
+
+
+        offers.appendChild(holderDiv);
+        console.log("firstTimeTrades is: " + firstTimeTrades);
+        if (firstTimeTrades == 0){
+
+            firstTimeTrades = 1;
+
+            firstLine.innerHTML = "Bet on true:";
+
+            firstLine.style.fontSize = "20px";
+
+            holderDiv.appendChild(firstLine);
+            holderDiv.appendChild(br());
+
+        }
+
+                if (firstTimeTrades == 1){
+                console.log("here we are");
+     //       firstLine2.appendChild(br());
+
+            //sort the arrays
+
+            console.log(JSON.stringify(trueArray));
+
+            console.log(JSON.stringify(falseArray));
+
+            let sortedArray = trueArray.sort(([a, b], [c, d]) => c - a || b - d);
+
+            console.log(JSON.stringify(sortedArray));
+
+
+
+
+            let sortedArray2 = falseArray.sort(([a, b], [c, d]) => c - a || b - d);
+
+            console.log(JSON.stringify(sortedArray2));
+
+            let lengthVar = Math.max(sortedArray2.length, sortedArray.length);
+
+            console.log("lengthVar is:" + lengthVar);
+            console.log("lengthVar is:" + sortedArray.length);
+            console.log("lengthVar is:" + sortedArray2.length);
+
+            let trueDiv = document.createElement("div");
+            let falseDiv = document.createElement("div");
+
+//            falseArray.push([_price2, implProb, swapOffer2, _risk_, _profit_]);
+            let swapOfferTrue = 0;
+            let swapOfferFalse = 0;
+
+                for(let i = 0; i < sortedArray.length; i++){
+
+                    console.log("in truvdiv")
+
+                    trueDiv.innerHTML = "Odds: " + sortedArray[i][1] + " | Risk: " + sortedArray[i][3] + " | Profit: " + sortedArray[i][4] ;
+
+                    swapOfferTrue = sortedArray[i][2];
+                
+                var buttonTrue = button_maker2("Accept", function() { viewTrading(swapOfferTrue)});
+                
+          //      trueDiv.style.textIndent = "50px";
+
+                holderDiv.appendChild(buttonTrue);
+                        holderDiv.appendChild(text(" | "));
+
+
+                holderDiv.appendChild(text(trueDiv.innerHTML));
+                
+
+                
+                holderDiv.appendChild(br());
+                }
+
+                let secondTimeTrades = 0;
+
+
+        if (sortedArray2.length == 0){
+
+            secondTimeTrades = 1;
+
+            firstLine2.innerHTML = "Bet on false:";
+
+            firstLine2.style.fontSize = "20px";
+//            firstLine2.style.paddingLeft = "135px";
+
+            holderDiv.appendChild(br());
+            holderDiv.appendChild(firstLine2);
+            holderDiv.appendChild(br());
+
+
+        }else{               
+                
+        for(let i = 0; i < sortedArray2.length; i++){
+
+
+
+        if (secondTimeTrades == 0){
+
+                        secondTimeTrades = 1;
+
+            firstLine2.innerHTML = "Bet on false:";
+
+            firstLine2.style.fontSize = "20px";
+//            firstLine2.style.paddingLeft = "135px";
+
+            holderDiv.appendChild(br());
+            holderDiv.appendChild(firstLine2);
+            holderDiv.appendChild(br());
+
+
+
+                }else{
+//                if (i < sortedArray.length){
+
+                    console.log("in falsediv")
+
+                    falseDiv.innerHTML = "Odds: " + sortedArray2[i][1] + " | Risk: " + sortedArray2[i][3] + " | Profit: " + sortedArray2[i][4] ;
+
+                swapOfferFalse = sortedArray2[i][2];
+                var buttonFalse = button_maker2("Accept", function() { viewTrading(swapOfferFalse)});
+                buttonFalse.style.display = 'inline';
+  //          firstLine2.style.paddingLeft = "230px";
+//                firstLine2.innerHTML = "False";
+   //         firstLine2.style.display = 'inline';
+
+                holderDiv.appendChild(buttonFalse);
+                holderDiv.appendChild(text(" | "));
+                holderDiv.appendChild(text(falseDiv.innerHTML));
+
+
+
+
+            
+                holderDiv.appendChild(br());
+
+                    }
+
+                }
+
+}
+
+            firstTimeTrades = 0;
+                trueArray.length = 0;
+            falseArray.length = 0;
+            secondTimeTrades= 0;
+
+            }
+
+
+    }
+    globalTradeNonce = 1;
+}
+
+    var z_ = 0;
     async function display_offers2Load(orders, l, type, offsetNumber2_, t2_, t3_, d1message, d2message) {
 
         if (JSON.stringify(orders) == "[]") {
             xyz2 = 1;
+
+
+            betterTrades()
+            
             return 0;
         }else{
 
@@ -2841,10 +3109,14 @@ if (tempvar2 != "[[-6]]"){
                  
       //           console.log("ZZZZ")   
                  var percentage = ((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain)));
+                 
+                 xyz_ = percentage;
+
                  var x = Number(-100) + Number(10000)/(Number(100)*(Number(1)-percentage));
     //             console.log("ZZZZ: " + "-"+x.toPrecision(3)); 
                  var probLanguage = " | Betting odds: ";
                 implProb = "-"+x.toPrecision(4);
+                    console.log("xyz is: " + xyz_);
 
 
                 }
@@ -2852,10 +3124,13 @@ if (tempvar2 != "[[-6]]"){
             if ((s2c(amountGain) - s2c(amountLose)) <= s2c(amountLose)){
 
                  var percentage = ((s2c(amountGain) - s2c(amountLose) )/ (s2c(amountGain)));
+
+                xyz_ = percentage;
                  var x = (Number(100)*(Number(1)/percentage)) - Number(100);
        //          console.log("GGGG" + "+"+x.toPrecision(3));
                  var probLanguage = " | Betting odds: ";
                  implProb = "+"+x.toPrecision(4);
+                    console.log("xyz is: " + xyz_);
 
             }
             
@@ -2877,6 +3152,9 @@ if (tempvar2 != "[[-6]]"){
                  
           //       console.log("ZZZZ")   
                  var percentage = (s2c(amountLose) / (s2c(amountGain)));
+                    xyz_ = percentage;
+                    console.log("xyz is: " + xyz_);
+
                  var x = Number(-100) + Number(10000)/(Number(100)*(Number(1)-percentage));
            //      console.log("ZZZZ: " + "-"+x.toPrecision(3)); 
                  var probLanguage = " | Betting odds: ";
@@ -2888,7 +3166,11 @@ if (tempvar2 != "[[-6]]"){
             if ( (s2c(amountLose) <= (s2c(amountGain) - s2c(amountLose)) ) ){
 
                  var percentage = (s2c(amountLose) / (s2c(amountGain)));
+                    xyz_ = percentage;                 
                  var x = (Number(100)*(Number(1)/percentage)) - Number(100);
+                    console.log("xyz is: " + xyz_);
+
+
          //        console.log("GGGG" + "+"+x.toPrecision(3));
                  var probLanguage = " | Betting odds: ";
                  implProb = "+"+x.toPrecision(4);
@@ -2917,6 +3199,8 @@ if (tempvar2 != "[[-6]]"){
         var idStuff = "";
         let _risk_ = 0;
         let _profit_ = 0;
+        let _percent = xyz_;
+        console.log("percentage is: " + xyz_);
 
         if (amountSwapped2 != true){
         
@@ -2936,8 +3220,7 @@ if (tempvar2 != "[[-6]]"){
 
   //      var text.appendChild("asdfs");
 
-        var trueArray = new Array();
-        var falseArray = new Array();
+
 
         console.log("orders are:" + orders);
         console.log("orders are:" + JSON.stringify(l));
@@ -3095,22 +3378,54 @@ if (tempvar2 != "[[-6]]"){
         }else{
 
 
-        offers.appendChild(t);
+  //      offers.appendChild(t);
+  //IMPORTANT
+
+
     //    console.log("PPPP button h: " + swapOffer);
     //    console.log("PPPP button type: " + type);
 
         var button = button_maker2("Accept trade", function() { viewTrading(swapOffer2) });
 //        var button = button_maker2("Accept trade", function() { swap_viewer3.view(swapOffer2) });
+        console.log("building arrays: " + swapOffer2);
+        console.log("building arrays: " + direction);
+        console.log("building arrays: " + _risk_);
+        console.log("building arrays: " + _profit_);
 
+        let direction2 = direction;
+
+
+        if (direction2 == "the result is true"){
+            console.log("zxcv in true")
+    //        let tradeList = [implProb, swapOffer2, _risk_, _profit_]
+            
+            let _price = Number(_profit_)/(Number(_risk_) + Number(_profit_));
+
+            trueArray.push([_price, implProb, swapOffer2, _risk_, _profit_]);
+            console.log("zxcv: " + JSON.stringify(trueArray));
+        }
+
+        if (direction2 == "the result is false"){
+            let _price2 = Number(_profit_)/(Number(_risk_) + Number(_profit_));
+ //           let tradeList2 = [implProb, swapOffer2, _risk_, _profit_]
+            falseArray.push([_price2, implProb, swapOffer2, _risk_, _profit_]);
+       //     tradeList2 = [];
+        }
+
+        console.log(JSON.stringify(trueArray));
+        console.log(JSON.stringify(falseArray));
+
+        t2_.search("competition") != "-1"
 
         button.style.display = "inline";
 
 
 
    //     offers.appendChild(text(" "));
-        offers.appendChild(button);
-        offers.appendChild(br());
+   //     offers.appendChild(button);
+   //     offers.appendChild(br());
 
+   //   IMPORTANT
     }
         display_offers2Load(orders.slice(1), l, type, offsetNumber2_, t2_, d1message, d2message);
 
@@ -3483,6 +3798,8 @@ if (tempvar2 != "[[-6]]"){
         display_offers2(orders.slice(1), l, type, offsetNumber2_, t2_, d1message, d2message);
 
         offersButton2.style.display = 'inline';
+        offersButton4_.style.display = 'inline';
+
     }
 };
 
@@ -3611,7 +3928,7 @@ if (tempvar2 != "[[-6]]"){
         });
     };
 
-    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, offersLoad: offersLoad, offersButton2: offersButton2, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark, pullbm: pullbm, true1: true1, false1: false1};
+    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, newDiv2: newDiv2, offersLoad: offersLoad, offersButton2: offersButton2, offersButton4_: offersButton4_, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark, pullbm: pullbm, true1: true1, false1: false1};
 
 })();
 console.log("trying to display positions");
@@ -4407,6 +4724,9 @@ async function showPositions(){
 
 function hidePositions(){
     abcd.positionDiv.innerHTML = "";
+
+    abcd.newDiv2.style.display = "none";
+
 }
 
 function downloadPositions(){
@@ -4433,6 +4753,7 @@ function hideOdds2(){
     abcd.offersInput.value = "";
 
         abcd.offersButton2.style.display = 'none';
+        abcd.offersButton4_.style.display = 'none';
 
         abcd.true1.checked = false;
         abcd.false1.checked = false;
@@ -4513,6 +4834,7 @@ function showTradeExplorer(){
     keys.file_selector.style.display = 'none';
 
     abcd.offersLoad.style.display = 'inline';
+    abcd.offersButton4_.style.display = 'none';
 
 }
 
@@ -4644,7 +4966,7 @@ tradeExplorer();
 firstTime();
 
 //abcd.oracle_list_pull();
-
+ //   keys.copy_address_button.style.display = 'none';
 
 var internalNonce;
 
