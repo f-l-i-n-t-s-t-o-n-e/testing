@@ -1,5 +1,5 @@
 
-console.log = function () { };
+//console.log = function () { };
 
 
 var globalCID;
@@ -688,6 +688,25 @@ var abcd = (function() {
                         _skip = 1;
                     }
 
+                    //search competitors for + or - and numbers
+
+                    let comp1Holder = (_comp1.replace("+","")).replace("-","")
+                    let comp2Holder = (_comp2.replace("+","")).replace("-","")
+
+                    comp1Holder = comp1Holder.replace(" ", "");
+                    comp2Holder = comp2Holder.replace(" ", "");
+
+
+                    if( comp1Holder > 0 ){
+                        _skip = 1;
+
+                    }
+
+                    if( comp2Holder > 0 ){
+                        _skip = 1;
+                    }
+
+
                     console.log(_oracle, maxRisk, profit_);
 
 
@@ -908,7 +927,7 @@ var abcd = (function() {
     var positionDownload = button_maker2("Download", function() { return downloadPositions()});
     var positionShow = button_maker2("Show", function() { return showPositions()});
     var positionHide = button_maker2("Hide", function() { return hidePositions()});
-
+    positionHide.style.display = 'none';
     var positionButtonDiv = document.createElement("div");
  //   title0.appendChild(positionButtonDiv);
     //div.appendChild(text("Controls: "));
@@ -1001,6 +1020,8 @@ var abcd = (function() {
 
     offersButton2.style.display = 'none';
 
+    offersButton4_.style.display = 'none';
+
 
     offersLoad.innerHTML = "Load offers by contract: ";
 
@@ -1033,10 +1054,12 @@ var abcd = (function() {
     var t2 = document.createElement("h8");
     var t3;
 
-    var filterbutton = button_maker2("Load", function() { return filter()});
+    var filterbutton = button_maker2("Load", function() { return filter(1)});
 
     var resetfilterbutton = button_maker2("Clear", function() { return resetFilter()});
     var loadEventsbutton = button_maker2("Load events", function() { return filter()});
+
+    resetfilterbutton.style.display = 'none';
 
     var title = document.createElement("h3");
     title.innerHTML = "Events";
@@ -1081,7 +1104,7 @@ var abcd = (function() {
     // Cancel the default action, if needed
 //    event.preventDefault();
     // Trigger the button element with a click
-    filter();
+    filter(1);
    // document.getElementById("filterbutton").click();
           }
         });
@@ -1733,15 +1756,105 @@ var placeholder;
                 //    }
 
 
+                        //need to do month conversions here
+
+                        let filterText2 = filterText;
+
+                        if (filterText.split(" ")[Number(lengthSplit) - Number(2)] == "Jan" ) {
+                        
+                            filterText2 = "January " + filterText.split(" ")[Number(lengthSplit) - Number(1)];
+                        
+                        }
+
+                        if (filterText.split(" ")[Number(lengthSplit) - Number(2)] == "Feb" ) {
+                        
+                            filterText2 = "February " + filterText.split(" ")[Number(lengthSplit) - Number(1)];
+                        
+                        }                        
+
+                        if (filterText.split(" ")[Number(lengthSplit) - Number(2)] == "Mar" ) {
+                        
+                            filterText2 = "March " + filterText.split(" ")[Number(lengthSplit) - Number(1)];
+                        
+                        }
+
+                        if (filterText.split(" ")[Number(lengthSplit) - Number(2)] == "Apr" ) {
+                        
+                            filterText2 = "April " + filterText.split(" ")[Number(lengthSplit) - Number(1)];
+                        
+                        }
+
+
+                        if (filterText.split(" ")[Number(lengthSplit) - Number(2)] == "May" ) {
+                        
+                            filterText2 = "May " + filterText.split(" ")[Number(lengthSplit) - Number(1)];
+                        
+                        }
+
+                        if (filterText.split(" ")[Number(lengthSplit) - Number(2)] == "Jun" ) {
+                        
+                            filterText2 = "June " + filterText.split(" ")[Number(lengthSplit) - Number(1)];
+                        
+                        }
+
+                        if (filterText.split(" ")[Number(lengthSplit) - Number(2)] == "Jul" ) {
+                        
+                            filterText2 = "July " + filterText.split(" ")[Number(lengthSplit) - Number(1)];
+                        
+                        }
+
+                        if (filterText.split(" ")[Number(lengthSplit) - Number(2)] == "Aug" ) {
+                        
+                            filterText2 = "August " + filterText.split(" ")[Number(lengthSplit) - Number(1)];
+                        
+                        }
+
+                        if (filterText.split(" ")[Number(lengthSplit) - Number(2)] == "Sep" ) {
+                        
+                            filterText2 = "September " + filterText.split(" ")[Number(lengthSplit) - Number(1)];
+                        
+                        }
+
+                        if (filterText.split(" ")[Number(lengthSplit) - Number(2)] == "Oct" ) {
+                        
+                            filterText2 = "October " + filterText.split(" ")[Number(lengthSplit) - Number(1)];
+                        
+                        }
+
+                        if (filterText.split(" ")[Number(lengthSplit) - Number(2)] == "Nov" ) {
+                        
+                            filterText2 = "November " + filterText.split(" ")[Number(lengthSplit) - Number(1)];
+                        
+                        }
+
+                        if (filterText.split(" ")[Number(lengthSplit) - Number(2)] == "Dec" ) {
+                        
+                            filterText2 = "December " + filterText.split(" ")[Number(lengthSplit) - Number(1)];
+                        
+                        }
+
 
                         for (increment = 0; increment < lengthSplit; increment++ ){;
                         
-                        if (t3.search((filterText.split(" "))[increment]) < 0){
+                            if (t3.search((filterText.split(" "))[increment]) < 0){
 
-                            increment2 = increment2 + 1;
+                                increment2 = increment2 + 1;
+
+                                }
+
+                        // also need to check the case where the last two words of the filterText are in the search, concatenated
+                        
+                        }
+
+                        if (optionPresetButton2_.checked == true ) {
+
+                            if (t3.search(filterText2) < 0){
+
+                                increment2 = increment2 + 1;
+
+                            }
 
                         }
-}
 
                         //make increment2 1 as well if a cid has already been used.
 //                        cidArray.toString()
@@ -1809,7 +1922,7 @@ var placeholder;
     }
     
 
-
+        abcd.resetfilterbutton.style.display = 'inline';
     };
 
 
@@ -2511,7 +2624,7 @@ console.log("through");
                 console.log("testlist is: " + JSON.stringify(testListNonce[1]));
 
 
-                button.title = "0.05% rebate for lost bets";
+                button.title = "0.25% rebate for lost bets";
                 button2.title = "create an offer to sell your position for VEO" + JSON.stringify(balances_db2_[key]);
                 firstThing.appendChild(text(" "));                
                 firstThing.appendChild(button);
@@ -3997,7 +4110,7 @@ if (tempvar2 != "[[-6]]"){
         });
     };
 
-    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, newDiv2: newDiv2, offersLoad: offersLoad, offersButton2: offersButton2, offersButton4_: offersButton4_, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark, pullbm: pullbm, true1: true1, false1: false1, optionPresetButton2_: optionPresetButton2_};
+    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, newDiv2: newDiv2, offersLoad: offersLoad, offersButton2: offersButton2, offersButton4_: offersButton4_, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark, pullbm: pullbm, true1: true1, false1: false1, optionPresetButton2_: optionPresetButton2_, positionShow: positionShow, positionHide: positionHide, resetfilterbutton: resetfilterbutton};
 
 })();
 console.log("trying to display positions");
@@ -4057,11 +4170,15 @@ focusOracleFilter();
 
     }
 
-    async function filter(){
+    async function filter(_number_){
 
         filterText = abcd.oracle_filter.value;
 
-        if (abcd.optionPresetButton2_.checked == true){
+
+//        if ((abcd.optionPresetButton2_.checked == true) && (_number_ != 1) ){
+
+        if ((abcd.optionPresetButton2_.checked == true) && (_number_ != 1) ){
+
 
             //figure out what day it is then add it to the filter
 
@@ -4081,11 +4198,38 @@ focusOracleFilter();
 
                 date_ = date_.toString();
 
-                abcd.oracle_filter.value = filterText + " " + date_.split(" ")[1] + " " + date_.split(" ")[2];
+//                abcd.oracle_filter.value = filterText + " " + date_.split(" ")[1] + " " + date_.split(" ")[2];
 
                 filterText = filterText + " " + date_.split(" ")[1] + " " + date_.split(" ")[2];
 
         }
+
+        if ((abcd.optionPresetButton2_.checked == true) && (_number_ == 1) ){
+
+
+            //figure out what day it is then add it to the filter
+
+            // use eastern time because thats what most of the bets are
+
+                let offset_ = new Date().getTimezoneOffset();// getting offset to make time in gmt+0 zone (UTC) (for gmt+5 offset comes as -300 minutes)
+
+                let date_ = new Date();
+
+                date_.setMinutes ( date_.getMinutes() + offset_);// date now in UTC time
+                            
+                let easternTimeOffset_ = -240; //for dayLight saving, Eastern time become 4 hours behind UTC thats why its offset is -4x60 = -240 minutes. So when Day light is not active the offset will be -300
+
+                date_.setMinutes ( date_.getMinutes() + easternTimeOffset_);
+
+                console.log("date is: " + date_.toString().split(" ")[2]);
+
+                date_ = date_.toString();
+
+//                abcd.oracle_filter.value = filterText + " " + date_.split(" ")[1] + " " + date_.split(" ")[2];
+
+                filterText = filterText + " " + date_.split(" ")[1] + " " + date_.split(" ")[2];
+
+        }        
 
         firstTimeBool = 0;
 
@@ -4140,6 +4284,9 @@ focusOracleFilter();
 
 
         myStopFunction();
+
+        console.log("filterText is: " + filterText);
+
         abcd.display_oracles(l);
   //      myInterval = setInterval(async function(){ runtheloop() }, 1000*10);
     }
@@ -4153,6 +4300,7 @@ focusOracleFilter();
     //            console.log(abcd.oracle_filter.value);
     //    filterText = undefined;
 
+        abcd.resetfilterbutton.style.display = 'none';
 
         abcd.oracle_filter.value = "";
 
@@ -4257,6 +4405,9 @@ async function showPositions(){
                     sub_accs2, liquidity_shares, "<h4>your balances in each subcurrency</h4>",
                     function(){
                         show_balances_();
+                    
+                        abcd.positionShow.style.display = 'none';
+                        abcd.positionHide.style.display = 'inline';  
                     });
             });
 
@@ -4825,6 +4976,9 @@ function hidePositions(){
 
     abcd.newDiv2.style.display = "none";
 
+                        abcd.positionShow.style.display = 'inline';
+                        abcd.positionHide.style.display = 'none'; 
+
 }
 
 function downloadPositions(){
@@ -5142,3 +5296,5 @@ function isDaylightSavingsInEffect(dateInput) {
     // To satisfy the original question
     return dstOffsetAtDate(dateInput) !== 0;
 }
+
+
