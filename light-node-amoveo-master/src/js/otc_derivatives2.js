@@ -246,7 +246,7 @@ function bet_builder(bet_e, amount_e, them_e){
         var key1 = key;
     //    var bet = atob(key.oracleLanguage[1]); //= bet_e.value;
         var amount = Math.round(parseFloat(key.bal));
-        var them = Math.round(Number(0.0005)*parseFloat(key.bal));
+        var them = Math.round(Number(0.0025)*parseFloat(key.bal));
 
         var my_acc = await rpc.apost(["account", keys.pub()])
         if(my_acc === 0){
@@ -260,7 +260,7 @@ function bet_builder(bet_e, amount_e, them_e){
  //       var TimeLimit = parseInt(timelimit.value);
         offer.end_limit = now + 144;
         offer.amount1 = parseInt(key.bal);
-        offer.amount2 = parseInt(Number(key.bal)*0.0009);
+        offer.amount2 = parseInt(Number(key.bal)*0.0025);
         offer.cid1 = key.cid;
         offer.cid2 = "";
         if("" === offer.cid1){
@@ -319,6 +319,15 @@ function bet_builder(bet_e, amount_e, them_e){
               //  console.log("CONCESSION signed_offer +" signed_offer);
                 console.log("CONCESSION PUBLISHED");
                 console.log(JSON.stringify(signed_offer));
+                abcd.positionConfirmation.style.display = 'inline';                
+
+                function clearPositionConfirmation(){
+                abcd.positionConfirmation.style.display = 'none';                
+
+                }
+
+                setTimeout(clearPositionConfirmation, 3000);
+
             };
         };
     };
@@ -409,14 +418,16 @@ function bet_builder(bet_e, amount_e, them_e){
                 console.log("CONCESSION PUBLISHED");
                 console.log(JSON.stringify(signed_offer));
 
-                abcd.successVar2.innerHTML = "<font color=\"green\"> Sell offer posted!</font>";
+                abcd.positionConfirmation.style.display = 'inline';                
+                
+                abcd.loadBookmark2(globalCID_);
+                
+                function clearPositionConfirmation(){
+                abcd.positionConfirmation.style.display = 'none';                
 
-                function clean(){
-                abcd.successVar2.innerHTML = "";
-                abcd.positionsInput.value ="";
-                abcd.newDiv2.style.display = 'none';
                 }
-                setTimeout(clean, 5000);
+
+                setTimeout(clearPositionConfirmation, 3000);
 
             };
         };

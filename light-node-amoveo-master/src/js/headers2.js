@@ -180,12 +180,25 @@ function headers_main() {
     var spendButton = button_maker2("Send", function() { return send2()});
     spendButton.style.display = 'inline';
 
+    var spendDiv = document.createElement("div");
+    spendButton.appendChild(text(" "));
+
+    spendDiv.style.display = 'inline';
+
+//    spendButton.appendChild(spendDiv);
+    spendDiv.innerHTML = "pushing send to the server"
 
  //   wallet_text3.appendChild(spaceText);
 
     wallet_text3.appendChild(spendButton);
+    wallet_text3.appendChild(text(" "));
+    wallet_text3.appendChild(spendDiv);
 
-    
+    spendDiv.style.fontWeight = 'normal';
+
+    spendDiv.style.color = 'green';
+    spendDiv.style.display = 'none';
+
 
     wallet_text3.appendChild(br());
     wallet_text3.appendChild(br());
@@ -211,6 +224,10 @@ function headers_main() {
 
 
     async function send2(){
+
+        spendDiv.style.display = 'inline';
+        spendDiv.innerHTML = "pushing send to the server"
+
         var to = parse_address(addressInput.value);
         var from = keys.pub();
         var amount = Math.round(parseFloat(amountInput.value, 10)* token_units());
@@ -219,6 +236,19 @@ function headers_main() {
             var stx = keys.sign(tx);
             var msg = await apost_txs([stx]);
             console.log(msg);
+            spendDiv.innerHTML = msg;
+
+//            setTimeout(resetSpendDiv, 10000);
+            
+            keys.update_balance();
+            
+            function resetSpendDiv() {
+                spendDiv.style.display = 'none';
+//                spendDiv.innerHTML = 
+      //          spendDiv.innerHTML = "pushing send to the server"
+
+            }
+
         } else {
 
             /*

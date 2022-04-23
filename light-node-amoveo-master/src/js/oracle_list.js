@@ -474,6 +474,12 @@ var abcd = (function() {
 
                         }
 
+                        //fix odds1 if there is a time and ; in there
+
+                        if (odds1.search(";") > Number(-1)){
+                            odds1 = odds1.split(";")[0];
+                        }
+
 
                         sportsArray.push(odds1);
                         var _time;
@@ -546,6 +552,10 @@ var abcd = (function() {
 
 
                         }
+
+                        if (odds2.search(";") > Number(-1)){
+                            odds2 = odds2.split(";")[0];
+                        }                        
 
                         sportsArray.push(odds2);
                         sportsArray.push(_time)
@@ -927,21 +937,65 @@ var abcd = (function() {
     var positionDownload = button_maker2("Download", function() { return downloadPositions()});
     var positionShow = button_maker2("Show", function() { return showPositions()});
     var positionHide = button_maker2("Hide", function() { return hidePositions()});
+
+
     positionHide.style.display = 'none';
     var positionButtonDiv = document.createElement("div");
+
+
+    var positionConfirmation = document.createElement("div");
+
  //   title0.appendChild(positionButtonDiv);
     //div.appendChild(text("Controls: "));
        title0.appendChild(text(" ")); 
     title0.appendChild(positionShow);
     title0.appendChild(text(" "));
     title0.appendChild(positionHide);
+    title0.appendChild(text(" "));
+
+    positionConfirmation.style.fontWeight = 'normal';
+
+    positionConfirmation.style.fontSize = "16px";
+
+    positionConfirmation.style.display = 'inline';
+
+    positionConfirmation.style.color = 'green';
+
+    positionConfirmation.innerHTML = "offer posted!"
+
+    positionConfirmation.style.display = 'none';
+
+
+    title0.appendChild(positionConfirmation);
+
+
     title0.appendChild(br());
+
+//            globalCID_ = "xcvxcvxcvx";
+            var globalCIDLink = document.createElement("a");
+
+           globalCIDLink.style.display = 'inline';
+            
 
     var newDiv2 = document.createElement("p");
     newDiv2.style.fontWeight = "normal";
-    newDiv2.innerHTML = "Sell for how much VEO: "
+    newDiv2.innerHTML = "Sell "
+
     newDiv2.style.fontSize = "16px";
     title0.appendChild(newDiv2);
+
+
+    newDiv2.appendChild(globalCIDLink);
+  
+    var newDiv2_ = document.createElement("div");
+    newDiv2_.style.fontWeight = "normal";
+    newDiv2_.innerHTML = " for how much VEO: "
+    newDiv2_.style.fontSize = "16px";
+    newDiv2_.style.display = 'inline';
+    newDiv2.appendChild(newDiv2_);
+
+ 
+
  //   var words = text("Max loss per bet: ");
  //       title3.appendChild(text("Max loss per bet: "));
 
@@ -962,6 +1016,9 @@ var abcd = (function() {
     newDiv2.appendChild(positionsGoButton);
     newDiv2.appendChild(text(" "));
     newDiv2.appendChild(positionsViewMarketButton);
+
+
+
 
    // newDiv2.style.display = 'none';
 //    title0.appendChild(br());
@@ -2673,9 +2730,16 @@ var globalDB;
 
 function doitConcession3(testList_, testListNonce_, x_, a_, _cid){
 
+            var globalcidTruncate = _cid.slice(0,5)+ "..." + _cid.slice(_cid.length - Number (4), _cid.length);
+            globalCIDLink.innerHTML = globalcidTruncate;
+            globalCIDLink.target = "_blank";
+            globalCIDLink.href = "http://159.89.87.58:8080/explorers/contract_explorer.html?cid=".concat(_cid);    
+
     newDiv2.style.display = 'block';
     globalBalDB = a_;
     globalCID_  = _cid;
+
+
 //    console.log("doit3: " + JSON.stringify(testList_));
 //    console.log("doit3: " + JSON.stringify(testListNonce_));
 //    console.log("doit3: " + JSON.stringify(x_));
@@ -3041,8 +3105,9 @@ if (tempvar2 != "[[-6]]"){
                     trueDiv.innerHTML = "Odds: " + sortedArray[i][1] + " | Risk: " + sortedArray[i][3] + " | Profit: " + sortedArray[i][4] ;
 
                     swapOfferTrue = sortedArray[i][2];
-                
-                var buttonTrue = button_maker2("Accept", function() { viewTrading(swapOfferTrue)});
+                    let swapOfferTrue_ = swapOfferTrue;
+
+                var buttonTrue = button_maker2("Accept", function() { viewTrading(swapOfferTrue_)});
                 
           //      trueDiv.style.textIndent = "50px";
 
@@ -3104,7 +3169,11 @@ if (tempvar2 != "[[-6]]"){
                     falseDiv.innerHTML = "Odds: " + sortedArray2[i][1] + " | Risk: " + sortedArray2[i][3] + " | Profit: " + sortedArray2[i][4] ;
 
                 swapOfferFalse = sortedArray2[i][2];
-                var buttonFalse = button_maker2("Accept", function() { viewTrading(swapOfferFalse)});
+
+
+                let swapOfferFalse_ = swapOfferFalse;
+
+                var buttonFalse = button_maker2("Accept", function() { viewTrading(swapOfferFalse_)});
                 buttonFalse.style.display = 'inline';
   //          firstLine2.style.paddingLeft = "230px";
 //                firstLine2.innerHTML = "False";
@@ -4110,7 +4179,7 @@ if (tempvar2 != "[[-6]]"){
         });
     };
 
-    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, newDiv2: newDiv2, offersLoad: offersLoad, offersButton2: offersButton2, offersButton4_: offersButton4_, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark, pullbm: pullbm, true1: true1, false1: false1, optionPresetButton2_: optionPresetButton2_, positionShow: positionShow, positionHide: positionHide, resetfilterbutton: resetfilterbutton};
+    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, newDiv2: newDiv2, offersLoad: offersLoad, offersButton2: offersButton2, offersButton4_: offersButton4_, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark, pullbm: pullbm, true1: true1, false1: false1, optionPresetButton2_: optionPresetButton2_, positionShow: positionShow, positionHide: positionHide, resetfilterbutton: resetfilterbutton, positionConfirmation: positionConfirmation, loadBookmark2: loadBookmark2};
 
 })();
 console.log("trying to display positions");
@@ -4743,6 +4812,9 @@ async function showPositions(){
 
 
     async function viewTrading(offer){
+
+//        myStopFunction();
+
         console.log("IIII offer is: "+ offer);
         var X = offer;
         var Y = swaps.unpack(X);
@@ -4854,13 +4926,13 @@ async function showPositions(){
 
 
 
-                console.log("response is: " + response);
+//                console.log("response is: " + response);
            //     display.innerHTML = response;
 
-                
+
 
                 //need this
-                
+
                 if(!(response === "server rejected the tx")){
                     if(Y.type1 === 0){//only if you are paying veo for a subcurrency that is priced in veo.
                         var offer99 = swaps.accept_99(Y);
@@ -4886,14 +4958,25 @@ async function showPositions(){
     };
 
     function changeStatus4(){
-            acceptConfirmation.innerHTML = "<font color=\"green\">    Trade offer accepted!</font>";
+                acceptConfirmation.innerHTML = "<font color=\"green\">    Trade offer accepted!</font>";
 
                 function changeStatus3(){
                 acceptConfirmation.innerHTML = "";
-                abcd.hideBeforeDisplay2();
+                abcd.offerInputLoad();
+
                 }
 
-                setTimeout(changeStatus3, 5000)        
+                function changeStatus3_(){
+    //            acceptConfirmation.innerHTML = "";
+    //            abcd.hideBeforeDisplay2();
+                }
+
+
+
+                setTimeout(changeStatus3, 3000);
+
+
+
     }
 
 
