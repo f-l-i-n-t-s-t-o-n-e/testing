@@ -1508,14 +1508,25 @@ function display_oracles(l) {
 //                        var h = l[1];
                         
 
-                //        console.log(atob(l[0][2][1]));
+                        console.log(JSON.stringify(l[0]));
+                        console.log(JSON.stringify(l[0][2]));
+                        console.log(JSON.stringify(l[0][3]));
 
                         if (JSON.stringify(l[0][3]) == "[-6]"){
-                        z = atob(l[0][2][1]);
+                        
+                            if (JSON.stringify(l[0][2]) == "[-6]"){
+                                z = "missing";
+                                
+                            }else{
+                                    z = atob(l[0][2][1]);
+                                }
+
                         }else{
                         z = atob(l[0][3][1]);
 
                         }
+
+                        console.log(JSON.stringify(z));
 
        //                 console.log(JSON.stringify(l[1][3]));
 
