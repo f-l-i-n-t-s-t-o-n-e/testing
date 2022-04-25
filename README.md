@@ -11,7 +11,7 @@ despite functioning it is still a work in progress. there are probably bugs
 under construction:
 
 - make the trading page more like an order book
-- EVM bridge. service provider can create a swap offer that lets a customer bridge between any EVM network (i.e. Arbitrum to Ethereum L1, BSC to Optimism, etc)
+- EVM bridge. service provider can create a swap offer that lets a customer bridge between any EVM network (i.e. Arbitrum to Ethereum L1, BSC to Optimism, etc). fees are paid in VEO
 
 known bugs
 
