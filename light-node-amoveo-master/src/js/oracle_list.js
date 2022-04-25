@@ -1,5 +1,4 @@
-
-//console.log = function () { };
+console.log = function () { };
 
 
 var globalCID;
@@ -1516,7 +1515,7 @@ function display_oracles(l) {
                         
                             if (JSON.stringify(l[0][2]) == "[-6]"){
                                 z = "missing";
-                                
+
                             }else{
                                     z = atob(l[0][2][1]);
                                 }

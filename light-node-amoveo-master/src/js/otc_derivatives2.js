@@ -467,6 +467,14 @@ var dcba = (function otc_function2() {
     var coin_put = button_maker2("Competition", showSportEventFields);
     div.appendChild(coin_put);
     div.appendChild(text(" "));
+
+
+    var bridge_ = button_maker2("EVM bridge", showBridgeFields);
+    div.appendChild(bridge_);
+    div.appendChild(text(" "));
+
+
+
   //  div.appendChild(br());
 
     var underDiv = document.createElement("div");
@@ -495,6 +503,10 @@ function changeStatus(){
     var whichCoin = document.createElement("INPUT");
     var textCoin = text("Which coin: ");
 
+    var bridgeCoin_ = document.createElement("INPUT");
+//    var textCoin = text("Which coin: ");
+
+
 
     var coinPrice = document.createElement("INPUT");
     var textPrice = text("Strike price ($): " );
@@ -505,9 +517,13 @@ function changeStatus(){
     var myAmount = document.createElement("INPUT");
     var textMyAmount = text("My bet size (VEO): ");
 
-
     var maturityDate1 = document.createElement("INPUT");
     var textMaturity1 = text("Maturity (MM/DD/YYYY): ");
+
+    var network1_ = document.createElement("INPUT");
+//    var textMaturity1 = text("Maturity (MM/DD/YYYY): ");
+
+    var network2_ = document.createElement("INPUT");
 
     //var aboveOrBelow = document.createElement("INPUT");
     var aboveOrBelow = text("You win if price ends ");
@@ -519,8 +535,81 @@ function changeStatus(){
     below.type = 'checkbox';
     below.style="width:15px;height:15px;"
 
-    
+    var evmPubkey_ = document.createElement("INPUT");
+
+    var responseTimeLimit_ = document.createElement("INPUT");
+
+
 var createNumber;
+
+function showBridgeFields(){
+    underDiv.innerHTML = "";
+        createNumber = 3;
+   underDiv.appendChild(br());
+
+   underDiv.appendChild(text("Offer liquidity for a bridge between EVM-compatible networks. If someone accepts this trade, they will send you coins on 'Network you receive'."));
+   underDiv.appendChild(br());
+   underDiv.appendChild(text(" You must then send *exactly* the amount you received to their pubkey on 'Network you send' before the response time limit is up."));   
+   underDiv.appendChild(br());
+   underDiv.appendChild(br());
+
+    underDiv.appendChild(text("Your EVM pubkey: "));
+    //use this for Team A 
+    underDiv.appendChild(evmPubkey_);
+    underDiv.appendChild(br());
+    //use this for Team B
+
+
+    underDiv.appendChild(text("Coin ticker (i.e. ETH): "));
+    //use this for Team A 
+    underDiv.appendChild(bridgeCoin_);
+    underDiv.appendChild(br());
+
+    underDiv.appendChild(text("Network you receive (i.e. Arbitrum): "));
+    underDiv.appendChild(network1_);
+    underDiv.appendChild(br());
+
+    underDiv.appendChild(text("Network you send (i.e. Ethereum L1): "));
+    underDiv.appendChild(network2_);
+    underDiv.appendChild(br());
+
+    underDiv.appendChild(text("Response time limit (hours) : "));
+    underDiv.appendChild(responseTimeLimit_);
+    underDiv.appendChild(br());
+
+
+    underDiv.appendChild(text("Bridge max capacity (VEO): "));
+    underDiv.appendChild(myAmount);
+    underDiv.appendChild(br());
+
+    underDiv.appendChild(text("Fee you earn (VEO): "));
+    underDiv.appendChild(theirAmount);
+
+    underDiv.appendChild(br());
+    
+//    underDiv.appendChild(text("You win if "));
+//    underDiv.appendChild(text("Team 1 wins: "));
+//    underDiv.appendChild(above);
+//    underDiv.appendChild(text(" or Team 2 wins: "));
+//    underDiv.appendChild(below);
+
+//    underDiv.appendChild(br());
+    underDiv.appendChild(br());
+    
+//    underDiv.appendChild(printButton2);
+
+    underDiv.appendChild(text("UNDER CONSTRUCTION"));
+
+
+    underDiv.appendChild(br());
+//    underDiv.appendChild(br());
+
+    underDiv.appendChild(status);
+
+
+}
+
+
 
 function showCoinPutFields(){
         createNumber = 0;
@@ -805,6 +894,17 @@ function showSportEventFields(){
         question.value = "W = " + whichCoin.value +"; X = " + coinPrice.value + "; Y = empty; Z (in MM/DD/YYYY) = " + maturityDate1.value + "; return (Competitor W defeated Competitor X in the competition that started on date Z (in local time)); return opposite of previous output";
 
         }
+
+        if (createNumber == 3){
+
+//        question.value = "W = " + whichCoin.value +"; X = " + coinPrice.value + "; Y = empty; Z (in MM/DD/YYYY) = " + maturityDate1.value + "; return (Competitor W defeated Competitor X in the competition that started on date Z (in local time))";
+        
+            question.value = "if " + evmPubkey_ +  "has not received at least $20 worth of " + bridgeCoin_.value + "  to" + " by 3 blocks, return TRUE, else return (customer X has received the same amount of eth on L1 that they sent to pubkey Y on the Arbitrum optimistic rollup == true)"
+
+//        question.value = "W = " + whichCoin.value +"; X = " + coinPrice.value + "; Y = empty; Z (in MM/DD/YYYY) = " + maturityDate1.value + "; return (Competitor W defeated Competitor X in the competition that started on date Z (in local time)); return opposite of previous output";
+
+        }
+
 
         }
         console.log(question.value);
