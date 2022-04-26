@@ -17,3 +17,11 @@ known bugs
 
 - user can only accept one trade per event per amoveo block
 - cross-network bridge broken until L1 hard update
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+HOW TO START
+
+After putting light-node-amoveo-master on your local machine, double click the below html file to get started.
+
+light-node-amoveo-master/src/js/trading.html
