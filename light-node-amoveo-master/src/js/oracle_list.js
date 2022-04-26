@@ -1123,6 +1123,7 @@ var abcd = (function() {
 
     var optionPresetButton1 = button_maker2("Crypto Options", function() { return PresetFilter("price is more than Midnight")});
     var optionPresetButton2 = button_maker2("Competition", function() { return PresetFilter("competition")});
+    var optionPresetButtonBridge = button_maker2("Cross-network bridge", function() { return PresetFilter("Bridge")});
 
             var optionPresetButton2_ = document.createElement("INPUT");
             optionPresetButton2_.type = 'checkbox';
@@ -1181,6 +1182,12 @@ var abcd = (function() {
     div2.appendChild(optionPresetButton1);
     div2.appendChild(text(" "));
         div2.appendChild(optionPresetButton2);
+
+
+    div2.appendChild(text(" "));
+        div2.appendChild(optionPresetButtonBridge);
+
+
     div2.appendChild(text(" Today:"));
 
         div2.appendChild(optionPresetButton2_);
@@ -1636,11 +1643,89 @@ var placeholder;
           //       console.log("splitting text0 " + oracle_text.split(";")[3].substring(21, oracle_text.split(";")[3].length));
          //        console.log("splitting text1" + (oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ));
                       //      console.log("splitting text " + (oracle_text.split(";")[1].substring(5, oracle_text.split(";")[1].length) ));
-        //                console.log("oracletextis " + oracle_text);    
-            if (oracle_text.search(";") < 0 ){
+        //                console.log("oracletextis " + oracle_text);
+
+//        console.log(oracle_text.search("pubkey_") > 0);
+
+//        console.log(oracle_text.search(";") > 0);
+
+            if ( ( oracle_text.search(";") < 0 ) || ( ( oracle_text.search("pubkey_") > 0 ) && ( ( oracle_text.search(";") > 0 ) ) ) ){
 
                         t2 = text(oracle_text);
-                          t3 = oracle_text;  
+                          t3 = oracle_text;
+
+
+                if ( ( ( oracle_text.search("pubkey_") > 0 ) && ( ( oracle_text.search(";") > 0 ) ) ) ){
+
+                let piece1_ = 0;
+
+//let pubkey_ = pubkey in the swap receipt associated with this trade offer; if testAddress1 has not received any of ETH on Arbitrum One from pubkey_ within 3 blocks of this swap offer getting into an Amoveo block, return TRUE, else return( (pubkey_ has received an amount of ETH on Ethereum L1 greater than or equal to the amount they sent testAddress1 on Arbitrum One no later than 0.5 hours after the Arbitrum One transaction confirms) == TRUE)
+
+//has received an amount of ETH on Ethereum L1 greater than or equal to the amount they sent testAddress1 on Arbitrum One no later than 0.5 hours after the Arbitrum One transaction confirms) == TRUE)
+
+                console.log("bridgeLanguage 1: " + oracle_text.split(" ")[14]);
+
+                console.log("bridgeLanguage 2: " + oracle_text.split(" ")[14]);
+
+                console.log("bridgeLanguage 1: " + oracle_text.split(" ")[14]);
+
+                let providerPubkey = oracle_text.split(" ")[14];
+
+                let piece2_ = " has not received any of ";
+
+                let piece3_ = " on ";
+
+                let coinName_ = oracle_text.substring(oracle_text.search(piece2_) + piece2_.length, oracle_text.search(piece3_));
+
+                let piece4_ = " from pubkey_ within ";
+
+                let network1_ = oracle_text.substring(oracle_text.search(piece3_) + piece3_.length, oracle_text.search(piece4_));
+
+                let piece5_ = " greater than or equal ";
+
+                let network2pieces = oracle_text.substring(0, oracle_text.search(piece5_)).split(" ");
+
+                //support 
+
+                //loop thru em
+
+                let network2_ = " ";
+
+                for (i = 0; i < 6; i++ ){
+
+                    if ( network2pieces[network2pieces.length - i] == "on" ) {
+
+                                    for (j = 1; j < i; j++ ){
+
+                                    network2_ = network2pieces[network2pieces.length - j] + " " + network2_;
+
+                                    }
+
+
+                    }
+
+
+                }
+
+
+//has received an amount of ETH on Ethereum L1 greater than or equal to the amount they sent testAddress1 on Arbitrum One no later than 0.5 hours after the Arbitrum One transaction confirms) == TRUE)
+
+                let piece6_ = " no later than ";
+
+                let piece7_ = "  after the ";
+
+                let timeLimit_ = oracle_text.substring(oracle_text.search(piece6_) + piece6_.length, oracle_text.search(piece7_));
+
+                let piece8_ = 0;
+
+                let new_oracle_text = "Bridge " + coinName_ + " from " + network1_ + " to " + network2_ + " | Provider: " + providerPubkey;
+
+                t2 = text(new_oracle_text);
+
+                t3 = new_oracle_text;
+
+                }
+
                       }else{
 
          //               console.log("splitting0: " + oracle_text.split(";")[5]);
@@ -2136,7 +2221,9 @@ var placeholder;
                         }
 
 
-                        if ((oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") && (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (price of Y is more than X as of Z as reported by W)") && (oracle_text.split(";")[0] == "W = https://www.coinmarketcap.com historical data daily close price") && (oracle_text.split(";")[4] == " return (price of Y is more than X as of Z as reported by W)")) {
+
+
+                        if ( (oracle_text.search("pubkey_") < 0) && (oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") && (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (price of Y is more than X as of Z as reported by W)") && (oracle_text.split(";")[0] == "W = https://www.coinmarketcap.com historical data daily close price") && (oracle_text.split(";")[4] == " return (price of Y is more than X as of Z as reported by W)")) {
                                 console.log("splitting")
                       //        var coinName = oracle_text.split(";")[2].substring(6,3) ;
                                 var coinPrice = oracle_text.split(";")[1].substring(5, oracle_text.split(";")[1].length);
@@ -2176,19 +2263,19 @@ var placeholder;
 
                                 console.log("1maturiy is" + " Z (in MM/DD/YYYY) = ");
 
-                        console.log("splitting1: " + oracle_text.split(";")[5]);
-                        console.log("splitting11: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
-                        console.log("splitting11 offsetNumber is " + offsetNumber);
-                        console.log("splitting111 is" + (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (Team W defeated Team X in the game that started on date Z (in local time))")  );
-                        console.log("splitting1111 is" + (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber]));
+//                        console.log("splitting1: " + oracle_text.split(";")[5]);
+//                        console.log("splitting11: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
+//                        console.log("splitting11 offsetNumber is " + offsetNumber);
+//                        console.log("splitting111 is" + (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (Team W defeated Team X in the game that started on date Z (in local time))")  );
+//                        console.log("splitting1111 is" + (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber]));
 
-                        console.log("splitting14 is" + ( (oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[0].substring(4, 0) == "W = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") ));
+//                        console.log("splitting14 is" + ( (oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[0].substring(4, 0) == "W = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") ));
 
 
-                            if ((oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[0].substring(4, 0) == "W = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") && (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (Competitor W defeated Competitor X in the competition that started on date Z (in local time))") && (oracle_text.split(";")[4] == " return (Competitor W defeated Competitor X in the competition that started on date Z (in local time))")) {
+                            if ( (oracle_text.search("pubkey_") < 0) && (oracle_text.split(";")[3].substring(21, 0) == " Z (in MM/DD/YYYY) = " ) && (oracle_text.split(";")[2].substring(5, 0) == " Y = ") && (oracle_text.split(";")[0].substring(4, 0) == "W = ") && (oracle_text.split(";")[1].substring(5, 0) == " X = ") && (oracle_text.split(";")[oracle_text.split(";").length - offsetNumber] == " return (Competitor W defeated Competitor X in the competition that started on date Z (in local time))") && (oracle_text.split(";")[4] == " return (Competitor W defeated Competitor X in the competition that started on date Z (in local time))")) {
 
-                        console.log("splitting2: " + oracle_text.split(";")[5]);
-                        console.log("splitting22: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
+//                        console.log("splitting2: " + oracle_text.split(";")[5]);
+//                        console.log("splitting22: " + (" return opposite of previous output" == oracle_text.split(";")[5]));
 
                                 offsetNumber2 = 1;
                                 var team1 = oracle_text.split(";")[0].substring(4, oracle_text.split(";")[0].length);

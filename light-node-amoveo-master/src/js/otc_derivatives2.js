@@ -126,6 +126,120 @@ function bet_builder2(bet_e, amount_e, them_e, _type){
 
 };
 
+function bet_builder8(bet_e, amount_e, them_e){
+    var ZERO = btoa(array_to_string(integer_to_array(0, 32)));
+    var IP = default_ip();
+    
+    console.log("in bet builder");
+    var fee = 200000;
+//    var title = document.createElement("h3");
+//    title.innerHTML = "bet on anything";
+
+    //bet text. amount to bet. odds.
+//    var bet_e //= text_input("you win if: ", div);
+//    div.appendChild(br());
+//    var amount_e //= text_input("how much you bet: ", div);
+//    div.appendChild(br());
+//    var them_e //= text_input("how much they bet: ", div);
+//    div.appendChild(br());
+    var till_expires_e = 4;// = text_input("how many hours until this bet expires?: ", div);
+//    div.appendChild(br());
+//    var doit_button = button_maker2("make bet", doit);
+//    div.appendChild(doit_button);
+
+
+//swap offer explore logic
+//    var explore_swap_offers_div = document.createElement("div");
+//    explore_swap_offers_creator(explore_swap_offers_div, true);
+//    var swap_viewer_div = document.createElement("div");
+//    swap_viewer = swap_viewer_creator(swap_viewer_div);
+//    div.appendChild(explore_swap_offers_div);
+//    div.appendChild(swap_viewer_div);
+    
+
+    if(true){
+//        bet_e.value = "1=1";
+//        amount_e.value = "0.1";
+//        them_e.value = "0.1";
+//        till_expires_e.value = "10";
+    };
+    
+//    var active_bets = document.createElement("h3");
+//    active_bets.innerHTML = "active bets";
+    //div.appendChild(active_bets);
+
+    async function doit8(){
+        console.log("in doit");
+        var bet = bet_e; //= bet_e.value;
+        var amount = Math.round(parseFloat(amount_e) * token_units());
+        var them = Math.round(parseFloat(them_e) * token_units());
+        var expires = Math.round(
+            parseFloat(till_expires_e)*6);
+
+        var MP = 1;//many possible prices.
+        var Text = bet;
+        var new_contract_tx =
+            new_scalar_contract.make_tx(
+                Text, MP);
+        var CH = new_contract_tx[2];
+        var cid = merkle.contract_id_maker(CH, 2);
+
+        //make the binary bet contract CID.
+        //make an offer where you give veo, and they pay in the side of the contract that you want.
+
+        var swap = {};
+        swap.type1 = 0;
+        swap.type2 = 1;
+        swap.cid1 = ZERO;
+        swap.cid2 = cid;
+        swap.amount1 = amount;
+        swap.amount2 = them + amount;
+        swap.partial_match = false;
+        swap.acc1 = keys.pub();
+        swap.end_limit = headers_object.top()[1] + expires;
+        var offer99 = swaps.offer_999(swap);
+        /*
+        var offer99 = {};
+        offer99.type1 = 1;
+        offer99.type2 = 0;
+        offer99.cid1 = cid;
+        offer99.cid2 = ZERO;
+        offer99.amount1 = (them + amount);
+        offer99.amount2 = Math.round(((them + amount) * 0.998) - (fee * 5))
+        offer99.partial_match = false;
+        offer99.acc1 = keys.pub();
+        offer99.end_limit = headers_object.top()[1] + expires + 1;
+        */
+        console.log(expires);
+        console.log(JSON.stringify(swap));
+        var signed_offer = swaps.pack(swap);
+        var signed_99 = swaps.pack(offer99);
+
+        var max_price = 1;//1 is for binary contracts.
+        var response1 = await rpc.apost(["add", 3, btoa(Text), 0, max_price, ZERO, 0], IP, 8090);
+        console.log(response1);
+
+        var response = await rpc.apost(
+
+//            ["add", signed_offer, ],
+
+            ["add", signed_offer, signed_99],
+
+            IP, 8090);
+        console.log(response);
+        console.log( "successfully posted your bet offer. here it is " + JSON.stringify(signed_offer));
+//        console.log( "successfully sent your 99swap to the server. here it is: " + JSON.stringify(signed_99));
+        dcba.changeStatus();
+        //link.href = "contracts.html";
+        //link.innerHTML = "Your trade can be viewed on this page."
+        //link.target = "_blank";
+        //display.appendChild(link);
+        
+    };
+
+    doit8();
+
+};
 
 function bet_builder(bet_e, amount_e, them_e){
     var ZERO = btoa(array_to_string(integer_to_array(0, 32)));
@@ -505,8 +619,8 @@ function changeStatus(){
 
     var bridgeCoin_ = document.createElement("INPUT");
 //    var textCoin = text("Which coin: ");
-
-
+    
+    bridgeCoin_.value = "ETH";
 
     var coinPrice = document.createElement("INPUT");
     var textPrice = text("Strike price ($): " );
@@ -544,7 +658,9 @@ var createNumber;
 
 function showBridgeFields(){
     underDiv.innerHTML = "";
-        createNumber = 3;
+
+    createNumber = 3;
+
    underDiv.appendChild(br());
 
    underDiv.appendChild(text("Offer liquidity for a bridge between EVM-compatible networks. If someone accepts this trade, they will send you coins on 'Network you receive'."));
@@ -554,36 +670,51 @@ function showBridgeFields(){
    underDiv.appendChild(br());
 
     underDiv.appendChild(text("Your EVM pubkey: "));
-    //use this for Team A 
+    //use this for Team A
+
     underDiv.appendChild(evmPubkey_);
+    evmPubkey_.value = "testAddress1"
     underDiv.appendChild(br());
     //use this for Team B
 
-
     underDiv.appendChild(text("Coin ticker (i.e. ETH): "));
+
     //use this for Team A 
     underDiv.appendChild(bridgeCoin_);
     underDiv.appendChild(br());
+
+    bridgeCoin_.value = "ETH";
 
     underDiv.appendChild(text("Network you receive (i.e. Arbitrum): "));
     underDiv.appendChild(network1_);
     underDiv.appendChild(br());
 
+    network1_.value = "Arbitrum One"
+
     underDiv.appendChild(text("Network you send (i.e. Ethereum L1): "));
     underDiv.appendChild(network2_);
     underDiv.appendChild(br());
+
+    network2_.value = "Ethereum L1";
 
     underDiv.appendChild(text("Response time limit (hours) : "));
     underDiv.appendChild(responseTimeLimit_);
     underDiv.appendChild(br());
 
+    responseTimeLimit_.value = "0.5";
 
     underDiv.appendChild(text("Bridge max capacity (VEO): "));
     underDiv.appendChild(myAmount);
     underDiv.appendChild(br());
 
+    myAmount.title = "customer can send up to this amount of VEO in value of the above coin ticker. this is also how much VEO you lose if you dont complete the payment in time";
+    myAmount.value = "1"
+//    responseTimeLimit_.value = "100";
+
     underDiv.appendChild(text("Fee you earn (VEO): "));
     underDiv.appendChild(theirAmount);
+
+    theirAmount.value = "0.01";
 
     underDiv.appendChild(br());
     
@@ -596,16 +727,14 @@ function showBridgeFields(){
 //    underDiv.appendChild(br());
     underDiv.appendChild(br());
     
-//    underDiv.appendChild(printButton2);
+    underDiv.appendChild(printButton2);
 
-    underDiv.appendChild(text("UNDER CONSTRUCTION"));
-
+//    underDiv.appendChild(text("UNDER CONSTRUCTION"));
 
     underDiv.appendChild(br());
 //    underDiv.appendChild(br());
 
     underDiv.appendChild(status);
-
 
 }
 
@@ -894,19 +1023,28 @@ function showSportEventFields(){
         question.value = "W = " + whichCoin.value +"; X = " + coinPrice.value + "; Y = empty; Z (in MM/DD/YYYY) = " + maturityDate1.value + "; return (Competitor W defeated Competitor X in the competition that started on date Z (in local time)); return opposite of previous output";
 
         }
+            console.log(bridgeCoin_.value);
 
+            console.log(createNumber);
+
+
+
+        }
+
+
+            
         if (createNumber == 3){
 
 //        question.value = "W = " + whichCoin.value +"; X = " + coinPrice.value + "; Y = empty; Z (in MM/DD/YYYY) = " + maturityDate1.value + "; return (Competitor W defeated Competitor X in the competition that started on date Z (in local time))";
-        
-            question.value = "if " + evmPubkey_ +  "has not received at least $20 worth of " + bridgeCoin_.value + "  to" + " by 3 blocks, return TRUE, else return (customer X has received the same amount of eth on L1 that they sent to pubkey Y on the Arbitrum optimistic rollup == true)"
+            console.log(bridgeCoin_.value);
+
+            question.value = "let pubkey_ = pubkey in the swap receipt associated with this trade offer; if " + evmPubkey_.value +  " has not received any of " + bridgeCoin_.value + " on " + network1_.value + " from pubkey_ within 3 blocks of this swap offer getting into an Amoveo block, return TRUE, else return( (pubkey_ has received an amount of " + bridgeCoin_.value + " on " + network2_.value + " greater than or equal to the amount they sent " + evmPubkey_.value + " on " + network1_.value + " no later than " + responseTimeLimit_.value + " hours after the " + network1_.value + " transaction confirms) == TRUE) ";
 
 //        question.value = "W = " + whichCoin.value +"; X = " + coinPrice.value + "; Y = empty; Z (in MM/DD/YYYY) = " + maturityDate1.value + "; return (Competitor W defeated Competitor X in the competition that started on date Z (in local time)); return opposite of previous output";
+//if service_provider_pubkey has not received any of coin X on Network A with memo containing a signed hash of a swap offer with this oracle text signed by an amoveo account that has accepted a swap offer containing this oracle text within 3 amoveo blocks of signed swap offer inclusion,  return true. else, return (pubkey that sent tx containing aforementioned memo on Network A has received the same amount of coins on Network B as were sent in aforementioned tx no later than 30 minutes after that tx was confirmed == true)
 
-        }
 
-
-        }
+        }        
         console.log(question.value);
 
         bet_direction = document.createElement("INPUT");
@@ -970,6 +1108,11 @@ function showSportEventFields(){
 
         }
 
+        if (createNumber == 3){
+        oracle_starts.value = headers_object.top()[1];
+
+        }
+
         if (createNumber == 1){
         oracle_starts.value = headers_object.top()[1] + Math.round(startVar) + Number(144);
 
@@ -1018,7 +1161,7 @@ function showSportEventFields(){
         //div.appendChild(startButton);
         console.log("did we get here");
 
-        bet_builder(question.value, our_amount.value, their_amount.value)
+        bet_builder8(question.value, our_amount.value, their_amount.value)
 
       //  print_offer();
     }
