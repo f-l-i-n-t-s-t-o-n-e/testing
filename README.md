@@ -17,6 +17,7 @@ known bugs
 
 - user can only accept one trade per event per amoveo block
 - cross-network bridge broken until L1 hard update
+- full node is rejecting all transactions
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 
