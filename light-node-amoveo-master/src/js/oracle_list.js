@@ -1,4 +1,4 @@
-console.log = function () { };
+//console.log = function () { };
 
 
 var globalCID;
@@ -6,8 +6,20 @@ var globalB1;
 var globalcreatetradenonce;
 
 var globalTradeNonce;
+            
+var input4 = document.createElement("INPUT");
+
+var globalCopiedBool;
+
+var globalBlankText;
+var globalNotBlankText;
 
 //var secondTimeTrades;
+
+var globalProviderPubkey;
+
+var globalCoinName;
+
 
 var globalLPBool;
 
@@ -1879,6 +1891,12 @@ var placeholder;
 
                     var button = button_maker2("See Odds", function() { return loadBookmark(cidHolder) });
 
+                    if ( oracle_text.search("pubkey_ = pubkey in") > 0 ){
+                    
+                    button = button_maker2("See prices", function() { return loadBookmark(cidHolder) });
+
+                    }
+
 
                     //adding some space
    //                 console.log("firstTimeBool: " + firstTimeBool);
@@ -3145,10 +3163,14 @@ if (tempvar2 != "[[-6]]"){
 
    //     console.log("firstTimeTrades is: " + firstTimeTrades);
 
-
    //     if (firstTimeTrades == 0){
 
+
+            if (globalB1.search(" pubkey_ = pubkey in ") < 0){
+
+
             firstTimeTrades = 1;
+            console.log(globalB1);
 
             firstLine.innerHTML = "Bet on true:";
 
@@ -3158,7 +3180,7 @@ if (tempvar2 != "[[-6]]"){
             holderDiv.appendChild(br());
     //        secondTimeTrades = 0;
 //        }
-
+            }
                 if (firstTimeTrades != 7){
         //        console.log("here we are");
      //       firstLine2.appendChild(br());
@@ -3193,7 +3215,9 @@ if (tempvar2 != "[[-6]]"){
             let swapOfferTrue = 0;
             let swapOfferFalse = 0;
 
+            if (globalB1.search(" pubkey_ = pubkey in ") > 0) {
 
+            }else{
                 if (sortedArray.length > 0){
                 for(let i = 0; i < sortedArray.length; i++){
 
@@ -3221,11 +3245,15 @@ if (tempvar2 != "[[-6]]"){
                 }
             }
 
+        }
 
 
         if (sortedArray2.length == 0){
 
             secondTimeTrades = 1;
+
+
+
 
             firstLine2.innerHTML = "Bet on false:";
 
@@ -3247,6 +3275,9 @@ if (tempvar2 != "[[-6]]"){
 
             secondTimeTrades = 1;
 
+
+
+            if (globalB1.search(" pubkey_ = pubkey in ") < 0) {
             firstLine2.innerHTML = "Bet on false:";
 
             firstLine2.style.fontSize = "20px";
@@ -3256,22 +3287,70 @@ if (tempvar2 != "[[-6]]"){
             holderDiv.appendChild(firstLine2);
             holderDiv.appendChild(br());
 
+            }
 
+            if (globalB1.search(" pubkey_ = pubkey in ") > 0) {
+            let firstLine3 = document.createElement("div");
+            
+            firstLine3.innerHTML = "Copy LP address to get started.";
+//            firstLine3.style.textDecoration = 'underline';
+
+            if (globalCopiedBool != 1){
+
+            firstLine2.innerHTML = "Bridge offers:";
+
+            }else{
+
+            firstLine2.innerHTML = "Bridge offers: ";
+            
+            }
+
+            firstLine2.style.fontSize = "20px";
+//            firstLine2.style.paddingLeft = "135px";
+
+            holderDiv.appendChild(br());
+            holderDiv.appendChild(firstLine2);
+            holderDiv.appendChild(br());
+
+
+            holderDiv.appendChild(firstLine3);
+            holderDiv.appendChild(br());
+
+            }
 
                 }
 //                if (i < sortedArray.length){
 
      //               console.log("in falsediv")
 
-                    falseDiv.innerHTML = "Odds: " + sortedArray2[i][1] + " | Risk: " + sortedArray2[i][3] + " | Profit: " + sortedArray2[i][4] ;
+                
+                if (globalB1.search(" pubkey_ = pubkey in ") > 0) {
+
+                falseDiv.innerHTML = "Fee: " + sortedArray2[i][3] + " VEO | Send up to " + sortedArray2[i][4] + " VEO worth of " + globalCoinName;
+
+
+
+                }else{
+
+                falseDiv.innerHTML = "Odds: " + sortedArray2[i][1] + " | Risk: " + sortedArray2[i][3] + " | Profit: " + sortedArray2[i][4] ;
+                
+                }
+                
 
                 swapOfferFalse = sortedArray2[i][2];
 
 
                 let swapOfferFalse_ = swapOfferFalse;
 
-                var buttonFalse = button_maker2("Accept", function() { viewTrading(swapOfferFalse_)});
+                let buttonFalse = button_maker2("Accept", function() { viewTrading(swapOfferFalse_)});
+                
+                            if (globalB1.search(" pubkey_ = pubkey in ") > 0) {
+                buttonFalse.style.display = 'none';
+                }else{
                 buttonFalse.style.display = 'inline';
+
+                }
+
   //          firstLine2.style.paddingLeft = "230px";
 //                firstLine2.innerHTML = "False";
    //         firstLine2.style.display = 'inline';
@@ -3279,13 +3358,96 @@ if (tempvar2 != "[[-6]]"){
                 holderDiv.appendChild(buttonFalse);
                 holderDiv.appendChild(text(" | "));
                 holderDiv.appendChild(text(falseDiv.innerHTML));
+                holderDiv.appendChild(text(" | "));
+
+                let copyButton_ = button_maker2("Copy", function() { copyPubkey_() });
+                let copyText = document.createElement("div");
+                copyText.style.display = 'none';
+                let blankText = document.createElement("div");
+
+//                blankText.style.display = 'none';                
+                function copyPubkey_() {
+                
+
+            
+
+                    console.log(globalNotBlankText == undefined);
+
+                if ( (globalNotBlankText == undefined) && (globalBlankText == undefined) ) {
+
+                holderDiv.appendChild(br()); 
+
+                }
+                
+
+
+                copyText.innerHTML = "Address to send " + globalCoinName + " copied to clipboard. Hit the accept button to start the bridge.";
+                copyText.style.color = 'green';
+                copyText.style.fontSize = "16px";
 
 
 
+
+                blankText.innerHTML = "You need to provide your public key above before you can start.";
+                blankText.style.color = 'red';
+                blankText.style.fontSize = "16px";
+//                console.log(blankText.style.display);
+
+
+
+               // globalBlankText
+                //input4
+
+                if (input4.value == ""){
+
+                if( globalBlankText == 1){
+
+                }else{
+
+                   
+                holderDiv.appendChild(blankText);                    
+                blankText.style.display = 'inline';
+
+                console.log("Changing style: " + blankText.style.display);                
+                copyText.style.display = 'none';
+                globalBlankText = 1;
+                globalNotBlankText = 0;
+                
+
+                }    
+
+                }else{
+
+
+                if (globalNotBlankText == 1){
+
+                }else{
+//                holderDiv.appendChild(br());                    
+                holderDiv.appendChild(copyText);
+
+                blankText.style.display = 'none';
+                copyButton_.style.display = 'none';
+                buttonFalse.style.display = 'inline';                
+                            
+                copyText.style.display = 'inline';
+                globalCopiedBool = 1;
+                copyToClipboard(globalProviderPubkey);
+                globalBlankText = 0;
+                globalNotBlankText = 1;                           
+                }
+                }
+
+
+                
+                }
+
+
+                if (globalB1.search(" pubkey_ = pubkey in ") > 0) {
+                holderDiv.appendChild(copyButton_);
 
             
                 holderDiv.appendChild(br());
-
+                }
                     
 
                 }
@@ -3615,7 +3777,7 @@ if (tempvar2 != "[[-6]]"){
             var text7 = document.createElement("div");
             var text8 = document.createElement("div");
 
-            var input4 = document.createElement("INPUT");
+//            var input4 = document.createElement("INPUT");
             var input5 = document.createElement("INPUT");
 //            var input6 = document.createElement("INPUT");
 
@@ -3681,16 +3843,129 @@ if (tempvar2 != "[[-6]]"){
             text2.appendChild(acceptConfirmation);
 
             offers.appendChild(text3);
+
+
+            var providerPubkey_;
+
+            if (t3_.search("pubkey_ = pubkey in") > 0){
+
+//                if ( ( ( oracle_text.search("pubkey_") > 0 ) && ( ( oracle_text.search(";") > 0 ) ) ) ){
+
+                let piece1_ = 0;
+
+//let pubkey_ = pubkey in the swap receipt associated with this trade offer; if testAddress1 has not received any of ETH on Arbitrum One from pubkey_ within 3 blocks of this swap offer getting into an Amoveo block, return TRUE, else return( (pubkey_ has received an amount of ETH on Ethereum L1 greater than or equal to the amount they sent testAddress1 on Arbitrum One no later than 0.5 hours after the Arbitrum One transaction confirms) == TRUE)
+
+//has received an amount of ETH on Ethereum L1 greater than or equal to the amount they sent testAddress1 on Arbitrum One no later than 0.5 hours after the Arbitrum One transaction confirms) == TRUE)
+
+   //             console.log("bridgeLanguage 1: " + oracle_text.split(" ")[14]);
+
+//                console.log("bridgeLanguage 2: " + oracle_text.split(" ")[14]);
+
+  //              console.log("bridgeLanguage 1: " + oracle_text.split(" ")[14]);
+
+                let oracle_text = t3_;
+
+                let providerPubkey = oracle_text.split(" ")[14];
+
+                let piece2_ = " has not received any of ";
+
+                let piece3_ = " on ";
+
+                let coinName_ = oracle_text.substring(oracle_text.search(piece2_) + piece2_.length, oracle_text.search(piece3_));
+
+                let piece4_ = " from pubkey_ within ";
+
+                let network1_ = oracle_text.substring(oracle_text.search(piece3_) + piece3_.length, oracle_text.search(piece4_));
+
+                let piece5_ = " greater than or equal ";
+
+                let network2pieces = oracle_text.substring(0, oracle_text.search(piece5_)).split(" ");
+
+                //support 
+
+                //loop thru em
+
+                let network2_ = " ";
+
+                for (i = 0; i < 6; i++ ){
+
+                    if ( network2pieces[network2pieces.length - i] == "on" ) {
+
+                                    for (j = 1; j < i; j++ ){
+
+                                    network2_ = network2pieces[network2pieces.length - j] + " " + network2_;
+
+                                    }
+
+
+                    }
+
+
+                }
+
+
+//has received an amount of ETH on Ethereum L1 greater than or equal to the amount they sent testAddress1 on Arbitrum One no later than 0.5 hours after the Arbitrum One transaction confirms) == TRUE)
+
+                let piece6_ = " no later than ";
+
+                let piece7_ = "  after the ";
+
+                let timeLimit_ = oracle_text.substring(oracle_text.search(piece6_) + piece6_.length, oracle_text.search(piece7_));
+
+                let piece8_ = 0;
+
+//                let new_oracle_text = "Bridge " + coinName_ + " from " + network1_ + " to " + network2_ + " | Provider: " + providerPubkey;
+                let new_oracle_text = "Bridge " + coinName_ + " from " + network1_ + " to " + network2_;
+   
+
+
+                b1.innerHTML = new_oracle_text;
+
+
+                    globalCoinName = coinName_;
+
+                            text4.innerHTML = "Your " + network1_ + " public key: ";
+
+                            text5.innerHTML = "Send coins to " + providerPubkey + " ";
+
+
+                            providerPubkey_ = providerPubkey;
+
+
+                            globalProviderPubkey = providerPubkey_;
+
+
+            }
+
+
+
+            //            text4.innerHTML = "Risk: ";
+            //            text5.innerHTML = "Profit: ";
+            //            text6.innerHTML = "Betting on true";
+            //            text7.innerHTML = " or false";
+            //            text8.innerHTML = " ";
+
+
+
+
+
+
+
+
             text3.appendChild(b1);
-//            offers.appendChild(br());
 
+
+
+            if (t3_.search("pubkey_ = pubkey in") < 0){
             offers.appendChild(text4);
-//            offers.appendChild(br());
             text4.appendChild(input4);
-
             offers.appendChild(text5);
-//            offers.appendChild(br());
             text5.appendChild(input5);
+
+
+
+
+
             offers.appendChild(text6);
             text6.appendChild(true1);
             text6.appendChild(text7);
@@ -3698,10 +3973,43 @@ if (tempvar2 != "[[-6]]"){
 //            offers.appendChild(text8);
             text6.appendChild(text8)
             text6.appendChild(tradingButton);
+        }
+
+            if (t3_.search("pubkey_ = pubkey in") > 0){
+
+
+
+
+            offers.appendChild(text4);
+            text4.appendChild(input4);
+            
+     //       offers.appendChild(text5);
+//            text5.appendChild(input5);
+            
+            var button8 = button_maker2("Copy address", function() { clipboard_() });
+
+
+            function clipboard_() {
+
+                copyToClipboard(providerPubkey_);
+            
+            }
+
+
+//            text5.appendChild(button8);
+
+
+            }
+
 
 //            offers.appendChild(br());            
 
+    
+                        if (t3_.search("pubkey_ = pubkey in") > 0){
+                        }else{
             offers.appendChild(br());
+
+        }
         globalInputBool = 1;
         }
 
@@ -5023,7 +5331,7 @@ async function showPositions(){
 
 
 
-//                console.log("response is: " + response);
+                console.log("response is: " + response);
            //     display.innerHTML = response;
 
 
