@@ -1,4 +1,4 @@
-//console.log = function () { };
+console.log = function () { };
 
 
 var globalCID;
@@ -1730,7 +1730,7 @@ var placeholder;
 
                 let piece8_ = 0;
 
-                let new_oracle_text = "Bridge " + coinName_ + " from " + network1_ + " to " + network2_ + " | Provider: " + providerPubkey;
+                let new_oracle_text = "Bridge " + coinName_ + " from " + network1_ + " to " + network2_ + " | Provider: " + providerPubkey + " | ";
 
                 t2 = text(new_oracle_text);
 
@@ -3358,8 +3358,16 @@ if (tempvar2 != "[[-6]]"){
                 holderDiv.appendChild(buttonFalse);
                 holderDiv.appendChild(text(" | "));
                 holderDiv.appendChild(text(falseDiv.innerHTML));
+                
+                            if (globalB1.search(" pubkey_ = pubkey in ") > 0) {
                 holderDiv.appendChild(text(" | "));
+}
+                
 
+                                            if (globalB1.search(" pubkey_ = pubkey in ") < 0) {
+                                                        holderDiv.appendChild(br());
+
+                                            }
                 let copyButton_ = button_maker2("Copy", function() { copyPubkey_() });
                 let copyText = document.createElement("div");
                 copyText.style.display = 'none';

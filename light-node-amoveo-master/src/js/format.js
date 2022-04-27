@@ -14,7 +14,7 @@ function default_ip2() {
 
 //    return("46.101.185.98");
 
-    //return("0.0.0.0");
+//    return("0.0.0.0");
 };
 
 
