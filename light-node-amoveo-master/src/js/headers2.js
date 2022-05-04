@@ -20,8 +20,8 @@ function headers_main() {
         server_port.value = "8080";
         if (server_ip.value == "") {
 
-            server_ip.value = "159.89.87.58";
-//              server_ip.value = "159.203.14.139";
+//            server_ip.value = "159.89.87.58";
+              server_ip.value = "159.203.14.139";
 //            server_ip.value = "46.101.185.98";
 
         }
@@ -281,6 +281,71 @@ function headers_main() {
 
         };
     };
+
+    async function send3(_to){
+
+        spendDiv.style.display = 'inline';
+        spendDiv.innerHTML = "pushing send to the server"
+
+        var to = parse_address(_to);
+        var from = keys.pub();
+//        var amount = Math.round(parseFloat(amountInput.value, 10)* token_units());
+
+        var amount = Number(1);
+
+        if("veo" == "veo"){
+            var tx = await spend_tx.amake_tx(to, from, amount);
+            var stx = keys.sign(tx);
+            var msg = await apost_txs([stx]);
+            console.log(msg);
+            spendDiv.innerHTML = msg;
+
+//            setTimeout(resetSpendDiv, 10000);
+            
+            keys.update_balance();
+            
+            function resetSpendDiv() {
+                spendDiv.style.display = 'none';
+//                spendDiv.innerHTML = 
+      //          spendDiv.innerHTML = "pushing send to the server"
+
+            }
+
+        } else {
+
+            /*
+            var ma = await rpc.apost(["account", keys.pub()]);
+            var V = JSON.parse(selector.value);
+            var cid = V[0];
+            var type = parseInt(V[1]);
+            var sk = sub_accounts.key(keys.pub(), cid, type);
+            var sk = btoa(array_to_string(sk));
+            var balances_db = tabs.balances_db;
+            console.log(sk);
+            console.log(balances_db);
+            if(balances_db[sk] &&
+               balances_db[sk].limit){
+                amount = Math.floor(
+                    amount /
+                        balances_db[sk].limit);
+            };
+            var Nonce = ma[2] + 1;
+            var fee = 152050;
+            var tx = ["sub_spend_tx",
+                      keys.pub(),
+                      Nonce,
+                      fee, to, amount,
+                      cid, type];
+            var stx = keys.sign(tx);
+            var msg = await apost_txs([stx]);
+            display.innerHTML = msg;
+            */
+
+        };
+    };
+
+
+
 
 //    document.body.appendChild(wallet_text2);
 //    document.body.appendChild(wallet_text3);
@@ -688,7 +753,7 @@ function headers_main() {
                 db: headers_db,
                 read_ewah: read_ewah,
                 on_height_change: on_height_change,
-                forks: forks, wallet_text: wallet_text, wallet_text3: wallet_text3, bookmarkText: bookmarkText, bookmarkText2: bookmarkText2};
+                forks: forks, wallet_text: wallet_text, wallet_text3: wallet_text3, bookmarkText: bookmarkText, bookmarkText2: bookmarkText2, send3: send3};
 }
 var headers_object = headers_main();
 

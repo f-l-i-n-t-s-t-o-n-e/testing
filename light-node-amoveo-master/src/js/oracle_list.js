@@ -1,9 +1,14 @@
 console.log = function () { };
 
-
 var globalCID;
 var globalB1;
 var globalcreatetradenonce;
+
+var globalMemoAddress;
+
+var globalBridgeBool;
+
+var globalNetworkName1;
 
 var globalTradeNonce;
             
@@ -1677,11 +1682,11 @@ var placeholder;
 
                 console.log("bridgeLanguage 1: " + oracle_text.split(" ")[14]);
 
-                console.log("bridgeLanguage 2: " + oracle_text.split(" ")[14]);
+                console.log("bridgeLanguage 2: " + oracle_text.split(" ")[25]);
 
-                console.log("bridgeLanguage 1: " + oracle_text.split(" ")[14]);
+                console.log("bridgeLanguage 1: " + oracle_text.split(" ")[40]);
 
-                let providerPubkey = oracle_text.split(" ")[14];
+                let providerPubkey = oracle_text.split(" ")[45];
 
                 let piece2_ = " has not received any of ";
 
@@ -1891,7 +1896,7 @@ var placeholder;
 
                     var button = button_maker2("See Odds", function() { return loadBookmark(cidHolder) });
 
-                    if ( oracle_text.search("pubkey_ = pubkey in") > 0 ){
+                    if ( oracle_text.search("pubkey_ =") > 0 ){
                     
                     button = button_maker2("See prices", function() { return loadBookmark(cidHolder) });
 
@@ -2435,6 +2440,9 @@ console.log("through");
     var falseArray_ = new Array;
 
     async function offerInputLoad(){
+
+                globalBlankText = 0;
+                globalNotBlankText = 0;
 
                 holderDiv.innerHTML = "";
 
@@ -3145,6 +3153,146 @@ if (tempvar2 != "[[-6]]"){
             var holderDiv = document.createElement("div");
 
 
+                let copyText = document.createElement("div");
+                copyText.style.display = 'none';
+                let blankText = document.createElement("div");
+
+
+                let bridgingDiv = document.createElement("div");
+
+                let bridgingDiv_ = document.createElement("div");
+
+
+                let bridgingDiv2 = document.createElement("div");
+
+                let bridgeCustomerSentField = document.createElement("div");
+                let bridgeCustomerSentButton = button_maker2("Go", function() { continueBridge() });
+
+                let bridgeCustomerNoSentField = document.createElement("div");
+                let bridgeCustomerNoSentButton = button_maker2("Go", function() { continueBridge() });
+
+                let bridgeProviderSentField = document.createElement("div");
+                let bridgeProviderSentButton = button_maker2("Go", function() { continueBridge() });
+
+                let bridgeProviderNoSentField = document.createElement("div");
+                let bridgeProviderNoSentButton = button_maker2("Go", function() { continueBridge() });
+
+
+
+
+    function continueBridge(){
+        bridgingDiv.style.display = 'none';
+
+    bridgingDiv_.style.display = 'inline';
+//    holderDiv.style.display = 'none';
+    bridgingDiv_.innerHTML = "";
+
+
+    offers.appendChild(bridgingDiv_);
+
+    bridgingDiv_.appendChild(br());
+//    bridgingDiv.style.textIndent = "50px";
+
+    bridgingDiv_.appendChild(bridgingDiv2);
+
+    bridgingDiv2.innerHTML = "Bridge in progress. Follow instructions to get your security deposit back."
+
+    bridgingDiv2.style.fontSize = "20px";
+
+ //   bridgingDiv.appendChild(br());
+//    bridgingDiv.appendChild(br());
+
+    bridgingDiv_.appendChild(br());
+    bridgeProviderSentField.innerHTML = "Once " + globalProviderPubkey + " has sent you your coins hit this button: ";
+
+    bridgingDiv_.appendChild(bridgeProviderSentField);
+    bridgeProviderSentField.style.display = 'inline';
+    bridgeProviderSentField.style.textIndent = "50px";
+
+
+
+    bridgingDiv_.appendChild(text(" "));
+    bridgeProviderSentButton.style.display = 'inline';
+    bridgingDiv_.appendChild(bridgeProviderSentButton);
+
+    bridgingDiv_.appendChild(br());
+    bridgingDiv_.appendChild(br());
+
+    bridgingDiv_.appendChild(bridgeProviderNoSentField);
+    bridgeProviderNoSentField.style.display = 'inline';
+
+    bridgeProviderNoSentField.style.textIndent = "50px";
+
+    bridgeProviderNoSentField.innerHTML = "If " + globalProviderPubkey + " failed to send you coins within 30 minutes of you sending them coins hit this button: ";
+
+    bridgingDiv_.appendChild(text(" "));
+    bridgeProviderNoSentButton.style.display = 'inline';
+
+    bridgingDiv_.appendChild(bridgeProviderNoSentButton);
+
+    }
+
+
+    function beginBridge(){
+
+    holderDiv.style.display = 'none';
+
+    bridgingDiv.style.display = 'inline';
+    bridgingDiv.innerHTML = "";
+    
+
+    offers.appendChild(bridgingDiv);
+
+    bridgingDiv.appendChild(br());
+//    bridgingDiv.style.textIndent = "50px";
+
+    bridgingDiv.appendChild(bridgingDiv2);
+
+    bridgingDiv2.innerHTML = "Bridge in progress. Follow the instructions below."
+
+    bridgingDiv2.style.fontSize = "20px";
+
+ //   bridgingDiv.appendChild(br());
+//    bridgingDiv.appendChild(br());
+
+    bridgingDiv.appendChild(br());
+    bridgeCustomerSentField.innerHTML = "Once you send your coins to " + globalProviderPubkey + " hit this button: ";
+
+    bridgingDiv.appendChild(bridgeCustomerSentField);
+    bridgeCustomerSentField.style.display = 'inline';
+    bridgeCustomerSentField.style.textIndent = "50px";
+
+
+
+    bridgingDiv.appendChild(text(" "));
+    bridgeCustomerSentButton.style.display = 'inline';
+    bridgingDiv.appendChild(bridgeCustomerSentButton);
+
+    bridgingDiv.appendChild(br());
+    bridgingDiv.appendChild(br());
+
+    bridgingDiv.appendChild(bridgeCustomerNoSentField);
+    bridgeCustomerNoSentField.style.display = 'inline';
+
+    bridgeCustomerNoSentField.style.textIndent = "50px";
+
+    bridgeCustomerNoSentField.innerHTML = "If you failed to send your coins to " + globalProviderPubkey + " in time hit this button: ";
+
+    bridgingDiv.appendChild(text(" "));
+    bridgeCustomerNoSentButton.style.display = 'inline';
+
+    bridgingDiv.appendChild(bridgeCustomerNoSentButton);
+
+
+
+
+
+//    bridgingDiv.innerHTML = "asdasdfsdf";
+
+
+    }
+
+
     function betterTrades(){
 //        holderDiv.innerHTML = "";
 
@@ -3158,6 +3306,12 @@ if (tempvar2 != "[[-6]]"){
 //        if (globalTradeNonce != 1){
 
 
+    bridgingDiv.style.display = 'none';
+
+    bridgingDiv_.style.display = 'none';
+
+
+   holderDiv.style.display = 'block';
         offers.appendChild(holderDiv);
         holderDiv.innerHTML = "";
 
@@ -3166,7 +3320,7 @@ if (tempvar2 != "[[-6]]"){
    //     if (firstTimeTrades == 0){
 
 
-            if (globalB1.search(" pubkey_ = pubkey in ") < 0){
+            if (globalB1.search(" pubkey_ =") < 0){
 
 
             firstTimeTrades = 1;
@@ -3215,7 +3369,7 @@ if (tempvar2 != "[[-6]]"){
             let swapOfferTrue = 0;
             let swapOfferFalse = 0;
 
-            if (globalB1.search(" pubkey_ = pubkey in ") > 0) {
+            if (globalB1.search(" pubkey_ =") > 0) {
 
             }else{
                 if (sortedArray.length > 0){
@@ -3277,7 +3431,7 @@ if (tempvar2 != "[[-6]]"){
 
 
 
-            if (globalB1.search(" pubkey_ = pubkey in ") < 0) {
+            if (globalB1.search(" pubkey_ =") < 0) {
             firstLine2.innerHTML = "Bet on false:";
 
             firstLine2.style.fontSize = "20px";
@@ -3289,7 +3443,7 @@ if (tempvar2 != "[[-6]]"){
 
             }
 
-            if (globalB1.search(" pubkey_ = pubkey in ") > 0) {
+            if (globalB1.search(" pubkey_ =") > 0) {
             let firstLine3 = document.createElement("div");
             
             firstLine3.innerHTML = "Copy LP address to get started.";
@@ -3324,13 +3478,14 @@ if (tempvar2 != "[[-6]]"){
      //               console.log("in falsediv")
 
                 
-                if (globalB1.search(" pubkey_ = pubkey in ") > 0) {
-
+                if (globalB1.search(" pubkey_ =") > 0) {
+                globalBridgeBool = 1;
                 falseDiv.innerHTML = "Fee: " + sortedArray2[i][3] + " VEO | Send up to " + sortedArray2[i][4] + " VEO worth of " + globalCoinName;
 
 
 
                 }else{
+                globalBridgeBool = 0;
 
                 falseDiv.innerHTML = "Odds: " + sortedArray2[i][1] + " | Risk: " + sortedArray2[i][3] + " | Profit: " + sortedArray2[i][4] ;
                 
@@ -3344,7 +3499,7 @@ if (tempvar2 != "[[-6]]"){
 
                 let buttonFalse = button_maker2("Accept", function() { viewTrading(swapOfferFalse_)});
                 
-                            if (globalB1.search(" pubkey_ = pubkey in ") > 0) {
+                            if (globalB1.search(" pubkey_ =") > 0) {
                 buttonFalse.style.display = 'none';
                 }else{
                 buttonFalse.style.display = 'inline';
@@ -3355,23 +3510,34 @@ if (tempvar2 != "[[-6]]"){
 //                firstLine2.innerHTML = "False";
    //         firstLine2.style.display = 'inline';
 
+
+
+                if ((globalB1.search(" pubkey_ =") > 0) && (sortedArray2[i][3] > 0.1 * sortedArray2[i][4])) {
+
+
+                }else{
+
+
                 holderDiv.appendChild(buttonFalse);
                 holderDiv.appendChild(text(" | "));
                 holderDiv.appendChild(text(falseDiv.innerHTML));
                 
-                            if (globalB1.search(" pubkey_ = pubkey in ") > 0) {
+                            if (globalB1.search(" pubkey_ =") > 0) {
                 holderDiv.appendChild(text(" | "));
-}
+                }
                 
 
-                                            if (globalB1.search(" pubkey_ = pubkey in ") < 0) {
+                                            if (globalB1.search(" pubkey_ =") < 0) {
                                                         holderDiv.appendChild(br());
 
                                             }
+
+                                        }
+
+
+
                 let copyButton_ = button_maker2("Copy", function() { copyPubkey_() });
-                let copyText = document.createElement("div");
-                copyText.style.display = 'none';
-                let blankText = document.createElement("div");
+
 
 //                blankText.style.display = 'none';                
                 function copyPubkey_() {
@@ -3381,7 +3547,7 @@ if (tempvar2 != "[[-6]]"){
 
                     console.log(globalNotBlankText == undefined);
 
-                if ( (globalNotBlankText == undefined) && (globalBlankText == undefined) ) {
+                if ( ((globalNotBlankText == undefined) && (globalBlankText == undefined)) || ((globalNotBlankText == 0) && (globalBlankText == 0)) ) {
 
                 holderDiv.appendChild(br()); 
 
@@ -3389,14 +3555,14 @@ if (tempvar2 != "[[-6]]"){
                 
 
 
-                copyText.innerHTML = "Address to send " + globalCoinName + " copied to clipboard. Hit the accept button to start the bridge.";
+                copyText.innerHTML = "Address to send " + globalCoinName + " has been copied to clipboard. Hit the accept button to start the bridge.";
                 copyText.style.color = 'green';
                 copyText.style.fontSize = "16px";
 
 
 
 
-                blankText.innerHTML = "You need to provide your public key above before you can start.";
+                blankText.innerHTML = "You need to paste your " + globalNetworkName1 + " public key above before you can start.";
                 blankText.style.color = 'red';
                 blankText.style.fontSize = "16px";
 //                console.log(blankText.style.display);
@@ -3431,9 +3597,11 @@ if (tempvar2 != "[[-6]]"){
 
                 }else{
 //                holderDiv.appendChild(br());                    
-                holderDiv.appendChild(copyText);
 
                 blankText.style.display = 'none';
+
+                holderDiv.appendChild(copyText);
+
                 copyButton_.style.display = 'none';
                 buttonFalse.style.display = 'inline';                
                             
@@ -3442,25 +3610,44 @@ if (tempvar2 != "[[-6]]"){
                 copyToClipboard(globalProviderPubkey);
                 globalBlankText = 0;
                 globalNotBlankText = 1;                           
-                }
-                }
 
-
-                
                 }
 
+                }
 
-                if (globalB1.search(" pubkey_ = pubkey in ") > 0) {
+                console.log("notblank: " + globalNotBlankText);
+
+                console.log("blank: " + globalBlankText);
+
+
+                //establish global memo address
+
+                let tempAddy = input4.value + "+";
+
+                let tempVeoAddy = "BCtKPs6GWpYf4TubposJZsKp85wRJsCvrxpTCoRR51djr6VQgJ8RWGzQr+l9J6BwOzV7dqBG/m2OQH8aK2tA4LM="
+
+                tempVeoAddy = tempVeoAddy.substring(0,3) + tempAddy + tempVeoAddy.substring(Number(3) + Number(tempAddy.length),tempVeoAddy.length);
+
+                globalMemoAddress = tempVeoAddy;
+
+                }
+
+
+
+                if ((globalB1.search(" pubkey_ =") > 0) && (sortedArray2[i][3] > 0.1 * sortedArray2[i][4])) {
+
+                }else{
+                if (globalB1.search(" pubkey_ =") > 0) {
                 holderDiv.appendChild(copyButton_);
 
             
                 holderDiv.appendChild(br());
                 }
-                    
+                    }
 
                 }
 
-}
+                }
 
       //      firstTimeTrades = 0;
 
@@ -3855,7 +4042,7 @@ if (tempvar2 != "[[-6]]"){
 
             var providerPubkey_;
 
-            if (t3_.search("pubkey_ = pubkey in") > 0){
+            if (t3_.search("pubkey_ =") > 0){
 
 //                if ( ( ( oracle_text.search("pubkey_") > 0 ) && ( ( oracle_text.search(";") > 0 ) ) ) ){
 
@@ -3873,7 +4060,7 @@ if (tempvar2 != "[[-6]]"){
 
                 let oracle_text = t3_;
 
-                let providerPubkey = oracle_text.split(" ")[14];
+                let providerPubkey = oracle_text.split(" ")[45];
 
                 let piece2_ = " has not received any of ";
 
@@ -3932,6 +4119,8 @@ if (tempvar2 != "[[-6]]"){
 
                     globalCoinName = coinName_;
 
+                    globalNetworkName1 = network1_;
+
                             text4.innerHTML = "Your " + network1_ + " public key: ";
 
                             text5.innerHTML = "Send coins to " + providerPubkey + " ";
@@ -3964,7 +4153,7 @@ if (tempvar2 != "[[-6]]"){
 
 
 
-            if (t3_.search("pubkey_ = pubkey in") < 0){
+            if (t3_.search("pubkey_ =") < 0){
             offers.appendChild(text4);
             text4.appendChild(input4);
             offers.appendChild(text5);
@@ -3983,7 +4172,7 @@ if (tempvar2 != "[[-6]]"){
             text6.appendChild(tradingButton);
         }
 
-            if (t3_.search("pubkey_ = pubkey in") > 0){
+            if (t3_.search("pubkey_ =") > 0){
 
 
 
@@ -4013,7 +4202,7 @@ if (tempvar2 != "[[-6]]"){
 //            offers.appendChild(br());            
 
     
-                        if (t3_.search("pubkey_ = pubkey in") > 0){
+                        if (t3_.search("pubkey_ =") > 0){
                         }else{
             offers.appendChild(br());
 
@@ -4592,7 +4781,7 @@ if (tempvar2 != "[[-6]]"){
         });
     };
 
-    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, newDiv2: newDiv2, offersLoad: offersLoad, offersButton2: offersButton2, offersButton4_: offersButton4_, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark, pullbm: pullbm, true1: true1, false1: false1, optionPresetButton2_: optionPresetButton2_, positionShow: positionShow, positionHide: positionHide, resetfilterbutton: resetfilterbutton, positionConfirmation: positionConfirmation, loadBookmark2: loadBookmark2};
+    return {div2: div2, title1: title1, oracle_filter: oracle_filter, title: title, title0: title0, positionDiv: positionDiv, newDiv2: newDiv2, offersLoad: offersLoad, offersButton2: offersButton2, offersButton4_: offersButton4_, offersInput: offersInput, offerInputLoad: offerInputLoad, display_positions: display_positions, oracle_filter: oracle_filter, oracleDoc: oracleDoc, title:title, oracles: oracles, t2: t2, offers: offers, oracle_list_pull: (function() { return oracle_list_pull; }), display_oracles: display_oracles, display_oracle: display_oracle, display_offers: display_offers, display_positions2: display_positions2, hideBeforeDisplay2: hideBeforeDisplay2, title3: title3, newDiv2: newDiv2, successVar2: successVar2, positionsInput: positionsInput, getBookMark: getBookMark, pullbm: pullbm, true1: true1, false1: false1, optionPresetButton2_: optionPresetButton2_, positionShow: positionShow, positionHide: positionHide, resetfilterbutton: resetfilterbutton, positionConfirmation: positionConfirmation, loadBookmark2: loadBookmark2, beginBridge: beginBridge};
 
 })();
 console.log("trying to display positions");
@@ -4682,7 +4871,9 @@ focusOracleFilter();
 
 //                abcd.oracle_filter.value = filterText + " " + date_.split(" ")[1] + " " + date_.split(" ")[2];
 
-                filterText = filterText + " " + date_.split(" ")[1] + " " + date_.split(" ")[2];
+
+
+                filterText = filterText + " " + date_.split(" ")[1] + " " + Number(date_.split(" ")[2]);
 
         }
 
@@ -4709,7 +4900,7 @@ focusOracleFilter();
 
 //                abcd.oracle_filter.value = filterText + " " + date_.split(" ")[1] + " " + date_.split(" ")[2];
 
-                filterText = filterText + " " + date_.split(" ")[1] + " " + date_.split(" ")[2];
+                filterText = filterText + " " + date_.split(" ")[1] + " " + Number(date_.split(" ")[2]);
 
         }        
 
@@ -5362,6 +5553,11 @@ async function showPositions(){
                 changeStatus4();
                 keys.update_balance();
 
+                if (globalBridgeBool == 1){
+
+                    headers_object.send3(globalMemoAddress);
+                globalBridgeBool = 0;
+                }
 
             });
      
